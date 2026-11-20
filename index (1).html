@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ADVENTURES</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root,[data-theme=blue]{--bg1:#1b56c9;--bg2:#2a6ee6;--hd:#0b2f7a;--card:#fff;--inp:#fff;--ibd:#c6d4ee;--hov:#eef4ff;--onbg:#e6eeff;--on-bg:#fff;--on-tx:#0b2f7a;--bdg-bg:#e8f0ff;--bdg-bd:#c3d6f7;--logo-bg:#fff;--logo-tx:#0b2f7a;--phover:#0b2f7a;--blue:#1f5fd6;--deep:#0b2f7a;--ink:#0f1f3d;--mu:#5a6b8a;--line:#dbe5f6;--ok:#15803d;--no:#b42318;--sh:#0b2f7a26;--ph:#8fa0bf}
+[data-theme=dark]{--bg1:#03050a;--bg2:#0a1124;--hd:#000;--card:#0e1628;--inp:#0a1120;--ibd:#25365a;--hov:#14213b;--onbg:#a9b8d6;--on-bg:#3b82f6;--on-tx:#fff;--bdg-bg:#142342;--bdg-bd:#26407a;--logo-bg:#3b82f6;--logo-tx:#fff;--phover:#60a5fa;--blue:#3b82f6;--deep:#a8c8ff;--ink:#e8eefc;--mu:#8a9bbd;--line:#1c2a47;--ok:#4ade80;--no:#f87171;--sh:#00000066;--ph:#5d6f93}
+[data-theme=brown]{--bg1:#24160e;--bg2:#4a3222;--hd:#1a0f08;--card:#fbf6ee;--inp:#fff;--ibd:#dccbb4;--hov:#f3e8d6;--onbg:#e8d8c3;--on-bg:#fbf6ee;--on-tx:#4a2c14;--bdg-bg:#f0e3cf;--bdg-bd:#dcc6a3;--logo-bg:#c8995d;--logo-tx:#24160e;--phover:#4a2c14;--blue:#8a5a2b;--deep:#4a2c14;--ink:#2a1c12;--mu:#7a6650;--line:#e6d9c4;--ok:#2f7d4a;--no:#b42318;--sh:#00000044;--ph:#a8977f}
+html{--f:'Inter',system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+--f:'Inter',system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;background:linear-gradient(180deg,var(--bg1) 0,var(--bg2) 340px,var(--bg2) 100%);background-attachment:fixed;color:var(--ink);font:15px/1.5 var(--f);-webkit-font-smoothing:antialiased;padding-bottom:50px}
+header{background:var(--hd);color:#fff;padding:16px 22px;display:flex;gap:14px;align-items:center;box-shadow:0 2px 12px #00000055}
+.logo{width:42px;height:42px;border-radius:10px;background:var(--logo-bg);color:var(--logo-tx);display:grid;place-items:center;font:800 22px var(--f)}
+.ttl{flex:1;font-weight:800;font-size:19px;letter-spacing:.14em}.ttl small{display:block;font-weight:500;font-size:11px;opacity:.75;letter-spacing:.06em;text-transform:uppercase;margin-top:2px}
+main{padding:22px 14px;max-width:780px;margin:auto}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:14px;box-shadow:0 6px 20px var(--sh)}
+h2{margin:0 0 12px;font-size:20px;font-weight:700;color:var(--deep);letter-spacing:-.01em}
+label{display:block;color:var(--mu);margin:14px 0 5px;font-size:12px;font-weight:600;letter-spacing:.04em;text-transform:uppercase}
+input,select,textarea{width:100%;background:var(--inp);color:var(--ink);border:1px solid var(--ibd);border-radius:9px;padding:11px 12px;font:inherit}
+input::placeholder,textarea::placeholder{color:var(--ph)}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px #3b82f640}
+button{font:inherit;font-weight:600;font-size:14px;cursor:pointer;color:#fff;background:transparent;border:1.5px solid #ffffffb0;border-radius:9px;padding:9px 16px;transition:.15s}
+button:hover{background:#ffffff26}
+button:focus-visible{outline:2px solid #fff;outline-offset:2px}
+button:disabled{opacity:.55;cursor:default}
+header button{border-color:#ffffff80}
+.card button{color:var(--blue);border-color:var(--ibd);background:var(--card)}.card button:hover{background:var(--hov);border-color:var(--blue)}
+.card button.p,button.p{background:var(--blue);color:#fff;border-color:var(--blue)}.card button.p:hover{background:var(--phover);border-color:var(--phover);color:#fff}
+.card button.d{color:var(--no);border-color:var(--no)}.card button.d:hover{background:var(--hov)}
+.tabs,.chips{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 14px}
+.tabs{overflow-x:auto;flex-wrap:nowrap;padding-bottom:2px}.tabs button{white-space:nowrap;border-radius:30px;padding:9px 18px}
+.tabs button.on,.chips button.on{background:var(--on-bg);color:var(--on-tx);border-color:var(--on-bg)}
+.chips button{padding:6px 13px;font-size:13px;border-radius:30px}
+.card .chips button.on{background:var(--blue);color:#fff;border-color:var(--blue)}
+.row{display:flex;gap:8px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.meta{color:var(--mu);font-size:13px;margin:5px 0}.meta a{color:var(--blue);font-weight:600}
+main>.meta,#app>.meta{color:var(--onbg)}
+.badge{padding:3px 11px;border-radius:20px;font-size:12px;font-weight:600;background:var(--bdg-bg);color:var(--deep);border:1px solid var(--bdg-bd)}
+.badge.Accepted,.badge.Hired{color:var(--ok);border-color:var(--ok)}.badge.Rejected{color:var(--no);border-color:var(--no)}.badge.warn{background:#fff4d6;color:#8a5a00;border-color:#f0d58a}
+.det{border-top:1px solid var(--line);margin-top:12px;padding-top:6px}.det div{display:flex;gap:10px;padding:7px 0;border-bottom:1px solid var(--line)}.det b{min-width:130px;color:var(--mu);font-weight:600;font-size:13px}.det span{flex:1;overflow-wrap:anywhere}
+audio{width:100%;margin:10px 0}
+.msg{color:var(--no);margin:8px 0;min-height:1em;font-size:14px}
+.or{text-align:center;color:var(--mu);margin:12px 0 0;font-size:12px;text-transform:uppercase;letter-spacing:.1em}
+.kid{margin-left:16px;border-left:3px solid var(--ibd);padding-left:12px}
+.empty{color:var(--onbg);text-align:center;padding:30px}
+.card .empty{color:var(--mu)}
+#toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:var(--card);color:var(--ink);padding:10px 20px;border-radius:30px;font-weight:600;box-shadow:0 6px 20px #0b2f7a55;display:none;z-index:50}
+.cc{cursor:pointer;transition:.15s}.cc:hover{transform:translateY(-1px)}
+.cc>.row b{font-size:16px;font-weight:700}
+#sr,#on{background:var(--inp)}
+</style></head><body>
+<header><div class="logo">A</div><div class="ttl">ADVENTURES<small>Recruitment Agency</small></div><button id="th">Theme</button><button id="lo" hidden>Log out</button></header>
+<main id="app"></main><div id="toast"></div>
+<script>
+/* PASTE your Supabase Project URL + anon/public key (Project Settings > API). Never the service_role key. */
+const SB_URL='YOUR_SUPABASE_URL',SB_KEY='YOUR_SUPABASE_ANON_KEY';
+const $=s=>document.querySelector(s),app=$('#app');
+if(!/^https:\/\/[^ ]+\.supabase\.co/.test(SB_URL)||SB_KEY.startsWith('YOUR_')){app.innerHTML='<div class="card"><h2>Setup needed</h2><p class="meta">Open index.html, paste your Supabase URL and anon key into SB_URL and SB_KEY, save, refresh.</p></div>';throw 0}
+const sb=supabase.createClient(SB_URL,SB_KEY),BUCKET='voice-notes';
+const ST=['New','Accepted','Rejected','Interview','Contacted','Hired','On Hold'];
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const toast=m=>{const e=$('#toast');e.textContent=m;e.style.display='block';clearTimeout(toast.h);toast.h=setTimeout(()=>e.style.display='none',2600)};
+let me=null,sess=null,tab='c',flt='All',q='',showForm=false,openId=null,authMode='in',D={c:[],t:[],i:[],o:[]},recBlob=null,rec=null;
+const isO=()=>me?.role==='owner',isL=()=>me?.role==='leader',mgr=()=>isO()||isL();
+const MAXV=10*1024*1024,VEXT=['ogg','oga','opus','mp3','m4a','mp4','wav','webm','aac','3gp','amr'];
+const parseVocaroo=raw=>{let s=String(raw||'').trim();if(!s)return null;if(!/^https?:\/\//i.test(s))s='https://'+s;let u;try{u=new URL(s)}catch{return null}const h=u.hostname.toLowerCase().replace(/^www\./,'');if(h!=='vocaroo.com'&&h!=='voca.ro')return null;const m=u.pathname.match(/^\/(?:embed\/|i\/)?([a-z0-9]+)\/?$/i);return m&&m[1].length>=6?{id:m[1],url:'https://vocaroo.com/'+m[1]}:null};
+const voiceHTML=c=>c.voice_url?`<audio controls preload="none" src="${esc(c.voice_url)}"></audio>`:(()=>{const v=parseVocaroo(c.voice_link);return v?`<div class="meta"><a href="${esc(v.url)}" target="_blank" rel="noopener">Open voice note on Vocaroo</a></div><audio controls preload="none" src="https://media.vocaroo.com/mp3/${esc(v.id)}" onerror="this.style.display='none'"></audio>`:''})();
+
+const THEMES=[['dark','Black & Blue'],['blue','Blue & White'],['brown','Brown']];
+let theme=localStorage.getItem('adv-theme')||'dark';
+const applyTheme=()=>{document.documentElement.dataset.theme=theme;$('#th').textContent=THEMES.find(x=>x[0]===theme)[1]};
+$('#th').onclick=()=>{theme=THEMES[(THEMES.findIndex(x=>x[0]===theme)+1)%3][0];try{localStorage.setItem('adv-theme',theme)}catch{}applyTheme()};applyTheme();
+$('#lo').onclick=()=>sb.auth.signOut();
+async function boot(){
+  const{data}=await sb.auth.getSession();sess=data.session;$('#lo').hidden=!sess;
+  if(!sess){me=null;return render()}
+  const{data:p}=await sb.from('profiles').select('*').eq('id',sess.user.id).maybeSingle();
+  me=p;if(me)await load();render();
+}
+sb.auth.onAuthStateChange((e,s)=>{if(e==='SIGNED_OUT'||(e==='SIGNED_IN'&&(!sess||!s||s.user.id!==sess.user.id)))boot()});
+async function load(){
+  const[c,t,o]=await Promise.all([sb.from('candidates').select('*').order('created_at',{ascending:false}),sb.from('profiles').select('*').order('created_at'),sb.from('offers').select('*').order('id')]);
+  D.c=c.data||[];D.t=t.data||[];D.o=o.data||[];
+  if(mgr()){const i=await sb.from('invites').select('*').order('created_at',{ascending:false});D.i=i.data||[]}
+}
+function render(){
+  if(!sess){app.innerHTML=`<div class="card"><h2>${authMode==='in'?'Log in':'Sign up'}</h2><label>Email</label><input id="em" type="email" autocomplete="email"><label>Password</label><input id="pw" type="password" autocomplete="current-password"><div class="msg" id="er"></div><button class="p" id="go">${authMode==='in'?'Log in':'Sign up'}</button> <button id="sw">${authMode==='in'?'Sign up':'Log in'}</button></div>`;
+    $('#sw').onclick=()=>{authMode=authMode==='in'?'up':'in';render()};
+    $('#go').onclick=async()=>{const f={email:$('#em').value.trim(),password:$('#pw').value};const r=authMode==='in'?await sb.auth.signInWithPassword(f):await sb.auth.signUp(f);if(r.error)$('#er').textContent=r.error.message;else if(authMode==='up'&&!r.data.session)$('#er').textContent='Check your email to confirm, then log in.'};return}
+  if(!me){app.innerHTML=`<div class="card"><h2>Finish setup</h2><label>Full name</label><input id="fn"><label>Access code</label><input id="ic" autocapitalize="characters"><p class="meta">Leave the code empty only if you are the very first account (the owner). Team leaders use the code from the owner; recruiters use the code from their team leader.</p><div class="msg" id="er"></div><button class="p" id="go">Finish setup</button></div>`;
+    $('#go').onclick=async()=>{const n=$('#fn').value.trim();if(!n)return $('#er').textContent='Name required';const{error}=await sb.rpc('finish_setup',{p_name:n,p_code:$('#ic').value.trim().toUpperCase()});if(error)$('#er').textContent=error.message;else boot()};return}
+  const pend=D.t.filter(x=>x.removal_requested).length;
+  const tabs=[['c',`Candidates (${D.c.length})`]];if(mgr())tabs.push(['t',`Team${isO()&&pend?` (${pend}!)`:''}`],['i','Codes']);if(isO())tabs.push(['o','Offers']);
+  app.innerHTML=`<div class="meta">${esc(me.full_name)} · <b>${{owner:'Owner',leader:'Team leader',recruiter:'Recruiter'}[me.role]}</b></div><div class="tabs">${tabs.map(x=>`<button data-t="${x[0]}" class="${tab===x[0]?'on':''}">${x[1]}</button>`).join('')}</div><div id="pane"></div>`;
+  app.querySelectorAll('[data-t]').forEach(b=>b.onclick=()=>{tab=b.dataset.t;showForm=false;render()});
+  ({c:paneC,t:paneT,i:paneI,o:paneO})[tab]();
+}
+/* ---------- Candidates ---------- */
+const visible=()=>{const k=q.trim().toLowerCase();return D.c.filter(c=>(flt==='All'||c.status===flt)&&(!k||[c.full_name,c.phone,c.email,c.language,c.recruiter_name].some(v=>(v||'').toLowerCase().includes(k))))};
+function paneC(){
+  const cnt=s=>s==='All'?D.c.length:D.c.filter(x=>x.status===s).length;
+  $('#pane').innerHTML=`<div class="card">${showForm?formHTML():'<button class="p" id="ad">+ Add candidate</button>'}</div>
+  <input id="sr" placeholder="Search name, phone, language, recruiter" value="${esc(q)}" style="margin-bottom:10px">
+  <div class="chips">${['All',...ST].map(s=>`<button data-f="${s}" class="${flt===s?'on':''}">${s} ${cnt(s)}</button>`).join('')}</div>
+  ${mgr()?'<div class="chips"><button id="xl">Export to Excel</button></div>':''}<div id="list"></div>`;
+  if(showForm)bindForm();else $('#ad').onclick=()=>{showForm=true;paneC()};
+  $('#sr').oninput=e=>{q=e.target.value;list()};
+  document.querySelectorAll('[data-f]').forEach(b=>b.onclick=()=>{flt=b.dataset.f;paneC()});
+  if($('#xl'))$('#xl').onclick=exportXlsx;
+  list();
+}
+function formHTML(){return`<h2>New candidate</h2>
+<label>Triple name</label><input id="f_n"><label>Phone number</label><input id="f_p" type="tel"><label>Gmail</label><input id="f_e" type="email" placeholder="name@gmail.com">
+<label>Nationality</label><input id="f_nat"><label>Cairo or Alex site</label><select id="f_s"><option value="">Choose…</option><option>Cairo</option><option>Alex</option></select>
+<label>Language you applied for</label><input id="f_l"><label>Age</label><input id="f_a" type="number" min="16" max="70">
+<label>College</label><input id="f_c"><label>Grad or Undergrad</label><select id="f_g"><option value="">Choose…</option><option>Grad</option><option>Undergrad</option></select>
+<label>Military status</label><select id="f_m"><option value="">Choose…</option><option>Completed</option><option>Exempted</option><option>Postponed</option><option>Not applicable</option></select>
+<label>Experience in call center / telesales / cold calling (if any)</label><textarea id="f_x" rows="2"></textarea>
+${D.o.some(o=>o.active)?`<label>Offer (optional)</label><select id="f_o"><option value="">—</option>${D.o.filter(o=>o.active).map(o=>`<option>${esc(o.name)}</option>`).join('')}</select>`:''}
+<label>Voice note — record, upload, or paste a Vocaroo link</label>
+<div class="chips"><button id="rc">Record</button></div><input id="f_v" type="file" accept=".ogg,.oga,.opus,.mp3,.m4a,.wav,.aac,.webm,.3gp,.amr,audio/*"><audio id="pv" controls hidden></audio>
+<div class="or">or</div><input id="f_k" type="url" placeholder="https://vocaroo.com/..." style="margin-top:6px">
+<div class="msg" id="er"></div><button class="p" id="sv">Submit candidate</button> <button id="cx">Cancel</button>`}
+function validate(v,hasVoice){
+  if(v.name.trim().split(/\s+/).length<3)return'Enter the triple name (three names)';
+  if(!/^\+?\d{10,15}$/.test(v.phone.replace(/[\s-]/g,'')))return'Enter a valid phone number (10–15 digits)';
+  if(!/^[^\s@]+@gmail\.com$/i.test(v.email))return'Enter a valid Gmail address';
+  if(!v.nat)return'Nationality is required';if(!v.site)return'Choose Cairo or Alex';if(!v.lang)return'Language is required';
+  if(!(v.age>=16&&v.age<=70))return'Age must be between 16 and 70';if(!v.college)return'College is required';
+  if(!v.edu)return'Choose Grad or Undergrad';if(!v.mil)return'Choose military status';if(!hasVoice)return'Add a voice note: record, upload or Vocaroo link';return''}
+function bindForm(){
+  const er=m=>$('#er').textContent=m||'';recBlob=null;
+  $('#cx').onclick=()=>{showForm=false;paneC()};
+  $('#rc').onclick=async()=>{
+    if(rec&&rec.state==='recording'){rec.stop();return}
+    try{const s=await navigator.mediaDevices.getUserMedia({audio:true}),mt=['audio/webm','audio/mp4','audio/ogg'].find(x=>window.MediaRecorder&&MediaRecorder.isTypeSupported(x))||'',ch=[];
+      rec=new MediaRecorder(s,mt?{mimeType:mt}:{});rec.ondataavailable=e=>ch.push(e.data);
+      rec.onstop=()=>{s.getTracks().forEach(t=>t.stop());recBlob=new Blob(ch,{type:rec.mimeType});$('#pv').src=URL.createObjectURL(recBlob);$('#pv').hidden=false;$('#rc').textContent='Re-record';$('#f_v').value='';$('#f_k').value=''};
+      rec.start();$('#rc').textContent='Stop recording'}catch{er('Microphone access was blocked')}};
+  $('#f_v').onchange=e=>{const f=e.target.files[0];if(f){recBlob=null;$('#pv').src=URL.createObjectURL(f);$('#pv').hidden=false;$('#f_k').value=''}};
+  $('#sv').onclick=async()=>{
+    er('');const g=id=>($('#'+id)?.value||'').trim();
+    const v={name:g('f_n'),phone:g('f_p'),email:g('f_e'),nat:g('f_nat'),site:g('f_s'),lang:g('f_l'),age:+g('f_a'),college:g('f_c'),edu:g('f_g'),mil:g('f_m')};
+    const file=recBlob||$('#f_v').files[0],link=g('f_k'),vc=link?parseVocaroo(link):null;
+    const bad=validate(v,file||link);if(bad)return er(bad);
+    if(!file&&!vc)return er('That is not a valid Vocaroo link');
+    if(file&&file.size>MAXV)return er('Voice file is too large (max 10 MB)');
+    if(file&&file.name&&!(file.type||'').startsWith('audio/')&&!VEXT.includes(file.name.split('.').pop().toLowerCase()))return er('Unsupported voice file type');
+    const b=$('#sv');b.disabled=true;b.textContent='Uploading…';let path=null,url=null;
+    if(file){const ty=(file.type||'audio/webm').split(';')[0],ext=file.name?file.name.split('.').pop():ty.includes('mp4')?'m4a':ty.includes('ogg')?'ogg':'webm';
+      path=`voice/${sess.user.id}/${Date.now()}.${ext.replace(/\W/g,'')}`;
+      const u=await sb.storage.from(BUCKET).upload(path,file,{contentType:ty});if(u.error){b.disabled=false;b.textContent='Submit candidate';return er(u.error.message)}
+      url=sb.storage.from(BUCKET).getPublicUrl(path).data.publicUrl}
+    const{error}=await sb.from('candidates').insert({full_name:v.name,phone:v.phone,email:v.email.toLowerCase(),nationality:v.nat,site:v.site,language:v.lang,age:v.age,college:v.college,edu_level:v.edu,military:v.mil,experience:g('f_x')||null,offer:g('f_o')||null,voice_path:path,voice_url:url,voice_link:vc?vc.url:null});
+    if(error){if(path)sb.storage.from(BUCKET).remove([path]);b.disabled=false;b.textContent='Submit candidate';return er(error.message)}
+    showForm=false;await load();render();toast('Candidate submitted')};
+}
+function list(){
+  const r=visible(),L=$('#list');
+  L.innerHTML=r.length?r.map(c=>{const open=openId===c.id;
+    return`<div class="card cc" data-id="${c.id}"><div class="row"><b style="font-size:17px">${esc(c.full_name)}</b><span class="badge ${c.status}">${c.status}</span></div>
+<div class="meta">${esc(c.site)} · ${esc(c.language)} · ${esc(c.recruiter_name||'')} · ${new Date(c.created_at).toLocaleDateString()}</div>
+${open?`<div class="det" onclick="event.stopPropagation()">${[['Triple name',c.full_name],['Phone',c.phone],['Gmail',c.email],['Nationality',c.nationality],['Site',c.site],['Language',c.language],['Age',c.age],['College',c.college],['Grad / Undergrad',c.edu_level],['Military status',c.military],['Experience',c.experience||'—'],['Offer',c.offer||'—'],['Recruiter',c.recruiter_name]].map(x=>`<div><b>${x[0]}</b><span>${esc(x[1])}</span></div>`).join('')}</div>${voiceHTML(c)}
+${mgr()?`<div onclick="event.stopPropagation()"><div class="meta">Move to:</div><div class="chips">${ST.map(s=>`<button data-s="${s}" class="${c.status===s?'on':''}">${s}</button>`).join('')}</div></div>`:''}
+${isO()?`<button class="d dl" onclick="event.stopPropagation()">Delete</button>`:''}`:''}</div>`}).join(''):'<div class="empty">—</div>';
+  L.querySelectorAll('.cc').forEach(el=>{const c=D.c.find(x=>x.id===el.dataset.id);
+    el.onclick=()=>{openId=openId===c.id?null:c.id;list()};
+    el.querySelectorAll('[data-s]').forEach(b=>b.onclick=async()=>{const{error}=await sb.from('candidates').update({status:b.dataset.s}).eq('id',c.id);if(error)return toast(error.message);await load();paneC();toast('Moved to '+b.dataset.s)});
+    const dl=el.querySelector('.dl');if(dl)dl.onclick=async()=>{if(!confirm('Delete this candidate?'))return;const{error}=await sb.from('candidates').delete().eq('id',c.id);if(error)return toast(error.message);if(c.voice_path)sb.storage.from(BUCKET).remove([c.voice_path]);openId=null;await load();paneC()}});
+}
+function exportXlsx(){
+  const rows=visible().map(c=>({'Triple Name':c.full_name,'Phone number':c.phone,'Gmail':c.email,'Nationality':c.nationality,'Cairo or Alex site':c.site,'Language applied for':c.language,'Age':c.age,'College':c.college,'Grad or Undergrad':c.edu_level,'Military Status':c.military,'Experience':c.experience||'','Offer':c.offer||'','Status':c.status,'Recruiter':c.recruiter_name,'Voice note':c.voice_url||c.voice_link||'','Date':new Date(c.created_at).toLocaleString()}));
+  if(!rows.length)return toast('Nothing to export');
+  const ws=XLSX.utils.json_to_sheet(rows),wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,'Candidates');
+  XLSX.writeFile(wb,`ADVENTURES-candidates-${new Date().toISOString().slice(0,10)}.xlsx`);
+}
+/* ---------- Team tree ---------- */
+function recCard(m){
+  const cs=D.c.filter(c=>c.recruiter_id===m.id),last=cs.length?new Date(Math.max(...cs.map(c=>+new Date(c.created_at)))):null,idle=!last||(Date.now()-last)>14*864e5;
+  let btn='';
+  if(m.removal_requested)btn=isO()?`<button class="d" data-rm="${m.id}">Confirm removal</button> <button data-keep="${m.id}">Keep</button>`:'<span class="badge warn">Awaiting owner confirmation</span>';
+  else if(isL())btn=`<button class="d" data-ask="${m.id}">Request removal</button>`;
+  else if(isO())btn=`<button class="d" data-rm="${m.id}">Remove</button>`;
+  return`<div class="card"><div class="row"><b>${esc(m.full_name)}</b><span class="badge">${m.role==='leader'?'Team leader':'Recruiter'}</span></div><div class="meta">Candidates: ${cs.length} · Last upload: ${last?last.toLocaleDateString():'never'} ${idle?'<span class="badge warn">inactive 14+ days</span>':''}</div>${btn}</div>`}
+function paneT(){
+  const kids=id=>D.t.filter(x=>x.parent_id===id);
+  const body=isO()?(D.t.filter(x=>x.role==='leader').map(l=>`${recCard(l)}<div class="kid">${kids(l.id).map(recCard).join('')||'<div class="meta">No recruiters yet</div>'}</div>`).join('')||'<div class="empty">No team leaders yet — create a code in “Codes”.</div>'):(kids(me.id).map(recCard).join('')||'<div class="empty">No recruiters yet — create a code in “Codes”.</div>');
+  $('#pane').innerHTML=body;
+  document.querySelectorAll('[data-ask]').forEach(b=>b.onclick=async()=>{if(!confirm('Ask the owner to remove this recruiter?'))return;const{error}=await sb.rpc('request_removal',{p_id:b.dataset.ask});if(error)return toast(error.message);await load();render();toast('Request sent to the owner')});
+  document.querySelectorAll('[data-rm]').forEach(b=>b.onclick=async()=>{if(!confirm('Remove this member?'))return;const{error}=await sb.from('profiles').delete().eq('id',b.dataset.rm);if(error)return toast(error.message);await load();render()});
+  document.querySelectorAll('[data-keep]').forEach(b=>b.onclick=async()=>{const{error}=await sb.from('profiles').update({removal_requested:false}).eq('id',b.dataset.keep);if(error)return toast(error.message);await load();render()});
+}
+/* ---------- Codes ---------- */
+function paneI(){
+  const what=isO()?'team leader':'recruiter';
+  $('#pane').innerHTML=`<div class="card"><button class="p" id="gi">Generate ${what} code</button></div>`+D.i.map(i=>`<div class="card"><div class="row"><b style="letter-spacing:2px;font-size:19px">${esc(i.code)}</b><span class="badge">${i.role==='leader'?'Leader':'Recruiter'} · ${i.used_by?'Used':'Unused'}</span></div>${i.used_by?'':`<button data-c="${esc(i.code)}" style="margin-top:8px">Copy</button>`}</div>`).join('');
+  $('#gi').onclick=async()=>{const code=Array.from(crypto.getRandomValues(new Uint8Array(8)),b=>'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'[b%32]).join('');const{error}=await sb.from('invites').insert({code,role:isO()?'leader':'recruiter',created_by:me.id});if(error)return toast(error.message);await load();render()};
+  document.querySelectorAll('[data-c]').forEach(b=>b.onclick=()=>{navigator.clipboard.writeText(b.dataset.c);toast('Copied')});
+}
+/* ---------- Offers (owner) ---------- */
+function paneO(){
+  $('#pane').innerHTML=`<div class="card"><h2>Offers</h2><div class="row" style="flex-wrap:nowrap"><input id="on" placeholder="Offer name"><button class="p" id="oa">Add</button></div>${D.o.map(o=>`<div class="row" style="margin-top:8px"><span style="opacity:${o.active?1:.45}">${esc(o.name)}</span><span><button data-ot="${o.id}">${o.active?'On':'Off'}</button> <button class="d" data-od="${o.id}">×</button></span></div>`).join('')||'<div class="meta">No offers yet.</div>'}</div>`;
+  $('#oa').onclick=async()=>{const n=$('#on').value.trim();if(!n)return;const{error}=await sb.from('offers').insert({name:n});if(error)return toast(error.message);await load();render()};
+  document.querySelectorAll('[data-ot]').forEach(b=>b.onclick=async()=>{const o=D.o.find(x=>x.id==b.dataset.ot);const{error}=await sb.from('offers').update({active:!o.active}).eq('id',o.id);if(error)return toast(error.message);await load();render()});
+  document.querySelectorAll('[data-od]').forEach(b=>b.onclick=async()=>{if(!confirm('Delete this offer?'))return;const{error}=await sb.from('offers').delete().eq('id',b.dataset.od);if(error)return toast(error.message);await load();render()});
+}
+boot();
+</script></body></html>
