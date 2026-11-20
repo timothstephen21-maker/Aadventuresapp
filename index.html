@@ -91,7 +91,10 @@ async function load(){
 function render(){
   if(!sess){app.innerHTML=`<div class="card"><h2>${authMode==='in'?'Log in':'Sign up'}</h2><label>Email</label><input id="em" type="email" autocomplete="email"><label>Password</label><input id="pw" type="password" autocomplete="current-password"><div class="msg" id="er"></div><button class="p" id="go">${authMode==='in'?'Log in':'Sign up'}</button> <button id="sw">${authMode==='in'?'Sign up':'Log in'}</button></div>`;
     $('#sw').onclick=()=>{authMode=authMode==='in'?'up':'in';render()};
-    $('#go').onclick=async()=>{const f={email:$('#em').value.trim(),password:$('#pw').value};const r=authMode==='in'?await sb.auth.signInWithPassword(f):await sb.auth.signUp(f);if(r.error)$('#er').textContent=r.error.message;else if(authMode==='up'&&!r.data.session)$('#er').textContent='Check your email to confirm, then log in.'};return}
+    $('#go').onclick=async()=>{const f={email:$('#em').value.trim(),password:$('#pw').value};if(!f.email||f.password.length<6)return $('#er').textContent='Enter your email and a password of at least 6 characters';
+      let r;if(authMode==='in')r=await sb.auth.signInWithPassword(f);
+      else{r=await sb.auth.signUp(f);if(r.error||!r.data.session){const l=await sb.auth.signInWithPassword(f);if(!l.error)r=l;else if(!r.error)r={error:{message:'Account created, but Supabase still requires email confirmation. Turn off Confirm email in Supabase, or run the auto-confirm SQL.'}}}}
+      if(r.error)$('#er').textContent=r.error.message};return}
   if(!me){app.innerHTML=`<div class="card"><h2>Finish setup</h2><label>Full name</label><input id="fn"><label>Access code</label><input id="ic" autocapitalize="characters"><p class="meta">Leave the code empty only if you are the very first account (the owner). Team leaders use the code from the owner; recruiters use the code from their team leader.</p><div class="msg" id="er"></div><button class="p" id="go">Finish setup</button></div>`;
     $('#go').onclick=async()=>{const n=$('#fn').value.trim();if(!n)return $('#er').textContent='Name required';const{error}=await sb.rpc('finish_setup',{p_name:n,p_code:$('#ic').value.trim().toUpperCase()});if(error)$('#er').textContent=error.message;else boot()};return}
   const pend=D.t.filter(x=>x.removal_requested).length;
