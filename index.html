@@ -4,46 +4,61 @@
 <title>ADVENTURES</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-:root{--n:#0a2a66;--n2:#1d4fb3;--bg:#f3f6fb;--card:#fff;--b:#d9e2f1;--tx:#0f1b33;--mu:#5b6b86;--ok:#15803d;--no:#b91c1c}
+:root,[data-theme=blue]{--bg1:#1b56c9;--bg2:#2a6ee6;--hd:#0b2f7a;--card:#fff;--inp:#fff;--ibd:#c6d4ee;--hov:#eef4ff;--onbg:#e6eeff;--on-bg:#fff;--on-tx:#0b2f7a;--bdg-bg:#e8f0ff;--bdg-bd:#c3d6f7;--logo-bg:#fff;--logo-tx:#0b2f7a;--phover:#0b2f7a;--blue:#1f5fd6;--deep:#0b2f7a;--ink:#0f1f3d;--mu:#5a6b8a;--line:#dbe5f6;--ok:#15803d;--no:#b42318;--sh:#0b2f7a26;--ph:#8fa0bf}
+[data-theme=dark]{--bg1:#03050a;--bg2:#0a1124;--hd:#000;--card:#0e1628;--inp:#0a1120;--ibd:#25365a;--hov:#14213b;--onbg:#a9b8d6;--on-bg:#3b82f6;--on-tx:#fff;--bdg-bg:#142342;--bdg-bd:#26407a;--logo-bg:#3b82f6;--logo-tx:#fff;--phover:#60a5fa;--blue:#3b82f6;--deep:#a8c8ff;--ink:#e8eefc;--mu:#8a9bbd;--line:#1c2a47;--ok:#4ade80;--no:#f87171;--sh:#00000066;--ph:#5d6f93}
+[data-theme=brown]{--bg1:#24160e;--bg2:#4a3222;--hd:#1a0f08;--card:#fbf6ee;--inp:#fff;--ibd:#dccbb4;--hov:#f3e8d6;--onbg:#e8d8c3;--on-bg:#fbf6ee;--on-tx:#4a2c14;--bdg-bg:#f0e3cf;--bdg-bd:#dcc6a3;--logo-bg:#c8995d;--logo-tx:#24160e;--phover:#4a2c14;--blue:#8a5a2b;--deep:#4a2c14;--ink:#2a1c12;--mu:#7a6650;--line:#e6d9c4;--ok:#2f7d4a;--no:#b42318;--sh:#00000044;--ph:#a8977f}
+html{--f:'Inter',system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+--f:'Inter',system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.4 system-ui,-apple-system,"Segoe UI",sans-serif;padding-bottom:50px}
-header{background:var(--n);color:#fff;padding:14px 18px;display:flex;gap:12px;align-items:center;border-bottom:4px solid var(--n2)}
-.logo{width:46px;height:46px;border-radius:12px;background:#fff;color:var(--n);display:grid;place-items:center;font:800 26px Georgia,serif}
-.ttl{flex:1;font-weight:800;font-size:20px;letter-spacing:1px}.ttl small{display:block;font-weight:500;font-size:12px;opacity:.75;letter-spacing:0}
-main{padding:16px 14px;max-width:760px;margin:auto}
-.card{background:var(--card);border:1px solid var(--b);border-left:4px solid var(--n);border-radius:14px;padding:14px;margin-bottom:12px}
-h2{margin:0 0 10px;font-size:22px;color:var(--n)}
-label{display:block;color:var(--mu);margin:10px 0 4px;font-size:14px}
-input,select,textarea{width:100%;background:#fff;color:var(--tx);border:1px solid var(--b);border-radius:10px;padding:11px;font:inherit}
-input:focus,select:focus,textarea:focus,button:focus-visible{outline:2px solid var(--n2);outline-offset:1px}
-button{font:inherit;cursor:pointer;color:var(--n);background:#fff;border:1.5px solid var(--n);border-radius:10px;padding:8px 14px}
-header button{background:transparent;color:#fff;border-color:#fff}
-button:disabled{opacity:.55}
-button.p{background:var(--n);color:#fff;font-weight:700}
-button.d{color:var(--no);border-color:var(--no)}
-.tabs,.chips{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 12px}
-.tabs{overflow-x:auto;flex-wrap:nowrap}.tabs button{white-space:nowrap;border-radius:30px;padding:9px 15px}
-.tabs button.on,.chips button.on{background:var(--n);color:#fff;font-weight:700}
-.chips button{padding:6px 12px;font-size:14px;border-color:var(--b)}.chips button.on{border-color:var(--n)}
+body{margin:0;min-height:100vh;background:linear-gradient(180deg,var(--bg1) 0,var(--bg2) 340px,var(--bg2) 100%);background-attachment:fixed;color:var(--ink);font:15px/1.5 var(--f);-webkit-font-smoothing:antialiased;padding-bottom:50px}
+header{background:var(--hd);color:#fff;padding:16px 22px;display:flex;gap:14px;align-items:center;box-shadow:0 2px 12px #00000055}
+.logo{width:42px;height:42px;border-radius:10px;background:var(--logo-bg);color:var(--logo-tx);display:grid;place-items:center;font:800 22px var(--f)}
+.ttl{flex:1;font-weight:800;font-size:19px;letter-spacing:.14em}.ttl small{display:block;font-weight:500;font-size:11px;opacity:.75;letter-spacing:.06em;text-transform:uppercase;margin-top:2px}
+main{padding:22px 14px;max-width:780px;margin:auto}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:14px;box-shadow:0 6px 20px var(--sh)}
+h2{margin:0 0 12px;font-size:20px;font-weight:700;color:var(--deep);letter-spacing:-.01em}
+label{display:block;color:var(--mu);margin:14px 0 5px;font-size:12px;font-weight:600;letter-spacing:.04em;text-transform:uppercase}
+input,select,textarea{width:100%;background:var(--inp);color:var(--ink);border:1px solid var(--ibd);border-radius:9px;padding:11px 12px;font:inherit}
+input::placeholder,textarea::placeholder{color:var(--ph)}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px #3b82f640}
+button{font:inherit;font-weight:600;font-size:14px;cursor:pointer;color:#fff;background:transparent;border:1.5px solid #ffffffb0;border-radius:9px;padding:9px 16px;transition:.15s}
+button:hover{background:#ffffff26}
+button:focus-visible{outline:2px solid #fff;outline-offset:2px}
+button:disabled{opacity:.55;cursor:default}
+header button{border-color:#ffffff80}
+.card button{color:var(--blue);border-color:var(--ibd);background:var(--card)}.card button:hover{background:var(--hov);border-color:var(--blue)}
+.card button.p,button.p{background:var(--blue);color:#fff;border-color:var(--blue)}.card button.p:hover{background:var(--phover);border-color:var(--phover);color:#fff}
+.card button.d{color:var(--no);border-color:var(--no)}.card button.d:hover{background:var(--hov)}
+.tabs,.chips{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 14px}
+.tabs{overflow-x:auto;flex-wrap:nowrap;padding-bottom:2px}.tabs button{white-space:nowrap;border-radius:30px;padding:9px 18px}
+.tabs button.on,.chips button.on{background:var(--on-bg);color:var(--on-tx);border-color:var(--on-bg)}
+.chips button{padding:6px 13px;font-size:13px;border-radius:30px}
+.card .chips button.on{background:var(--blue);color:#fff;border-color:var(--blue)}
 .row{display:flex;gap:8px;align-items:center;justify-content:space-between;flex-wrap:wrap}
-.meta{color:var(--mu);font-size:14px;margin:5px 0}.meta a{color:var(--n2)}
-.badge{padding:3px 10px;border-radius:20px;font-size:13px;background:#e4ecfb;color:var(--n);border:1px solid #bcd0f2}
-.badge.Accepted,.badge.Hired{background:#dcfce7;color:var(--ok);border-color:#86efac}.badge.Rejected{background:#fee2e2;color:var(--no);border-color:#fca5a5}.badge.warn{background:#fef3c7;color:#92400e;border-color:#fcd34d}
-.det{border-top:1px solid var(--b);margin-top:10px;padding-top:6px}.det div{display:flex;gap:8px;padding:5px 0;border-bottom:1px dashed var(--b)}.det b{min-width:120px;color:var(--mu);font-weight:600}.det span{flex:1;overflow-wrap:anywhere}
-audio{width:100%;margin:8px 0}
-.msg{color:var(--no);margin:8px 0;min-height:1em}
-.or{text-align:center;color:var(--mu);margin:10px 0 0;font-size:13px}
-.kid{margin-left:18px;border-left:3px solid var(--b);padding-left:10px}
-.empty{color:var(--mu);text-align:center;padding:30px}
-#toast{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);background:var(--n);color:#fff;padding:10px 18px;border-radius:30px;font-weight:700;display:none;z-index:50}
-.cc{cursor:pointer}
+.meta{color:var(--mu);font-size:13px;margin:5px 0}.meta a{color:var(--blue);font-weight:600}
+main>.meta,#app>.meta{color:var(--onbg)}
+.badge{padding:3px 11px;border-radius:20px;font-size:12px;font-weight:600;background:var(--bdg-bg);color:var(--deep);border:1px solid var(--bdg-bd)}
+.badge.Accepted,.badge.Hired{color:var(--ok);border-color:var(--ok)}.badge.Rejected{color:var(--no);border-color:var(--no)}.badge.warn{background:#fff4d6;color:#8a5a00;border-color:#f0d58a}
+.det{border-top:1px solid var(--line);margin-top:12px;padding-top:6px}.det div{display:flex;gap:10px;padding:7px 0;border-bottom:1px solid var(--line)}.det b{min-width:130px;color:var(--mu);font-weight:600;font-size:13px}.det span{flex:1;overflow-wrap:anywhere}
+audio{width:100%;margin:10px 0}
+.msg{color:var(--no);margin:8px 0;min-height:1em;font-size:14px}
+.or{text-align:center;color:var(--mu);margin:12px 0 0;font-size:12px;text-transform:uppercase;letter-spacing:.1em}
+.kid{margin-left:16px;border-left:3px solid var(--ibd);padding-left:12px}
+.empty{color:var(--onbg);text-align:center;padding:30px}
+.card .empty{color:var(--mu)}
+#toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:var(--card);color:var(--ink);padding:10px 20px;border-radius:30px;font-weight:600;box-shadow:0 6px 20px #0b2f7a55;display:none;z-index:50}
+.cc{cursor:pointer;transition:.15s}.cc:hover{transform:translateY(-1px)}
+.cc>.row b{font-size:16px;font-weight:700}
+#sr,#on{background:var(--inp)}
 </style></head><body>
-<header><div class="logo">A</div><div class="ttl">ADVENTURES<small>Candidate pipeline</small></div><button id="lo" hidden>Log out</button></header>
+<header><div class="logo">A</div><div class="ttl">ADVENTURES<small>Recruitment Agency</small></div><button id="th">Theme</button><button id="lo" hidden>Log out</button></header>
 <main id="app"></main><div id="toast"></div>
 <script>
 /* PASTE your Supabase Project URL + anon/public key (Project Settings > API). Never the service_role key. */
-const SB_URL='kqxsgqfhxoyzwzzhnuhs',SB_KEY='sb_publishable_lf-fPiWAIn4RCdNyqhlaeA_4-aN2NRF';
+const SB_URL='https://kqxsgqfhxoyzwzzhnuhs.supabase.co',SB_KEY='sb_publishable_lf-fPiWAIn4RCdNyqhlaeA_4-aN2NRF';
 const $=s=>document.querySelector(s),app=$('#app');
 if(!/^https:\/\/[^ ]+\.supabase\.co/.test(SB_URL)||SB_KEY.startsWith('YOUR_')){app.innerHTML='<div class="card"><h2>Setup needed</h2><p class="meta">Open index.html, paste your Supabase URL and anon key into SB_URL and SB_KEY, save, refresh.</p></div>';throw 0}
 const sb=supabase.createClient(SB_URL,SB_KEY),BUCKET='voice-notes';
@@ -54,8 +69,12 @@ let me=null,sess=null,tab='c',flt='All',q='',showForm=false,openId=null,authMode
 const isO=()=>me?.role==='owner',isL=()=>me?.role==='leader',mgr=()=>isO()||isL();
 const MAXV=10*1024*1024,VEXT=['ogg','oga','opus','mp3','m4a','mp4','wav','webm','aac','3gp','amr'];
 const parseVocaroo=raw=>{let s=String(raw||'').trim();if(!s)return null;if(!/^https?:\/\//i.test(s))s='https://'+s;let u;try{u=new URL(s)}catch{return null}const h=u.hostname.toLowerCase().replace(/^www\./,'');if(h!=='vocaroo.com'&&h!=='voca.ro')return null;const m=u.pathname.match(/^\/(?:embed\/|i\/)?([a-z0-9]+)\/?$/i);return m&&m[1].length>=6?{id:m[1],url:'https://vocaroo.com/'+m[1]}:null};
-const voiceHTML=c=>c.voice_url?`<audio controls preload="none" src="${esc(c.voice_url)}"></audio>`:(()=>{const v=parseVocaroo(c.voice_link);return v?`<div class="meta">🎧 <a href="${esc(v.url)}" target="_blank" rel="noopener">Open voice note on Vocaroo</a></div><audio controls preload="none" src="https://media.vocaroo.com/mp3/${esc(v.id)}" onerror="this.style.display='none'"></audio>`:''})();
+const voiceHTML=c=>c.voice_url?`<audio controls preload="none" src="${esc(c.voice_url)}"></audio>`:(()=>{const v=parseVocaroo(c.voice_link);return v?`<div class="meta"><a href="${esc(v.url)}" target="_blank" rel="noopener">Open voice note on Vocaroo</a></div><audio controls preload="none" src="https://media.vocaroo.com/mp3/${esc(v.id)}" onerror="this.style.display='none'"></audio>`:''})();
 
+const THEMES=[['dark','Black & Blue'],['blue','Blue & White'],['brown','Brown']];
+let theme=localStorage.getItem('adv-theme')||'dark';
+const applyTheme=()=>{document.documentElement.dataset.theme=theme;$('#th').textContent=THEMES.find(x=>x[0]===theme)[1]};
+$('#th').onclick=()=>{theme=THEMES[(THEMES.findIndex(x=>x[0]===theme)+1)%3][0];try{localStorage.setItem('adv-theme',theme)}catch{}applyTheme()};applyTheme();
 $('#lo').onclick=()=>sb.auth.signOut();
 async function boot(){
   const{data}=await sb.auth.getSession();sess=data.session;$('#lo').hidden=!sess;
@@ -76,7 +95,7 @@ function render(){
   if(!me){app.innerHTML=`<div class="card"><h2>Finish setup</h2><label>Full name</label><input id="fn"><label>Access code</label><input id="ic" autocapitalize="characters"><p class="meta">Leave the code empty only if you are the very first account (the owner). Team leaders use the code from the owner; recruiters use the code from their team leader.</p><div class="msg" id="er"></div><button class="p" id="go">Finish setup</button></div>`;
     $('#go').onclick=async()=>{const n=$('#fn').value.trim();if(!n)return $('#er').textContent='Name required';const{error}=await sb.rpc('finish_setup',{p_name:n,p_code:$('#ic').value.trim().toUpperCase()});if(error)$('#er').textContent=error.message;else boot()};return}
   const pend=D.t.filter(x=>x.removal_requested).length;
-  const tabs=[['c',`Candidates (${D.c.length})`]];if(mgr())tabs.push(['t',`Team${isO()&&pend?` (${pend}⚠)`:''}`],['i','Codes']);if(isO())tabs.push(['o','Offers']);
+  const tabs=[['c',`Candidates (${D.c.length})`]];if(mgr())tabs.push(['t',`Team${isO()&&pend?` (${pend}!)`:''}`],['i','Codes']);if(isO())tabs.push(['o','Offers']);
   app.innerHTML=`<div class="meta">${esc(me.full_name)} · <b>${{owner:'Owner',leader:'Team leader',recruiter:'Recruiter'}[me.role]}</b></div><div class="tabs">${tabs.map(x=>`<button data-t="${x[0]}" class="${tab===x[0]?'on':''}">${x[1]}</button>`).join('')}</div><div id="pane"></div>`;
   app.querySelectorAll('[data-t]').forEach(b=>b.onclick=()=>{tab=b.dataset.t;showForm=false;render()});
   ({c:paneC,t:paneT,i:paneI,o:paneO})[tab]();
@@ -88,7 +107,7 @@ function paneC(){
   $('#pane').innerHTML=`<div class="card">${showForm?formHTML():'<button class="p" id="ad">+ Add candidate</button>'}</div>
   <input id="sr" placeholder="Search name, phone, language, recruiter" value="${esc(q)}" style="margin-bottom:10px">
   <div class="chips">${['All',...ST].map(s=>`<button data-f="${s}" class="${flt===s?'on':''}">${s} ${cnt(s)}</button>`).join('')}</div>
-  ${mgr()?'<div class="chips"><button id="xl">⬇ Export to Excel</button></div>':''}<div id="list"></div>`;
+  ${mgr()?'<div class="chips"><button id="xl">Export to Excel</button></div>':''}<div id="list"></div>`;
   if(showForm)bindForm();else $('#ad').onclick=()=>{showForm=true;paneC()};
   $('#sr').oninput=e=>{q=e.target.value;list()};
   document.querySelectorAll('[data-f]').forEach(b=>b.onclick=()=>{flt=b.dataset.f;paneC()});
@@ -104,8 +123,8 @@ function formHTML(){return`<h2>New candidate</h2>
 <label>Experience in call center / telesales / cold calling (if any)</label><textarea id="f_x" rows="2"></textarea>
 ${D.o.some(o=>o.active)?`<label>Offer (optional)</label><select id="f_o"><option value="">—</option>${D.o.filter(o=>o.active).map(o=>`<option>${esc(o.name)}</option>`).join('')}</select>`:''}
 <label>Voice note — record, upload, or paste a Vocaroo link</label>
-<div class="chips"><button id="rc">🎙 Record</button></div><input id="f_v" type="file" accept=".ogg,.oga,.opus,.mp3,.m4a,.wav,.aac,.webm,.3gp,.amr,audio/*"><audio id="pv" controls hidden></audio>
-<div class="or">— or —</div><input id="f_k" type="url" placeholder="https://vocaroo.com/..." style="margin-top:6px">
+<div class="chips"><button id="rc">Record</button></div><input id="f_v" type="file" accept=".ogg,.oga,.opus,.mp3,.m4a,.wav,.aac,.webm,.3gp,.amr,audio/*"><audio id="pv" controls hidden></audio>
+<div class="or">or</div><input id="f_k" type="url" placeholder="https://vocaroo.com/..." style="margin-top:6px">
 <div class="msg" id="er"></div><button class="p" id="sv">Submit candidate</button> <button id="cx">Cancel</button>`}
 function validate(v,hasVoice){
   if(v.name.trim().split(/\s+/).length<3)return'Enter the triple name (three names)';
@@ -121,8 +140,8 @@ function bindForm(){
     if(rec&&rec.state==='recording'){rec.stop();return}
     try{const s=await navigator.mediaDevices.getUserMedia({audio:true}),mt=['audio/webm','audio/mp4','audio/ogg'].find(x=>window.MediaRecorder&&MediaRecorder.isTypeSupported(x))||'',ch=[];
       rec=new MediaRecorder(s,mt?{mimeType:mt}:{});rec.ondataavailable=e=>ch.push(e.data);
-      rec.onstop=()=>{s.getTracks().forEach(t=>t.stop());recBlob=new Blob(ch,{type:rec.mimeType});$('#pv').src=URL.createObjectURL(recBlob);$('#pv').hidden=false;$('#rc').textContent='🎙 Re-record';$('#f_v').value='';$('#f_k').value=''};
-      rec.start();$('#rc').textContent='⏹ Stop recording'}catch{er('Microphone access was blocked')}};
+      rec.onstop=()=>{s.getTracks().forEach(t=>t.stop());recBlob=new Blob(ch,{type:rec.mimeType});$('#pv').src=URL.createObjectURL(recBlob);$('#pv').hidden=false;$('#rc').textContent='Re-record';$('#f_v').value='';$('#f_k').value=''};
+      rec.start();$('#rc').textContent='Stop recording'}catch{er('Microphone access was blocked')}};
   $('#f_v').onchange=e=>{const f=e.target.files[0];if(f){recBlob=null;$('#pv').src=URL.createObjectURL(f);$('#pv').hidden=false;$('#f_k').value=''}};
   $('#sv').onclick=async()=>{
     er('');const g=id=>($('#'+id)?.value||'').trim();
