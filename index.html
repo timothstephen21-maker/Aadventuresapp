@@ -43,7 +43,7 @@ audio{width:100%;margin:8px 0}
 <main id="app"></main><div id="toast"></div>
 <script>
 /* PASTE your Supabase Project URL + anon/public key (Project Settings > API). Never the service_role key. */
-const SB_URL='YOUR_SUPABASE_URL',SB_KEY='YOUR_SUPABASE_ANON_KEY';
+const SB_URL='kqxsgqfhxoyzwzzhnuhs',SB_KEY='sb_publishable_lf-fPiWAIn4RCdNyqhlaeA_4-aN2NRF';
 const $=s=>document.querySelector(s),app=$('#app');
 if(!/^https:\/\/[^ ]+\.supabase\.co/.test(SB_URL)||SB_KEY.startsWith('YOUR_')){app.innerHTML='<div class="card"><h2>Setup needed</h2><p class="meta">Open index.html, paste your Supabase URL and anon key into SB_URL and SB_KEY, save, refresh.</p></div>';throw 0}
 const sb=supabase.createClient(SB_URL,SB_KEY),BUCKET='voice-notes';
