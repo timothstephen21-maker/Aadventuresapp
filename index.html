@@ -1,16 +1,16 @@
 <!DOCTYPE html>
-<html lang="en"><head><meta charset="utf-8">
+<html lang="en" data-theme="brown"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>ADVENTURES</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root,[data-theme=blue]{--bg1:#1b56c9;--bg2:#2a6ee6;--hd:#0b2f7a;--card:#fff;--inp:#fff;--ibd:#c6d4ee;--hov:#eef4ff;--onbg:#e6eeff;--on-bg:#fff;--on-tx:#0b2f7a;--bdg-bg:#e8f0ff;--bdg-bd:#c3d6f7;--logo-bg:#fff;--logo-tx:#0b2f7a;--phover:#0b2f7a;--blue:#1f5fd6;--deep:#0b2f7a;--ink:#0f1f3d;--mu:#5a6b8a;--line:#dbe5f6;--ok:#15803d;--no:#b42318;--sh:#0b2f7a26;--ph:#8fa0bf}
 [data-theme=dark]{--bg1:#03050a;--bg2:#0a1124;--hd:#000;--card:#0e1628;--inp:#0a1120;--ibd:#25365a;--hov:#14213b;--onbg:#a9b8d6;--on-bg:#3b82f6;--on-tx:#fff;--bdg-bg:#142342;--bdg-bd:#26407a;--logo-bg:#3b82f6;--logo-tx:#fff;--phover:#60a5fa;--blue:#3b82f6;--deep:#a8c8ff;--ink:#e8eefc;--mu:#8a9bbd;--line:#1c2a47;--ok:#4ade80;--no:#f87171;--sh:#00000066;--ph:#5d6f93}
 [data-theme=brown]{--bg1:#24160e;--bg2:#4a3222;--hd:#1a0f08;--card:#fbf6ee;--inp:#fff;--ibd:#dccbb4;--hov:#f3e8d6;--onbg:#e8d8c3;--on-bg:#fbf6ee;--on-tx:#4a2c14;--bdg-bg:#f0e3cf;--bdg-bd:#dcc6a3;--logo-bg:#c8995d;--logo-tx:#24160e;--phover:#4a2c14;--blue:#8a5a2b;--deep:#4a2c14;--ink:#2a1c12;--mu:#7a6650;--line:#e6d9c4;--ok:#2f7d4a;--no:#b42318;--sh:#00000044;--ph:#a8977f}
-html{--f:'Inter',system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+html{--f:'Inter','Noto Sans Arabic',system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
 --f:'Inter',system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
 *{box-sizing:border-box}
 body{margin:0;min-height:100vh;background:linear-gradient(180deg,var(--bg1) 0,var(--bg2) 340px,var(--bg2) 100%);background-attachment:fixed;color:var(--ink);font:15px/1.5 var(--f);-webkit-font-smoothing:antialiased;padding-bottom:50px}
@@ -46,15 +46,17 @@ main>.meta,#app>.meta{color:var(--onbg)}
 audio{width:100%;margin:10px 0}
 .msg{color:var(--no);margin:8px 0;min-height:1em;font-size:14px}
 .or{text-align:center;color:var(--mu);margin:12px 0 0;font-size:12px;text-transform:uppercase;letter-spacing:.1em}
-.kid{margin-left:16px;border-left:3px solid var(--ibd);padding-left:12px}
+.kid{margin-inline-start:16px;border-inline-start:3px solid var(--ibd);padding-inline-start:12px}
 .empty{color:var(--onbg);text-align:center;padding:30px}
 .card .empty{color:var(--mu)}
 #toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:var(--card);color:var(--ink);padding:10px 20px;border-radius:30px;font-weight:600;box-shadow:0 6px 20px #0b2f7a55;display:none;z-index:50}
 .cc{cursor:pointer;transition:.15s}.cc:hover{transform:translateY(-1px)}
 .cc>.row b{font-size:16px;font-weight:700}
 #sr,#on{background:var(--inp)}
+input,select,textarea{max-width:100%;min-width:0}
+[dir=rtl] label,[dir=rtl] .ttl small,[dir=rtl] .or{letter-spacing:0;text-transform:none}
 </style></head><body>
-<header><div class="logo">A</div><div class="ttl">ADVENTURES<small>Recruitment Agency</small></div><button id="th">Theme</button><button id="lo" hidden>Log out</button></header>
+<header><div class="logo">A</div><div class="ttl">ADVENTURES<small>Recruitment Agency</small></div><button id="lg">العربية</button><button id="lo" hidden>Log out</button></header>
 <main id="app"></main><div id="toast"></div>
 <script>
 /* PASTE your Supabase Project URL + anon/public key (Project Settings > API). Never the service_role key. */
@@ -65,22 +67,47 @@ const sb=supabase.createClient(SB_URL,SB_KEY),BUCKET='voice-notes';
 const ST=['New','Accepted','Rejected','Interview','Contacted','Hired','On Hold'];
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const toast=m=>{const e=$('#toast');e.textContent=m;e.style.display='block';clearTimeout(toast.h);toast.h=setTimeout(()=>e.style.display='none',2600)};
-let me=null,sess=null,tab='c',flt='All',q='',showForm=false,openId=null,authMode='in',D={c:[],t:[],i:[],o:[]},recBlob=null,rec=null;
+let profErr='',me=null,sess=null,tab='c',flt='All',q='',showForm=false,openId=null,authMode='in',D={c:[],t:[],i:[],o:[]},recBlob=null,rec=null;
 const isO=()=>me?.role==='owner',isL=()=>me?.role==='leader',mgr=()=>isO()||isL();
 const MAXV=10*1024*1024,VEXT=['ogg','oga','opus','mp3','m4a','mp4','wav','webm','aac','3gp','amr'];
 const parseVocaroo=raw=>{let s=String(raw||'').trim();if(!s)return null;if(!/^https?:\/\//i.test(s))s='https://'+s;let u;try{u=new URL(s)}catch{return null}const h=u.hostname.toLowerCase().replace(/^www\./,'');if(h!=='vocaroo.com'&&h!=='voca.ro')return null;const m=u.pathname.match(/^\/(?:embed\/|i\/)?([a-z0-9]+)\/?$/i);return m&&m[1].length>=6?{id:m[1],url:'https://vocaroo.com/'+m[1]}:null};
 const voiceHTML=c=>c.voice_url?`<audio controls preload="none" src="${esc(c.voice_url)}"></audio>`:(()=>{const v=parseVocaroo(c.voice_link);return v?`<div class="meta"><a href="${esc(v.url)}" target="_blank" rel="noopener">Open voice note on Vocaroo</a></div><audio controls preload="none" src="https://media.vocaroo.com/mp3/${esc(v.id)}" onerror="this.style.display='none'"></audio>`:''})();
 
-const THEMES=[['dark','Black & Blue'],['blue','Blue & White'],['brown','Brown']];
-let theme=localStorage.getItem('adv-theme')||'dark';
-const applyTheme=()=>{document.documentElement.dataset.theme=theme;$('#th').textContent=THEMES.find(x=>x[0]===theme)[1]};
-$('#th').onclick=()=>{theme=THEMES[(THEMES.findIndex(x=>x[0]===theme)+1)%3][0];try{localStorage.setItem('adv-theme',theme)}catch{}applyTheme()};applyTheme();
+/* ---------- English / Arabic ---------- */
+const AR={"Log out": "تسجيل الخروج", "Recruitment Agency": "وكالة توظيف", "Log in": "تسجيل الدخول", "Sign up": "إنشاء حساب", "Email": "البريد الإلكتروني", "Password": "كلمة المرور", "Finish setup": "إكمال الإعداد", "Full name": "الاسم الكامل", "Access code": "رمز الدخول", "Leave the code empty only if you are the very first account (the owner). Team leaders use the code from the owner; recruiters use the code from their team leader.": "اترك الرمز فارغًا فقط إذا كنت أول حساب (المالك). يستخدم قادة الفرق الرمز الذي يعطيه المالك، ويستخدم المجندون الرمز الذي يعطيه قائد فريقهم.", "Name required": "الاسم مطلوب", "Enter your email and a password of at least 6 characters": "أدخل بريدك الإلكتروني وكلمة مرور من 6 أحرف على الأقل", "Owner": "المالك", "Team leader": "قائد الفريق", "Recruiter": "مجند", "Candidates": "المرشحون", "Team": "الفريق", "Codes": "الرموز", "Offers": "العروض", "+ Add candidate": "+ إضافة مرشح", "Search name, phone, language, recruiter": "ابحث بالاسم أو الهاتف أو اللغة أو المجند", "All": "الكل", "New": "جديد", "Accepted": "مقبول", "Rejected": "مرفوض", "Interview": "مقابلة", "Contacted": "تم التواصل", "Hired": "تم التعيين", "On Hold": "معلّق", "Export to Excel": "تصدير إلى Excel", "New candidate": "مرشح جديد", "Triple name": "الاسم الثلاثي", "Phone number": "رقم الهاتف", "Gmail": "جيميل", "Nationality": "الجنسية", "Cairo or Alex site": "الفرع: القاهرة أو الإسكندرية", "Choose…": "اختر…", "Cairo": "القاهرة", "Alex": "الإسكندرية", "Language you applied for": "اللغة المتقدم لها", "Age": "العمر", "College": "الكلية", "Grad or Undergrad": "خريج أو طالب", "Grad": "خريج", "Undergrad": "طالب", "Military status": "الموقف من التجنيد", "Completed": "أدّى الخدمة", "Exempted": "معفى", "Postponed": "مؤجّل", "Not applicable": "لا ينطبق", "Experience in call center / telesales / cold calling (if any)": "الخبرة في الكول سنتر / التيليسيلز / الاتصال البارد (إن وجدت)", "Offer (optional)": "العرض (اختياري)", "Voice note — record, upload, or paste a Vocaroo link": "ملاحظة صوتية: سجّل أو ارفع ملفًا أو الصق رابط Vocaroo", "Record": "تسجيل", "Re-record": "إعادة التسجيل", "Stop recording": "إيقاف التسجيل", "or": "أو", "Submit candidate": "إرسال المرشح", "Cancel": "إلغاء", "Uploading…": "جارٍ الرفع…", "Open voice note on Vocaroo": "فتح الملاحظة الصوتية على Vocaroo", "Move to:": "نقل إلى:", "Delete": "حذف", "Phone": "الهاتف", "Site": "الفرع", "Language": "اللغة", "Grad / Undergrad": "خريج / طالب", "Experience": "الخبرة", "Offer": "العرض", "Enter the triple name (three names)": "أدخل الاسم الثلاثي", "Enter a valid phone number (10–15 digits)": "أدخل رقم هاتف صحيحًا (10–15 رقمًا)", "Enter a valid Gmail address": "أدخل عنوان جيميل صحيحًا", "Nationality is required": "الجنسية مطلوبة", "Choose Cairo or Alex": "اختر القاهرة أو الإسكندرية", "Language is required": "اللغة مطلوبة", "Age must be between 16 and 70": "العمر يجب أن يكون بين 16 و70", "College is required": "الكلية مطلوبة", "Choose Grad or Undergrad": "اختر خريج أو طالب", "Choose military status": "اختر الموقف من التجنيد", "Add a voice note: record, upload or Vocaroo link": "أضف ملاحظة صوتية: تسجيل أو رفع أو رابط Vocaroo", "That is not a valid Vocaroo link": "رابط Vocaroo غير صحيح", "Voice file is too large (max 10 MB)": "الملف الصوتي كبير جدًا (الحد الأقصى 10 ميجابايت)", "Unsupported voice file type": "نوع الملف الصوتي غير مدعوم", "Microphone access was blocked": "تم حظر الوصول إلى الميكروفون", "Candidate submitted": "تم إرسال المرشح", "Moved to": "تم النقل إلى", "Nothing to export": "لا توجد بيانات للتصدير", "Delete this candidate?": "حذف هذا المرشح؟", "Confirm removal": "تأكيد الإزالة", "Keep": "إبقاء", "Awaiting owner confirmation": "بانتظار تأكيد المالك", "Request removal": "طلب إزالة", "Remove": "إزالة", "Last upload": "آخر رفع", "never": "أبدًا", "inactive 14+ days": "غير نشط منذ 14 يومًا أو أكثر", "No recruiters yet": "لا يوجد مجندون بعد", "No team leaders yet — create a code in “Codes”.": "لا يوجد قادة فرق بعد، أنشئ رمزًا من «الرموز».", "No recruiters yet — create a code in “Codes”.": "لا يوجد مجندون بعد، أنشئ رمزًا من «الرموز».", "Ask the owner to remove this recruiter?": "هل تريد أن تطلب من المالك إزالة هذا المجند؟", "Request sent to the owner": "تم إرسال الطلب إلى المالك", "Remove this member?": "إزالة هذا العضو؟", "Generate team leader code": "إنشاء رمز قائد فريق", "Generate recruiter code": "إنشاء رمز مجند", "Leader": "قائد", "Used": "مستخدم", "Unused": "غير مستخدم", "Copy": "نسخ", "Copied": "تم النسخ", "Offer name": "اسم العرض", "Add": "إضافة", "On": "مفعّل", "Off": "متوقف", "No offers yet.": "لا توجد عروض بعد.", "Delete this offer?": "حذف هذا العرض؟"};
+function conv(t){
+  if(AR[t])return AR[t];
+  if(t.includes(' · ')){const p=t.split(' · '),q=p.map(conv);if(q.some((x,i)=>x!==p[i]))return q.join(' · ')}
+  let m=t.match(/^(.+?)\s*\(([^)]*)\)$/);if(m&&AR[m[1]])return AR[m[1]]+' ('+m[2]+')';
+  m=t.match(/^(.+?):\s*(.*)$/);if(m&&AR[m[1]])return AR[m[1]]+': '+(AR[m[2]]||m[2]);
+  m=t.match(/^(.+?)\s+(\d+)$/);if(m&&AR[m[1]])return AR[m[1]]+' '+m[2];
+  m=t.match(/^Moved to (.+)$/);if(m)return AR['Moved to']+' '+(AR[m[1]]||m[1]);
+  return t}
+let lang=localStorage.getItem('adv-lang')||'en';const orig=new WeakMap();
+function trNode(n){const v=n.nodeValue,t=v.trim();if(!t)return;const c=conv(t);if(c!==t){if(!orig.has(n))orig.set(n,v);n.nodeValue=v.replace(t,c)}}
+function trTree(root){
+  if(lang!=='ar')return;
+  if(root.nodeType===3){trNode(root);return}
+  if(root.nodeType!==1)return;
+  const w=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);let n;
+  while(n=w.nextNode()){const p=n.parentNode.nodeName;if(p!=='SCRIPT'&&p!=='STYLE')trNode(n)}
+  [root,...root.querySelectorAll('[placeholder]')].forEach(e=>{const p=e.getAttribute&&e.getAttribute('placeholder');if(p&&AR[p])e.setAttribute('placeholder',AR[p])});
+}
+new MutationObserver(ms=>ms.forEach(m=>{m.addedNodes.forEach(trTree);if(m.type==='characterData'&&lang==='ar')trNode(m.target)})).observe(document.body,{childList:true,subtree:true,characterData:true});
+const _confirm=window.confirm.bind(window);window.confirm=m=>_confirm(lang==='ar'?conv(m):m);
+function setLang(l,again=true){
+  lang=l;try{localStorage.setItem('adv-lang',l)}catch{}
+  document.documentElement.lang=l;document.documentElement.dir=l==='ar'?'rtl':'ltr';$('#lg').textContent=l==='ar'?'English':'العربية';
+  if(l==='en'){const w=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);let n;while(n=w.nextNode())if(orig.has(n)){n.nodeValue=orig.get(n);orig.delete(n)}}else trTree(document.body);
+  if(again)render()}
+$('#lg').onclick=()=>setLang(lang==='ar'?'en':'ar');
+setLang(lang,false);
 $('#lo').onclick=()=>sb.auth.signOut();
 async function boot(){
   const{data}=await sb.auth.getSession();sess=data.session;$('#lo').hidden=!sess;
   if(!sess){me=null;return render()}
-  const{data:p}=await sb.from('profiles').select('*').eq('id',sess.user.id).maybeSingle();
-  me=p;if(me)await load();render();
+  const{data:p,error:pe}=await sb.from('profiles').select('*').eq('id',sess.user.id).maybeSingle();
+  me=p;if(pe)profErr=pe.message;if(me)await load();render();
 }
 sb.auth.onAuthStateChange((e,s)=>{if(e==='SIGNED_OUT'||(e==='SIGNED_IN'&&(!sess||!s||s.user.id!==sess.user.id)))boot()});
 async function load(){
@@ -95,8 +122,12 @@ function render(){
       let r;if(authMode==='in')r=await sb.auth.signInWithPassword(f);
       else{r=await sb.auth.signUp(f);if(r.error||!r.data.session){const l=await sb.auth.signInWithPassword(f);if(!l.error)r=l;else if(!r.error)r={error:{message:'Account created, but Supabase still requires email confirmation. Turn off Confirm email in Supabase, or run the auto-confirm SQL.'}}}}
       if(r.error)$('#er').textContent=r.error.message};return}
-  if(!me){app.innerHTML=`<div class="card"><h2>Finish setup</h2><label>Full name</label><input id="fn"><label>Access code</label><input id="ic" autocapitalize="characters"><p class="meta">Leave the code empty only if you are the very first account (the owner). Team leaders use the code from the owner; recruiters use the code from their team leader.</p><div class="msg" id="er"></div><button class="p" id="go">Finish setup</button></div>`;
-    $('#go').onclick=async()=>{const n=$('#fn').value.trim();if(!n)return $('#er').textContent='Name required';const{error}=await sb.rpc('finish_setup',{p_name:n,p_code:$('#ic').value.trim().toUpperCase()});if(error)$('#er').textContent=error.message;else boot()};return}
+  if(!me){app.innerHTML=`<div class="card"><h2>Finish setup</h2><label>Full name</label><input id="fn"><label>Access code</label><input id="ic" autocapitalize="characters"><p class="meta">Leave the code empty only if you are the very first account (the owner). Team leaders use the code from the owner; recruiters use the code from their team leader.</p><div class="msg" id="er">${esc(profErr)}</div><button class="p" id="go">Finish setup</button></div>`;
+    $('#go').onclick=async()=>{const n=$('#fn').value.trim(),b=$('#go');if(!n)return $('#er').textContent='Name required';
+      b.disabled=true;b.textContent='Uploading…'.replace('Uploading…','Saving…');profErr='';
+      const{error}=await sb.rpc('finish_setup',{p_name:n,p_code:$('#ic').value.trim().toUpperCase()});
+      if(error){b.disabled=false;b.textContent='Finish setup';return $('#er').textContent=error.message}
+      await boot();if(!me){profErr=profErr||'Setup ran but no profile was found. Make sure adventures_supabase.sql was fully run on this Supabase project.';render()}};return}
   const pend=D.t.filter(x=>x.removal_requested).length;
   const tabs=[['c',`Candidates (${D.c.length})`]];if(mgr())tabs.push(['t',`Team${isO()&&pend?` (${pend}!)`:''}`],['i','Codes']);if(isO())tabs.push(['o','Offers']);
   app.innerHTML=`<div class="meta">${esc(me.full_name)} · <b>${{owner:'Owner',leader:'Team leader',recruiter:'Recruiter'}[me.role]}</b></div><div class="tabs">${tabs.map(x=>`<button data-t="${x[0]}" class="${tab===x[0]?'on':''}">${x[1]}</button>`).join('')}</div><div id="pane"></div>`;
