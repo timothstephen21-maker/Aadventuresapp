@@ -1,293 +1,409 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="brown"><head><meta charset="utf-8">
+<html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#1a0f08">
+<meta name="theme-color" content="#24160e">
 <title>ADVENTURES</title>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
 <style>
-:root,[data-theme=blue]{--bg1:#1b56c9;--bg2:#2a6ee6;--hd:#0b2f7a;--card:#fff;--inp:#fff;--ibd:#c6d4ee;--hov:#eef4ff;--onbg:#e6eeff;--on-bg:#fff;--on-tx:#0b2f7a;--bdg-bg:#e8f0ff;--bdg-bd:#c3d6f7;--logo-bg:#fff;--logo-tx:#0b2f7a;--phover:#0b2f7a;--blue:#1f5fd6;--deep:#0b2f7a;--ink:#0f1f3d;--mu:#5a6b8a;--line:#dbe5f6;--ok:#15803d;--no:#b42318;--sh:#0b2f7a26;--ph:#8fa0bf}
-[data-theme=dark]{--bg1:#03050a;--bg2:#0a1124;--hd:#000;--card:#0e1628;--inp:#0a1120;--ibd:#25365a;--hov:#14213b;--onbg:#a9b8d6;--on-bg:#3b82f6;--on-tx:#fff;--bdg-bg:#142342;--bdg-bd:#26407a;--logo-bg:#3b82f6;--logo-tx:#fff;--phover:#60a5fa;--blue:#3b82f6;--deep:#a8c8ff;--ink:#e8eefc;--mu:#8a9bbd;--line:#1c2a47;--ok:#4ade80;--no:#f87171;--sh:#00000066;--ph:#5d6f93}
-[data-theme=brown]{--bg1:#24160e;--bg2:#4a3222;--hd:#1a0f08;--card:#fbf6ee;--inp:#fff;--ibd:#dccbb4;--hov:#f3e8d6;--onbg:#e8d8c3;--on-bg:#fbf6ee;--on-tx:#4a2c14;--bdg-bg:#f0e3cf;--bdg-bd:#dcc6a3;--logo-bg:#c8995d;--logo-tx:#24160e;--phover:#4a2c14;--blue:#8a5a2b;--deep:#4a2c14;--ink:#2a1c12;--mu:#7a6650;--line:#e6d9c4;--ok:#2f7d4a;--no:#b42318;--sh:#00000044;--ph:#a8977f}
-html{--f:'Inter','Noto Sans Arabic',system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
---f:'Inter',system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
-*{box-sizing:border-box}
-body{margin:0;min-height:100vh;background:linear-gradient(180deg,var(--bg1) 0,var(--bg2) 340px,var(--bg2) 100%);background-attachment:fixed;color:var(--ink);font:15px/1.5 var(--f);-webkit-font-smoothing:antialiased;padding-bottom:50px}
-header{background:var(--hd);color:#fff;padding:16px 22px;display:flex;gap:14px;align-items:center;box-shadow:0 2px 12px #00000055}
-.logo{width:42px;height:42px;border-radius:10px;background:var(--logo-bg);color:var(--logo-tx);display:grid;place-items:center;font:800 22px var(--f)}
-.ttl{flex:1;font-weight:800;font-size:19px;letter-spacing:.14em}.ttl small{display:block;font-weight:500;font-size:11px;opacity:.75;letter-spacing:.06em;text-transform:uppercase;margin-top:2px}
-main{padding:22px 14px;max-width:780px;margin:auto}
-.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:14px;box-shadow:0 6px 20px var(--sh)}
-h2{margin:0 0 12px;font-size:20px;font-weight:700;color:var(--deep);letter-spacing:-.01em}
-label{display:block;color:var(--mu);margin:14px 0 5px;font-size:12px;font-weight:600;letter-spacing:.04em;text-transform:uppercase}
-input,select,textarea{width:100%;background:var(--inp);color:var(--ink);border:1px solid var(--ibd);border-radius:9px;padding:11px 12px;font:inherit}
-input::placeholder,textarea::placeholder{color:var(--ph)}
-input:focus,select:focus,textarea:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px #3b82f640}
-button{font:inherit;font-weight:600;font-size:14px;cursor:pointer;color:#fff;background:transparent;border:1.5px solid #ffffffb0;border-radius:9px;padding:9px 16px;transition:.15s}
-button:hover{background:#ffffff26}
-button:focus-visible{outline:2px solid #fff;outline-offset:2px}
-button:disabled{opacity:.55;cursor:default}
-header button{border-color:#ffffff80}
-.card button{color:var(--blue);border-color:var(--ibd);background:var(--card)}.card button:hover{background:var(--hov);border-color:var(--blue)}
-.card button.p,button.p{background:var(--blue);color:#fff;border-color:var(--blue)}.card button.p:hover{background:var(--phover);border-color:var(--phover);color:#fff}
-.card button.d{color:var(--no);border-color:var(--no)}.card button.d:hover{background:var(--hov)}
-.tabs,.chips{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 14px}
-.tabs{overflow-x:auto;flex-wrap:nowrap;padding-bottom:2px}.tabs button{white-space:nowrap;border-radius:30px;padding:9px 18px}
-.tabs button.on,.chips button.on{background:var(--on-bg);color:var(--on-tx);border-color:var(--on-bg)}
-.chips button{padding:6px 13px;font-size:13px;border-radius:30px}
-.card .chips button.on{background:var(--blue);color:#fff;border-color:var(--blue)}
-.row{display:flex;gap:8px;align-items:center;justify-content:space-between;flex-wrap:wrap}
-.meta{color:var(--mu);font-size:13px;margin:5px 0}.meta a{color:var(--blue);font-weight:600}
-main>.meta,#app>.meta{color:var(--onbg)}
-.badge{padding:3px 11px;border-radius:20px;font-size:12px;font-weight:600;background:var(--bdg-bg);color:var(--deep);border:1px solid var(--bdg-bd)}
-.badge.Accepted,.badge.Hired{color:var(--ok);border-color:var(--ok)}.badge.Rejected{color:var(--no);border-color:var(--no)}.badge.warn{background:#fff4d6;color:#8a5a00;border-color:#f0d58a}
-.det{border-top:1px solid var(--line);margin-top:12px;padding-top:6px}.det div{display:flex;gap:10px;padding:7px 0;border-bottom:1px solid var(--line)}.det b{min-width:130px;color:var(--mu);font-weight:600;font-size:13px}.det span{flex:1;overflow-wrap:anywhere}
-audio{width:100%;margin:10px 0}
-.msg{color:var(--no);margin:8px 0;min-height:1em;font-size:14px}
-.or{text-align:center;color:var(--mu);margin:12px 0 0;font-size:12px;text-transform:uppercase;letter-spacing:.1em}
-.kid{margin-inline-start:16px;border-inline-start:3px solid var(--ibd);padding-inline-start:12px}
-.empty{color:var(--onbg);text-align:center;padding:30px}
-.card .empty{color:var(--mu)}
-#toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:var(--card);color:var(--ink);padding:10px 20px;border-radius:30px;font-weight:600;box-shadow:0 6px 20px #0b2f7a55;display:none;z-index:50}
-.cc{cursor:pointer;transition:.15s}.cc:hover{transform:translateY(-1px)}
-.cc>.row b{font-size:16px;font-weight:700}
-#sr,#on{background:var(--inp)}
-input,select,textarea{max-width:100%;min-width:0}
-[dir=rtl] label,[dir=rtl] .ttl small,[dir=rtl] .or{letter-spacing:0;text-transform:none}
-
-/* ---------- Mobile ---------- */
-html{-webkit-tap-highlight-color:transparent;-webkit-text-size-adjust:100%}
-button:active{transform:scale(.97)}
-@media (max-width:640px){
-  body{font-size:15px;padding-bottom:calc(86px + env(safe-area-inset-bottom))}
-  header{position:sticky;top:0;z-index:20;padding:10px 14px;padding-top:calc(10px + env(safe-area-inset-top));gap:10px}
-  .logo{width:36px;height:36px;border-radius:9px;font-size:19px}
-  .ttl{font-size:16px;letter-spacing:.1em}.ttl small{font-size:10px}
-  header button{padding:7px 12px;font-size:13px;min-height:36px}
-  main{padding:14px 12px}
-  .card{padding:15px;border-radius:14px;margin-bottom:12px}
-  h2{font-size:19px}
-  label{margin:16px 0 6px}
-  input,select,textarea{font-size:16px;padding:13px 12px;min-height:48px;border-radius:10px}
-  textarea{min-height:84px}
-  button{min-height:46px;padding:10px 16px}
-  /* tabs become a bottom navigation bar */
-  .tabs{position:fixed;left:0;right:0;bottom:0;z-index:30;margin:0;gap:0;flex-wrap:nowrap;overflow:visible;background:var(--hd);border-top:1px solid #ffffff22;padding:6px 6px calc(6px + env(safe-area-inset-bottom));box-shadow:0 -4px 18px #00000066}
-  .tabs button{flex:1;min-width:0;min-height:52px;border:0;border-radius:12px;padding:6px 2px;font-size:12px;line-height:1.2;color:#ffffffb3;background:transparent;white-space:normal;text-align:center}
-  .tabs button.on{background:#ffffff1f;color:#fff;box-shadow:inset 0 -3px 0 var(--logo-bg)}
-  /* filter chips: one swipeable row */
-  #pane>.chips{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;margin-inline:-12px;padding:2px 12px 6px;scrollbar-width:none}
-  #pane>.chips::-webkit-scrollbar{display:none}
-  #pane>.chips button{flex:0 0 auto;min-height:40px;padding:8px 15px}
-  #xl{width:100%}
-  /* candidate card */
-  .cc{padding:14px}
-  .cc>.row{flex-wrap:nowrap;align-items:flex-start}
-  .cc>.row b{font-size:16px;overflow-wrap:anywhere}
-  .det div{flex-direction:column;gap:1px;padding:9px 0}
-  .det b{min-width:0;font-size:12px;text-transform:uppercase;letter-spacing:.04em}
-  .card .chips{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-  .card .chips button{min-height:44px;font-size:14px}
-  .card .chips:has(#rc){display:block}#rc{width:100%}
-  .dl{width:100%;margin-top:10px}
-  /* forms: full-width actions */
-  #sv,#cx,#ad,#gi,#oa,#go,#sw{width:100%}#cx,#sw{margin-top:8px}
-  .card>.row[style*="nowrap"]{flex-direction:column;align-items:stretch}
-  .row>span>button{min-height:42px}
-  .kid{margin-inline-start:8px;padding-inline-start:8px}
-  #toast{bottom:calc(92px + env(safe-area-inset-bottom));left:12px;right:12px;transform:none;text-align:center}
-  .meta{font-size:13px}
-}
-@media (max-width:360px){.ttl{font-size:14px}.tabs button{font-size:11px}}
+:root{--bar:#24160e;--ac:#8a5a2b;--ac2:#c8995d;--bg:#fbf7f0;--ink:#2a1c12;--mu:#7d6a55;--line:#ece1cf;--soft:#f3eadb;--ok:#2f7d4a;--no:#b42318;--d:1;--f:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif}
+[dir=rtl]{--d:-1}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+[hidden]{display:none!important}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 var(--f);-webkit-font-smoothing:antialiased}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer;border:0;background:none;padding:0}
+svg{display:block}
+/* top bar */
+#bar{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:4px;background:var(--bar);color:#fff;padding:calc(8px + env(safe-area-inset-top)) 8px 8px 8px;min-height:56px}
+#ttl{flex:1;margin:0 4px;font-size:17px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ib{position:relative;width:42px;height:42px;border-radius:50%;display:grid;place-items:center;color:#fff}
+.ib:active{background:#ffffff22}
+.logo{width:32px;height:32px;margin:0 6px;border-radius:9px;background:var(--ac2);color:var(--bar);display:grid;place-items:center;font-weight:800;font-size:18px}
+#bc{position:absolute;top:2px;inset-inline-end:0;min-width:18px;height:18px;padding:0 5px;border-radius:9px;background:#e5484d;color:#fff;font:700 11px/18px var(--f);text-align:center;font-style:normal}
+.ring svg{animation:ring .6s}
+@keyframes ring{20%{transform:rotate(14deg)}40%{transform:rotate(-12deg)}60%{transform:rotate(8deg)}80%{transform:rotate(-4deg)}}
+/* page */
+#app{max-width:640px;margin:0 auto;padding:6px 16px 30px}
+.a-f{animation:inF .2s ease-out}.a-b{animation:inB .2s ease-out}.a-r{animation:fade .15s}
+@keyframes inF{from{opacity:.3;transform:translateX(calc(var(--d)*26px))}}
+@keyframes inB{from{opacity:.3;transform:translateX(calc(var(--d)*-26px))}}
+@keyframes fade{from{opacity:.4}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+.mu{color:var(--mu)}
+[dir=rtl] .flip{transform:scaleX(-1)}
+/* fields: underline style, no boxes */
+.f{margin:14px 0}
+.f label{display:block;font-size:12px;font-weight:600;color:var(--mu);letter-spacing:.03em;margin-bottom:2px}
+.f input,.f select,.f textarea{width:100%;border:0;border-bottom:1.5px solid var(--line);border-radius:0;background:transparent;padding:10px 0;font-size:16px;outline:0;-webkit-appearance:none;appearance:none}
+.f input:focus,.f select:focus,.f textarea:focus{border-bottom-color:var(--ac)}
+.f textarea{resize:none;min-height:72px}
+input[type=search]{background:var(--soft)!important;border:0!important;border-radius:12px!important;padding:12px 14px!important}
+input::placeholder,textarea::placeholder{color:#a8977f}
+/* buttons */
+.btn{display:block;width:100%;background:var(--ac);color:#fff;font-weight:600;padding:14px;border-radius:12px;text-align:center}
+.btn:active{opacity:.85}.btn:disabled{opacity:.5}
+.btn.ghost{background:var(--soft);color:var(--ac)}.btn.dng{background:#fde9e7;color:var(--no)}.btn.sm{padding:9px 14px;width:auto;display:inline-block}
+.gh{color:var(--ac);font-weight:600;padding:6px 2px}
+.link{color:var(--ac);font-weight:600}
+.ch{flex:0 0 auto;background:var(--soft);padding:8px 14px;border-radius:30px;font-size:14px;font-weight:500;white-space:nowrap}
+.ch.on{background:var(--ac);color:#fff}
+.cr{display:flex;gap:8px;overflow-x:auto;margin:10px -16px;padding:2px 16px;scrollbar-width:none;-webkit-overflow-scrolling:touch}.cr::-webkit-scrollbar{display:none}
+.cr.wrap{flex-wrap:wrap;overflow:visible;margin:8px 0;padding:0}
+.tb{display:flex;justify-content:space-between;align-items:center;font-size:13px;margin:2px 0 0}
+/* lists: rows with hairlines instead of boxes */
+.li{display:flex;align-items:center;gap:12px;padding:13px 0;border-bottom:1px solid var(--line);cursor:pointer}
+.li:active{background:var(--soft)}
+.av{flex:0 0 42px;height:42px;border-radius:50%;background:var(--soft);color:var(--ac);display:grid;place-items:center;font-weight:700;font-size:17px;font-style:normal}
+.av.lg{width:68px;height:68px;flex-basis:68px;font-size:28px}
+.tx{flex:1;min-width:0}.tx b{display:block;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.tx b.nb{white-space:normal;font-weight:500}
+.tx small{display:block;color:var(--mu);font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.li>svg{color:#c9b89c;flex:0 0 auto}
+.st{font-size:12px;font-weight:600;padding:3px 10px;border-radius:20px;white-space:nowrap;background:var(--soft);color:var(--mu)}
+.s-Accepted,.s-Hired{color:var(--ok);background:#e3f3e8}.s-Rejected{color:var(--no);background:#fde9e7}
+.s-Interview,.s-Contacted{color:#7a4a12;background:#f6e6cf}.s-OnHold,.warn{color:#8a6d00;background:#fbf0c8}
+.dot{flex:0 0 9px;height:9px;border-radius:50%;background:var(--ac)}.dot.off{background:transparent}
+.empty{text-align:center;color:var(--mu);padding:44px 10px}
+.sh{font-size:12px;font-weight:700;color:var(--mu);text-transform:uppercase;letter-spacing:.06em;margin:24px 0 6px}
+[dir=rtl] .sh,[dir=rtl] .f label{letter-spacing:0;text-transform:none}
+.kv{display:flex;justify-content:space-between;gap:18px;padding:11px 0;border-bottom:1px solid var(--line)}
+.kv span:first-child{color:var(--mu);flex:0 0 auto}.kv span:last-child{text-align:end;overflow-wrap:anywhere}
+.hero{display:flex;align-items:center;gap:14px;padding:12px 0 4px}
+.hero h2{margin:0 0 4px;font-size:21px;line-height:1.2}
+.note{background:var(--soft);border-radius:12px;padding:12px 14px;margin:14px 0;font-size:14px}
+.note .btn{margin:10px 8px 0 0}
+.acts3{display:grid;gap:10px;margin-top:26px}
+audio{width:100%;margin:6px 0}
+.post{padding:16px 0;border-bottom:1px solid var(--line);cursor:pointer}
+.post .hd{display:flex;gap:10px;align-items:center;margin-bottom:8px}.post .hd b{display:block;line-height:1.1}.post .hd small{color:var(--mu)}
+.post p{margin:0;white-space:pre-wrap;overflow-wrap:anywhere}.post .cl{display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
+.post .ft{margin-top:8px;color:var(--ac);font-size:13px;font-weight:600}
+.cm{padding:12px 0;border-bottom:1px solid var(--line)}.cm b{font-size:14px}.cm small{color:var(--mu);margin-inline-start:6px}.cm p{margin:3px 0 0;white-space:pre-wrap;overflow-wrap:anywhere}
+.cm .x{float:inline-end;color:var(--mu);padding:0 6px}
+/* bottom nav + fab + sticky bars */
+#nav{position:fixed;left:0;right:0;bottom:0;z-index:20;display:flex;background:var(--bg);border-top:1px solid var(--line);padding:6px 4px calc(6px + env(safe-area-inset-bottom))}
+#nav button{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 2px;font-size:11px;font-weight:600;color:var(--mu);border-radius:10px}
+#nav button.on{color:var(--ac)}
+.fab{position:fixed;inset-inline-end:18px;bottom:calc(78px + env(safe-area-inset-bottom));z-index:15;width:56px;height:56px;border-radius:50%;background:var(--ac);color:#fff;display:grid;place-items:center;box-shadow:0 4px 14px #8a5a2b66}
+#bar2{position:fixed;left:0;right:0;bottom:0;z-index:20;background:var(--bg);border-top:1px solid var(--line);padding:10px 16px calc(10px + env(safe-area-inset-bottom))}
+#bar2 .row{display:flex;gap:10px;align-items:center}#bar2 .row>.btn{flex:1}
+.dots{display:flex;gap:6px;justify-content:center;margin-bottom:10px}.dots i{width:7px;height:7px;border-radius:4px;background:var(--line)}.dots i.on{width:22px;background:var(--ac)}
+.cbox{flex:1;border:0;background:var(--soft);border-radius:22px;padding:11px 16px;font-size:16px;outline:0}
+.send{width:44px;height:44px;border-radius:50%;background:var(--ac);color:#fff;display:grid;place-items:center;flex:0 0 44px}
+.vc{display:flex;flex-direction:column;align-items:center;gap:10px;padding:22px 0 8px}
+.mic{width:84px;height:84px;border-radius:50%;background:var(--soft);color:var(--ac);display:grid;place-items:center}.mic.rec{background:var(--no);color:#fff;animation:pulse 1.2s infinite}
+@keyframes pulse{50%{transform:scale(1.08)}}
+/* top banner notification */
+#toast{position:fixed;top:calc(8px + env(safe-area-inset-top));left:12px;right:12px;max-width:520px;margin:auto;z-index:50;background:#2a1c12;color:#fff;border-radius:14px;padding:12px 16px;display:flex;gap:10px;align-items:center;font-size:14px;font-weight:500;box-shadow:0 8px 24px #0006;transform:translateY(-140%);transition:transform .25s;pointer-events:none}
+#toast.on{transform:none;pointer-events:auto}#toast svg{color:var(--ac2);flex:0 0 auto}
+/* sign in */
+body.auth{background:var(--bar)}body.auth #app{max-width:none;padding:0;min-height:100vh;display:flex;flex-direction:column}
+.atop{padding:calc(56px + env(safe-area-inset-top)) 28px 30px;color:#fff}.atop .logo{width:54px;height:54px;border-radius:16px;font-size:30px;margin:0 0 18px}
+.atop h1{margin:0;font-size:26px;letter-spacing:.16em}.atop p{margin:6px 0 0;opacity:.7;font-size:14px}
+.sheet{flex:1;background:var(--bg);border-radius:28px 28px 0 0;padding:26px 24px 40px}.sheet h2{margin:0 0 6px;font-size:22px}
+.msg{color:var(--no);font-size:14px;min-height:20px;margin:10px 0}
+.center{text-align:center;margin-top:18px;font-size:14px;color:var(--mu)}
 </style></head><body>
-<header><div class="logo">A</div><div class="ttl">ADVENTURES<small>Recruitment Agency</small></div><button id="lg">العربية</button><button id="lo" hidden>Log out</button></header>
-<main id="app"></main><div id="toast"></div>
+<header id="bar" hidden>
+  <button class="ib" id="bk" hidden aria-label="Back"></button><div class="logo" id="logo">A</div>
+  <h1 id="ttl"></h1>
+  <button class="ib" id="bl" aria-label="Notifications"></button>
+  <button class="ib" id="ac" aria-label="Account"></button>
+</header>
+<main id="app"></main>
+<nav id="nav" hidden></nav>
+<button class="fab" id="fab" hidden aria-label="Add"></button>
+<div id="bar2" hidden></div>
+<div id="toast"></div>
 <script>
 /* PASTE your Supabase Project URL + anon/public key (Project Settings > API). Never the service_role key. */
 const SB_URL='https://kqxsgqfhxoyzwzzhnuhs.supabase.co',SB_KEY='sb_publishable_lf-fPiWAIn4RCdNyqhlaeA_4-aN2NRF';
-const $=s=>document.querySelector(s),app=$('#app');
-if(!/^https:\/\/[^ ]+\.supabase\.co/.test(SB_URL)||SB_KEY.startsWith('YOUR_')){app.innerHTML='<div class="card"><h2>Setup needed</h2><p class="meta">Open index.html, paste your Supabase URL and anon key into SB_URL and SB_KEY, save, refresh.</p></div>';throw 0}
+const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
+if(!/^https:\/\/[^ ]+\.supabase\.co/.test(SB_URL)||SB_KEY.startsWith('YOUR_')){$('#app').innerHTML='<div style="padding:24px"><h2>Setup needed</h2><p>Open index.html and paste your Supabase URL and anon key into SB_URL and SB_KEY.</p></div>';throw 0}
 const sb=supabase.createClient(SB_URL,SB_KEY),BUCKET='voice-notes';
-const ST=['New','Accepted','Rejected','Interview','Contacted','Hired','On Hold'];
+const ST=['New','Accepted','Rejected','Interview','Contacted','Hired','On Hold'],POST=['Interview','Contacted','Hired','On Hold'],VAL=['Accepted','Interview','Contacted','Hired','On Hold'];
+const slug=s=>String(s).replace(/\s/g,''),ini=n=>(n||'?').trim().charAt(0).toUpperCase();
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const toast=m=>{const e=$('#toast');e.textContent=m;e.style.display='block';clearTimeout(toast.h);toast.h=setTimeout(()=>e.style.display='none',2600)};
-let profErr='',me=null,sess=null,tab='c',flt='All',q='',showForm=false,openId=null,authMode='in',D={c:[],t:[],i:[],o:[]},recBlob=null,rec=null;
-const isO=()=>me?.role==='owner',isL=()=>me?.role==='leader',mgr=()=>isO()||isL();
-const MAXV=10*1024*1024,VEXT=['ogg','oga','opus','mp3','m4a','mp4','wav','webm','aac','3gp','amr'];
-const parseVocaroo=raw=>{let s=String(raw||'').trim();if(!s)return null;if(!/^https?:\/\//i.test(s))s='https://'+s;let u;try{u=new URL(s)}catch{return null}const h=u.hostname.toLowerCase().replace(/^www\./,'');if(h!=='vocaroo.com'&&h!=='voca.ro')return null;const m=u.pathname.match(/^\/(?:embed\/|i\/)?([a-z0-9]+)\/?$/i);return m&&m[1].length>=6?{id:m[1],url:'https://vocaroo.com/'+m[1]}:null};
-const voiceHTML=c=>c.voice_url?`<audio controls preload="none" src="${esc(c.voice_url)}"></audio>`:(()=>{const v=parseVocaroo(c.voice_link);return v?`<div class="meta"><a href="${esc(v.url)}" target="_blank" rel="noopener">Open voice note on Vocaroo</a></div><audio controls preload="none" src="https://media.vocaroo.com/mp3/${esc(v.id)}" onerror="this.style.display='none'"></audio>`:''})();
-
+/* icons */
+const I={back:'<path d="M15 5l-7 7 7 7"/>',chev:'<path d="M9 5l7 7-7 7"/>',bell:'<path d="M6 17v-6a6 6 0 1112 0v6l1.5 2h-15zM10 21h4"/>',plus:'<path d="M12 5v14M5 12h14"/>',send:'<path d="M4 12l16-8-6 16-3-7z"/>',
+users:'<circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.5 2.7-6 6-6s6 2.5 6 6M16 5.5a3 3 0 010 6M18 14.5c2 .6 3.5 2.5 3.5 5.5"/>',
+tree:'<circle cx="12" cy="5" r="2.2"/><circle cx="6" cy="18" r="2.2"/><circle cx="18" cy="18" r="2.2"/><path d="M12 7.2V12M6 15.8V12h12v3.8"/>',
+news:'<path d="M5 5h11v14H7a2 2 0 01-2-2zM16 9h3v8a2 2 0 01-2 2M8 9h5M8 13h5"/>',key:'<circle cx="8" cy="12" r="3.5"/><path d="M11.5 12H21M17 12v3M20 12v2"/>',
+tag:'<path d="M3 12V4h8l10 10-8 8z"/><circle cx="7.5" cy="8.5" r="1"/>',mic:'<rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0014 0M12 18v3"/>',user:'<circle cx="12" cy="8" r="3.5"/><path d="M5 20c0-4 3-6 7-6s7 2 7 6"/>'};
+const ic=(n,s=22,c='')=>`<svg class="${c}" width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${I[n]}</svg>`;
 /* ---------- English / Arabic ---------- */
-const AR={"Log out": "تسجيل الخروج", "Recruitment Agency": "وكالة توظيف", "Log in": "تسجيل الدخول", "Sign up": "إنشاء حساب", "Email": "البريد الإلكتروني", "Password": "كلمة المرور", "Finish setup": "إكمال الإعداد", "Full name": "الاسم الكامل", "Access code": "رمز الدخول", "Leave the code empty only if you are the very first account (the owner). Team leaders use the code from the owner; recruiters use the code from their team leader.": "اترك الرمز فارغًا فقط إذا كنت أول حساب (المالك). يستخدم قادة الفرق الرمز الذي يعطيه المالك، ويستخدم المجندون الرمز الذي يعطيه قائد فريقهم.", "Name required": "الاسم مطلوب", "Enter your email and a password of at least 6 characters": "أدخل بريدك الإلكتروني وكلمة مرور من 6 أحرف على الأقل", "Owner": "المالك", "Team leader": "قائد الفريق", "Recruiter": "مجند", "Candidates": "المرشحون", "Team": "الفريق", "Codes": "الرموز", "Offers": "العروض", "+ Add candidate": "+ إضافة مرشح", "Search name, phone, language, recruiter": "ابحث بالاسم أو الهاتف أو اللغة أو المجند", "All": "الكل", "New": "جديد", "Accepted": "مقبول", "Rejected": "مرفوض", "Interview": "مقابلة", "Contacted": "تم التواصل", "Hired": "تم التعيين", "On Hold": "معلّق", "Export to Excel": "تصدير إلى Excel", "New candidate": "مرشح جديد", "Triple name": "الاسم الثلاثي", "Phone number": "رقم الهاتف", "Gmail": "جيميل", "Nationality": "الجنسية", "Cairo or Alex site": "الفرع: القاهرة أو الإسكندرية", "Choose…": "اختر…", "Cairo": "القاهرة", "Alex": "الإسكندرية", "Language you applied for": "اللغة المتقدم لها", "Age": "العمر", "College": "الكلية", "Grad or Undergrad": "خريج أو طالب", "Grad": "خريج", "Undergrad": "طالب", "Military status": "الموقف من التجنيد", "Completed": "أدّى الخدمة", "Exempted": "معفى", "Postponed": "مؤجّل", "Not applicable": "لا ينطبق", "Experience in call center / telesales / cold calling (if any)": "الخبرة في الكول سنتر / التيليسيلز / الاتصال البارد (إن وجدت)", "Offer (optional)": "العرض (اختياري)", "Voice note — record, upload, or paste a Vocaroo link": "ملاحظة صوتية: سجّل أو ارفع ملفًا أو الصق رابط Vocaroo", "Record": "تسجيل", "Re-record": "إعادة التسجيل", "Stop recording": "إيقاف التسجيل", "or": "أو", "Submit candidate": "إرسال المرشح", "Cancel": "إلغاء", "Uploading…": "جارٍ الرفع…", "Open voice note on Vocaroo": "فتح الملاحظة الصوتية على Vocaroo", "Move to:": "نقل إلى:", "Delete": "حذف", "Phone": "الهاتف", "Site": "الفرع", "Language": "اللغة", "Grad / Undergrad": "خريج / طالب", "Experience": "الخبرة", "Offer": "العرض", "Enter the triple name (three names)": "أدخل الاسم الثلاثي", "Enter a valid phone number (10–15 digits)": "أدخل رقم هاتف صحيحًا (10–15 رقمًا)", "Enter a valid Gmail address": "أدخل عنوان جيميل صحيحًا", "Nationality is required": "الجنسية مطلوبة", "Choose Cairo or Alex": "اختر القاهرة أو الإسكندرية", "Language is required": "اللغة مطلوبة", "Age must be between 16 and 70": "العمر يجب أن يكون بين 16 و70", "College is required": "الكلية مطلوبة", "Choose Grad or Undergrad": "اختر خريج أو طالب", "Choose military status": "اختر الموقف من التجنيد", "Add a voice note: record, upload or Vocaroo link": "أضف ملاحظة صوتية: تسجيل أو رفع أو رابط Vocaroo", "That is not a valid Vocaroo link": "رابط Vocaroo غير صحيح", "Voice file is too large (max 10 MB)": "الملف الصوتي كبير جدًا (الحد الأقصى 10 ميجابايت)", "Unsupported voice file type": "نوع الملف الصوتي غير مدعوم", "Microphone access was blocked": "تم حظر الوصول إلى الميكروفون", "Candidate submitted": "تم إرسال المرشح", "Moved to": "تم النقل إلى", "Nothing to export": "لا توجد بيانات للتصدير", "Delete this candidate?": "حذف هذا المرشح؟", "Confirm removal": "تأكيد الإزالة", "Keep": "إبقاء", "Awaiting owner confirmation": "بانتظار تأكيد المالك", "Request removal": "طلب إزالة", "Remove": "إزالة", "Last upload": "آخر رفع", "never": "أبدًا", "inactive 14+ days": "غير نشط منذ 14 يومًا أو أكثر", "No recruiters yet": "لا يوجد مجندون بعد", "No team leaders yet — create a code in “Codes”.": "لا يوجد قادة فرق بعد، أنشئ رمزًا من «الرموز».", "No recruiters yet — create a code in “Codes”.": "لا يوجد مجندون بعد، أنشئ رمزًا من «الرموز».", "Ask the owner to remove this recruiter?": "هل تريد أن تطلب من المالك إزالة هذا المجند؟", "Request sent to the owner": "تم إرسال الطلب إلى المالك", "Remove this member?": "إزالة هذا العضو؟", "Generate team leader code": "إنشاء رمز قائد فريق", "Generate recruiter code": "إنشاء رمز مجند", "Leader": "قائد", "Used": "مستخدم", "Unused": "غير مستخدم", "Copy": "نسخ", "Copied": "تم النسخ", "Offer name": "اسم العرض", "Add": "إضافة", "On": "مفعّل", "Off": "متوقف", "No offers yet.": "لا توجد عروض بعد.", "Delete this offer?": "حذف هذا العرض؟"};
+const AR={'Log out':'تسجيل الخروج','Recruitment Agency':'وكالة توظيف','Log in':'تسجيل الدخول','Sign up':'إنشاء حساب','Email':'البريد الإلكتروني','Password':'كلمة المرور','Finish setup':'إكمال الإعداد','Full name':'الاسم الكامل','Access code':'رمز الدخول',
+'Welcome back':'مرحبًا بعودتك','Create your account':'أنشئ حسابك','No account? Sign up':'ليس لديك حساب؟ أنشئ حسابًا','Have an account? Log in':'لديك حساب؟ سجّل الدخول','Almost there':'اقتربنا من الانتهاء','Enter your name to continue.':'أدخل اسمك للمتابعة.',
+'Leave the code empty only if you are the very first account (the owner). Team leaders use the code from the owner; recruiters use the code from their team leader.':'اترك الرمز فارغًا فقط إذا كنت أول حساب (المالك). يستخدم قادة الفرق الرمز الذي يعطيه المالك، ويستخدم المجندون الرمز الذي يعطيه قائد فريقهم.',
+'Name required':'الاسم مطلوب','Enter your email and a password of at least 6 characters':'أدخل بريدك الإلكتروني وكلمة مرور من 6 أحرف على الأقل','Saving…':'جارٍ الحفظ…',
+'Owner':'المالك','Team leader':'قائد الفريق','Recruiter':'مجند','Candidates':'المرشحون','Team':'الفريق','News':'الأخبار','Codes':'الرموز','Offers':'العروض','Candidate':'مرشح','Account':'الحساب','Notifications':'الإشعارات','Post':'نشر','Language':'اللغة','Your team':'فريقك',
+'Search name, phone, language, recruiter':'ابحث بالاسم أو الهاتف أو اللغة أو المجند','All':'الكل','New':'جديد','Accepted':'مقبول','Rejected':'مرفوض','Interview':'مقابلة','Contacted':'تم التواصل','Hired':'تم التعيين','On Hold':'معلّق',
+'candidates':'مرشحين','candidate':'مرشح','recruiters':'مجندين','recruiter':'مجند','comments':'تعليقات','comment':'تعليق','Comments':'التعليقات',
+'Export to Excel':'تصدير إلى Excel','No candidates yet':'لا يوجد مرشحون بعد','Tap + to add the first one.':'اضغط + لإضافة أول مرشح.',
+'Validation':'التحقق','Move to':'نقل إلى','Waiting for owner validation':'بانتظار تحقق المالك','Edit':'تعديل','Delete candidate':'حذف المرشح','Request deletion':'طلب حذف','Deletion requested':'تم طلب الحذف','Deletion requested — waiting for your team leader':'تم طلب الحذف، بانتظار قائد فريقك','Approve':'موافقة','Decline':'رفض',
+'Delete this candidate?':'حذف هذا المرشح؟','Request deletion of this candidate?':'طلب حذف هذا المرشح؟','Deletion request sent':'تم إرسال طلب الحذف','Request declined':'تم رفض الطلب','Saved':'تم الحفظ','Deleted':'تم الحذف','You do not have permission to delete this candidate':'ليست لديك صلاحية حذف هذا المرشح','Voice note':'ملاحظة صوتية','Details':'التفاصيل','Open voice note on Vocaroo':'فتح الملاحظة الصوتية على Vocaroo',
+'New candidate':'مرشح جديد','Edit candidate':'تعديل المرشح','Triple name':'الاسم الثلاثي','Phone number':'رقم الهاتف','Gmail':'جيميل','Nationality':'الجنسية','Cairo or Alex site':'الفرع: القاهرة أو الإسكندرية','Cairo':'القاهرة','Alex':'الإسكندرية','Language you applied for':'اللغة المتقدم لها','Age':'العمر','College':'الكلية','Grad or Undergrad':'خريج أو طالب','Grad':'خريج','Undergrad':'طالب','Military status':'الموقف من التجنيد','Completed':'أدّى الخدمة','Exempted':'معفى','Postponed':'مؤجّل','Not applicable':'لا ينطبق',
+'Experience in call center / telesales / cold calling (if any)':'الخبرة في الكول سنتر / التيليسيلز / الاتصال البارد (إن وجدت)','Offer (optional)':'العرض (اختياري)','Next':'التالي','Back':'رجوع','Save changes':'حفظ التعديلات','Submit candidate':'إرسال المرشح','Uploading…':'جارٍ الرفع…',
+'Tap to record':'اضغط للتسجيل','Tap to stop':'اضغط للإيقاف','Upload file':'رفع ملف','Or paste a Vocaroo link':'أو الصق رابط Vocaroo','Selected file':'الملف المختار','Recorded':'تم التسجيل',
+'Phone':'الهاتف','Site':'الفرع','Experience':'الخبرة','Offer':'العرض','Recruiter':'مجند',
+'Enter the triple name (three names)':'أدخل الاسم الثلاثي','Enter a valid phone number (10–15 digits)':'أدخل رقم هاتف صحيحًا (10–15 رقمًا)','Enter a valid Gmail address':'أدخل عنوان جيميل صحيحًا','Nationality is required':'الجنسية مطلوبة','Choose Cairo or Alex':'اختر القاهرة أو الإسكندرية','Language is required':'اللغة مطلوبة','Age must be between 16 and 70':'العمر يجب أن يكون بين 16 و70','College is required':'الكلية مطلوبة','Choose Grad or Undergrad':'اختر خريج أو طالب','Choose military status':'اختر الموقف من التجنيد','Add a voice note: record, upload or Vocaroo link':'أضف ملاحظة صوتية: تسجيل أو رفع أو رابط Vocaroo','That is not a valid Vocaroo link':'رابط Vocaroo غير صحيح','Voice file is too large (max 10 MB)':'الملف الصوتي كبير جدًا (الحد الأقصى 10 ميجابايت)','Unsupported voice file type':'نوع الملف الصوتي غير مدعوم','Microphone access was blocked':'تم حظر الوصول إلى الميكروفون','Nothing to export':'لا توجد بيانات للتصدير','Preparing Excel…':'جارٍ تجهيز ملف Excel…',
+'Team candidates':'مرشحو الفريق','Recruiters':'المجندون','Remove team leader':'إزالة قائد الفريق','Remove':'إزالة','Confirm removal':'تأكيد الإزالة','Keep':'إبقاء','Request removal':'طلب إزالة','Awaiting owner confirmation':'بانتظار تأكيد المالك','Last upload':'آخر رفع','never':'أبدًا','inactive 14+ days':'غير نشط منذ 14 يومًا أو أكثر','removal pending':'إزالة قيد الانتظار',
+'No team leaders yet — create a code in “Codes”.':'لا يوجد قادة فرق بعد، أنشئ رمزًا من «الرموز».','No recruiters yet — create a code in “Codes”.':'لا يوجد مجندون بعد، أنشئ رمزًا من «الرموز».','Ask the owner to remove this recruiter?':'هل تريد أن تطلب من المالك إزالة هذا المجند؟','Request sent to the owner':'تم إرسال الطلب إلى المالك','Remove this member?':'إزالة هذا العضو؟','Removed':'تمت الإزالة',
+'Share an update…':'شارك تحديثًا…','Write a comment…':'اكتب تعليقًا…','No posts yet':'لا توجد منشورات بعد','No comments yet':'لا توجد تعليقات بعد','Delete this post?':'حذف هذا المنشور؟','Delete post':'حذف المنشور','Delete this comment?':'حذف هذا التعليق؟','News is not set up yet. Run adventures_update.sql in Supabase.':'لم يتم إعداد الأخبار بعد. شغّل ملف adventures_update.sql في Supabase.','No notifications yet':'لا توجد إشعارات بعد',
+'Generate team leader code':'إنشاء رمز قائد فريق','Generate recruiter code':'إنشاء رمز مجند','Leader':'قائد','Used':'مستخدم','Unused':'غير مستخدم','Copied':'تم النسخ','Tap a code to copy it':'اضغط على الرمز لنسخه','Offer name':'اسم العرض','Add':'إضافة','On':'مفعّل','Off':'متوقف','No offers yet.':'لا توجد عروض بعد.','Delete this offer?':'حذف هذا العرض؟','Delete':'حذف','Email address':'البريد الإلكتروني'};
+const NT=[[/^New candidate: (.+) by (.*)$/,(a,b)=>`مرشح جديد: ${a} بواسطة ${b}`],[/^(.+) is now (.+)$/,(a,b)=>`${a} أصبح: ${AR[b]||b}`],[/^Deletion requested: (.+)$/,a=>`طلب حذف: ${a}`],[/^New post: (.+)$/,a=>`منشور جديد: ${a}`],[/^(.+) commented: (.+)$/,(a,b)=>`${a} علّق: ${b}`],[/^Removal requested: (.+)$/,a=>`طلب إزالة: ${a}`],[/^(.+) joined the team$/,a=>`${a} انضم إلى الفريق`]];
 function conv(t){
   if(AR[t])return AR[t];
+  for(const[r,f]of NT){const m=t.match(r);if(m)return f(m[1],m[2])}
   if(t.includes(' · ')){const p=t.split(' · '),q=p.map(conv);if(q.some((x,i)=>x!==p[i]))return q.join(' · ')}
   let m=t.match(/^(.+?)\s*\(([^)]*)\)$/);if(m&&AR[m[1]])return AR[m[1]]+' ('+m[2]+')';
   m=t.match(/^(.+?):\s*(.*)$/);if(m&&AR[m[1]])return AR[m[1]]+': '+(AR[m[2]]||m[2]);
+  m=t.match(/^(\d+)\s+(.+)$/);if(m&&AR[m[2]])return m[1]+' '+AR[m[2]];
   m=t.match(/^(.+?)\s+(\d+)$/);if(m&&AR[m[1]])return AR[m[1]]+' '+m[2];
-  m=t.match(/^Moved to (.+)$/);if(m)return AR['Moved to']+' '+(AR[m[1]]||m[1]);
   return t}
-let lang=localStorage.getItem('adv-lang')||'en';const orig=new WeakMap();
-function trNode(n){const v=n.nodeValue,t=v.trim();if(!t)return;const c=conv(t);if(c!==t){if(!orig.has(n))orig.set(n,v);n.nodeValue=v.replace(t,c)}}
-function trTree(root){
-  if(lang!=='ar')return;
-  if(root.nodeType===3){trNode(root);return}
-  if(root.nodeType!==1)return;
-  const w=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);let n;
-  while(n=w.nextNode()){const p=n.parentNode.nodeName;if(p!=='SCRIPT'&&p!=='STYLE')trNode(n)}
-  [root,...root.querySelectorAll('[placeholder]')].forEach(e=>{const p=e.getAttribute&&e.getAttribute('placeholder');if(p&&AR[p])e.setAttribute('placeholder',AR[p])});
-}
-new MutationObserver(ms=>ms.forEach(m=>{m.addedNodes.forEach(trTree);if(m.type==='characterData'&&lang==='ar')trNode(m.target)})).observe(document.body,{childList:true,subtree:true,characterData:true});
-const _confirm=window.confirm.bind(window);window.confirm=m=>_confirm(lang==='ar'?conv(m):m);
-function setLang(l,again=true){
-  lang=l;try{localStorage.setItem('adv-lang',l)}catch{}
-  document.documentElement.lang=l;document.documentElement.dir=l==='ar'?'rtl':'ltr';$('#lg').textContent=l==='ar'?'English':'العربية';
-  if(l==='en'){const w=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);let n;while(n=w.nextNode())if(orig.has(n)){n.nodeValue=orig.get(n);orig.delete(n)}}else trTree(document.body);
-  if(again)render()}
-$('#lg').onclick=()=>setLang(lang==='ar'?'en':'ar');
-setLang(lang,false);
-$('#lo').onclick=()=>sb.auth.signOut();
-async function boot(){
-  const{data}=await sb.auth.getSession();sess=data.session;$('#lo').hidden=!sess;
-  if(!sess){me=null;return render()}
-  const{data:p,error:pe}=await sb.from('profiles').select('*').eq('id',sess.user.id).maybeSingle();
-  me=p;if(pe)profErr=pe.message;if(me)await load();render();
-}
-sb.auth.onAuthStateChange((e,s)=>{if(e==='SIGNED_OUT'||(e==='SIGNED_IN'&&(!sess||!s||s.user.id!==sess.user.id)))boot()});
+let lang=localStorage.getItem('adv-lang')||'en';
+const T=s=>lang==='ar'?conv(String(s)):s;
+function trTree(root){const w=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);let n;while(n=w.nextNode()){const v=n.nodeValue,t=v.trim();if(t){const c=conv(t);if(c!==t)n.nodeValue=v.replace(t,c)}}$$('[placeholder]',root).forEach(e=>{const p=e.getAttribute('placeholder');if(AR[p])e.setAttribute('placeholder',AR[p])})}
+const put=(el,h)=>{el.innerHTML=h;if(lang==='ar')trTree(el)};
+const _confirm=window.confirm.bind(window);window.confirm=m=>_confirm(T(m));
+const fdate=d=>new Date(d).toLocaleDateString(lang==='ar'?'ar-EG':'en-GB',{day:'numeric',month:'short'});
+const ago=d=>{const s=(Date.now()-new Date(d))/1000,a=lang==='ar';if(s<60)return a?'الآن':'now';const m=s/60|0;if(m<60)return a?`منذ ${m} د`:`${m}m`;const h=m/60|0;if(h<24)return a?`منذ ${h} س`:`${h}h`;const dd=h/24|0;return dd<7?(a?`منذ ${dd} ي`:`${dd}d`):fdate(d)};
+function setLang(l){lang=l;try{localStorage.setItem('adv-lang',l)}catch{}document.documentElement.lang=l;document.documentElement.dir=l==='ar'?'rtl':'ltr';show('')}
+document.documentElement.lang=lang;document.documentElement.dir=lang==='ar'?'rtl':'ltr';
+/* ---------- state ---------- */
+let me=null,sess=null,profErr='',authMode='in',ch=null,stack=[{k:'c'}],W={},D={c:[],t:[],i:[],o:[],n:[],m:[],nt:[]};
+const isO=()=>me?.role==='owner',isL=()=>me?.role==='leader',mgr=()=>isO()||isL();
+const MAXV=10*1024*1024,VEXT=['ogg','oga','opus','mp3','m4a','mp4','wav','webm','aac','3gp','amr'];
+const parseVocaroo=raw=>{let s=String(raw||'').trim();if(!s)return null;if(!/^https?:\/\//i.test(s))s='https://'+s;let u;try{u=new URL(s)}catch{return null}const h=u.hostname.toLowerCase().replace(/^www\./,'');if(h!=='vocaroo.com'&&h!=='voca.ro')return null;const m=u.pathname.match(/^\/(?:embed\/|i\/)?([a-z0-9]+)\/?$/i);return m&&m[1].length>=6?{id:m[1],url:'https://vocaroo.com/'+m[1]}:null};
+const voiceHTML=c=>c.voice_url?`<audio controls preload="none" src="${esc(c.voice_url)}"></audio>`:(()=>{const v=parseVocaroo(c.voice_link);return v?`<div class="mu"><a class="link" href="${esc(v.url)}" target="_blank" rel="noopener">Open voice note on Vocaroo</a></div><audio controls preload="none" src="https://media.vocaroo.com/mp3/${esc(v.id)}" onerror="this.style.display='none'"></audio>`:''})();
+/* toast = banner at the top (tap opens it) */
+function toast(m,fn){const e=$('#toast');e.innerHTML=(fn?ic('bell',18):'')+'<span></span>';e.lastChild.textContent=T(m);e.onclick=fn?()=>{e.classList.remove('on');fn()}:null;e.classList.add('on');clearTimeout(toast.h);toast.h=setTimeout(()=>e.classList.remove('on'),fn?4500:2400)}
+/* ---------- data ---------- */
 async function load(){
-  const[c,t,o]=await Promise.all([sb.from('candidates').select('*').order('created_at',{ascending:false}),sb.from('profiles').select('*').order('created_at'),sb.from('offers').select('*').order('id')]);
-  D.c=c.data||[];D.t=t.data||[];D.o=o.data||[];
+  const[c,t,o,n,m,nt]=await Promise.all([sb.from('candidates').select('*').order('created_at',{ascending:false}).limit(1000),sb.from('profiles').select('*').order('created_at'),sb.from('offers').select('*').order('id'),sb.from('news').select('*').order('created_at',{ascending:false}).limit(50),sb.from('news_comments').select('*').order('created_at').limit(600),sb.from('notifications').select('*').eq('user_id',sess.user.id).order('id',{ascending:false}).limit(60)]);
+  D.c=c.data||[];D.t=t.data||[];D.o=o.data||[];D.n=n.data||[];D.m=m.data||[];D.nerr=!!n.error;
+  const keep=new Set(D.nt.filter(x=>x.fresh).map(x=>x.id));D.nt=(nt.data||[]).map(x=>({...x,fresh:keep.has(x.id)}));
   if(mgr()){const i=await sb.from('invites').select('*').order('created_at',{ascending:false});D.i=i.data||[]}
 }
-function render(){
-  if(!sess){app.innerHTML=`<div class="card"><h2>${authMode==='in'?'Log in':'Sign up'}</h2><label>Email</label><input id="em" type="email" autocomplete="email"><label>Password</label><input id="pw" type="password" autocomplete="current-password"><div class="msg" id="er"></div><button class="p" id="go">${authMode==='in'?'Log in':'Sign up'}</button> <button id="sw">${authMode==='in'?'Sign up':'Log in'}</button></div>`;
-    $('#sw').onclick=()=>{authMode=authMode==='in'?'up':'in';render()};
-    $('#go').onclick=async()=>{const f={email:$('#em').value.trim(),password:$('#pw').value};if(!f.email||f.password.length<6)return $('#er').textContent='Enter your email and a password of at least 6 characters';
-      let r;if(authMode==='in')r=await sb.auth.signInWithPassword(f);
+const unread=()=>D.nt.filter(x=>!x.read).length;
+function bell(){const u=unread(),b=$('#bc');if(b){b.hidden=!u;b.textContent=u>99?'99+':u}document.title=(u?`(${u}) `:'')+'ADVENTURES'}
+function live(){if(ch||!me)return;ch=sb.channel('nt'+me.id).on('postgres_changes',{event:'INSERT',schema:'public',table:'notifications',filter:'user_id=eq.'+me.id},p=>{D.nt.unshift(p.new);bell();toast(p.new.body,openNotifs);$('#bl').classList.add('ring');setTimeout(()=>$('#bl').classList.remove('ring'),700);sync()}).subscribe()}
+let st;function sync(){clearTimeout(st);st=setTimeout(async()=>{if(!me||document.hidden)return;await load();bell();const k=stack[stack.length-1].k,a=document.activeElement;if(k!=='form'&&!(a&&/INPUT|TEXTAREA/.test(a.tagName)))show('')},600)}
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)sync()});
+/* ---------- navigation (stack, like a real app) ---------- */
+function push(e){stack[stack.length-1].sy=scrollY;stack.push(e);history.pushState({d:stack.length},'');show('f')}
+function goRoot(k){if(stack.length===1&&stack[0].k===k){scrollTo({top:0});return}stack=[{k}];history.replaceState({d:1},'');show('r')}
+addEventListener('popstate',ev=>{const d=(ev.state&&ev.state.d)||1;if(d<stack.length){while(stack.length>d)stack.pop();show('b')}});
+$('#bk').innerHTML=ic('back',24,'flip');$('#bk').onclick=()=>history.back();
+$('#bl').innerHTML=ic('bell',23)+'<i id="bc" hidden></i>';$('#bl').onclick=()=>openNotifs();
+$('#ac').innerHTML=ic('user',23);$('#ac').onclick=()=>{if(stack[stack.length-1].k!=='acct')push({k:'acct'})};
+$('#fab').innerHTML=ic('plus',26);$('#fab').onclick=()=>openForm();
+const roots=()=>{const r=[['c','users','Candidates']];if(mgr())r.push(['t','tree','Team']);r.push(['n','news','News']);if(mgr())r.push(['i','key','Codes']);if(isO())r.push(['o','tag','Offers']);return r};
+function show(dir){
+  const auth=!sess||!me;document.body.classList.toggle('auth',auth);$('#bar').hidden=auth;const a=$('#app');a.oninput=a.onclick=null;
+  if(auth){$('#nav').hidden=$('#fab').hidden=$('#bar2').hidden=true;a.className='';put(a,authHTML());bindAuth();return}
+  const e=stack[stack.length-1],v=S[e.k](e);if(v.pop){history.back();return}
+  const root=stack.length===1,sl=$('#cr')?$('#cr').scrollLeft:0;
+  $('#ttl').textContent=T(v.t||'');$('#bk').hidden=root;$('#logo').hidden=!root;
+  a.className='';if(dir){void a.offsetWidth;a.className='a-'+dir}
+  put(a,v.h);if(!dir&&$('#cr'))$('#cr').scrollLeft=sl;
+  const nav=$('#nav');nav.hidden=!root;if(root)put(nav,roots().map(r=>`<button data-r="${r[0]}" class="${e.k===r[0]||(e.k==='leader'&&r[0]==='t')?'on':''}">${ic(r[1],22)}<span>${r[2]}</span></button>`).join(''));
+  nav.onclick=ev=>{const b=ev.target.closest('[data-r]');if(b)goRoot(b.dataset.r)};
+  $('#fab').hidden=!(root&&v.fab);const b2=$('#bar2');b2.hidden=!v.bar2;if(v.bar2)put(b2,v.bar2);
+  a.style.paddingBottom=(root?96:v.bar2?130:30)+'px';
+  v.b&&v.b();
+  if(dir==='b')scrollTo(0,e.sy||0);else if(dir)scrollTo(0,0);
+  bell();
+}
+/* ---------- auth ---------- */
+function authHTML(){
+  const top=`<div class="atop"><div class="logo">A</div><h1>ADVENTURES</h1><p>Recruitment Agency</p></div>`;
+  if(!sess)return`${top}<div class="sheet"><h2>${authMode==='in'?'Welcome back':'Create your account'}</h2>
+  <div class="f"><label>Email</label><input id="em" type="email" autocomplete="email" autocapitalize="off"></div>
+  <div class="f"><label>Password</label><input id="pw" type="password" autocomplete="${authMode==='in'?'current-password':'new-password'}"></div>
+  <div class="msg" id="er"></div><button class="btn" id="go">${authMode==='in'?'Log in':'Sign up'}</button>
+  <div class="center"><button class="link" id="sw">${authMode==='in'?'No account? Sign up':'Have an account? Log in'}</button></div>
+  <div class="center"><button class="gh" id="lg2">${lang==='ar'?'English':'العربية'}</button></div></div>`;
+  return`${top}<div class="sheet"><h2>Almost there</h2><p class="mu" style="margin:0">Enter your name to continue.</p>
+  <div class="f"><label>Full name</label><input id="fn"></div><div class="f"><label>Access code</label><input id="ic" autocapitalize="characters"></div>
+  <p class="mu" style="font-size:13px">Leave the code empty only if you are the very first account (the owner). Team leaders use the code from the owner; recruiters use the code from their team leader.</p>
+  <div class="msg" id="er">${esc(profErr)}</div><button class="btn" id="go">Finish setup</button>
+  <div class="center"><button class="gh" id="lg2">${lang==='ar'?'English':'العربية'}</button> · <button class="gh" id="lo2">Log out</button></div></div>`}
+function bindAuth(){
+  const er=m=>$('#er').textContent=T(m),l2=$('#lg2');if(l2)l2.onclick=()=>setLang(lang==='ar'?'en':'ar');
+  if(!sess){
+    $('#sw').onclick=()=>{authMode=authMode==='in'?'up':'in';show('')};
+    $('#go').onclick=async()=>{const f={email:$('#em').value.trim(),password:$('#pw').value};
+      if(!f.email||f.password.length<6)return er('Enter your email and a password of at least 6 characters');
+      const b=$('#go');b.disabled=true;let r;
+      if(authMode==='in')r=await sb.auth.signInWithPassword(f);
       else{r=await sb.auth.signUp(f);if(r.error||!r.data.session){const l=await sb.auth.signInWithPassword(f);if(!l.error)r=l;else if(!r.error)r={error:{message:'Account created, but Supabase still requires email confirmation. Turn off Confirm email in Supabase, or run the auto-confirm SQL.'}}}}
-      if(r.error)$('#er').textContent=r.error.message};return}
-  if(!me){app.innerHTML=`<div class="card"><h2>Finish setup</h2><label>Full name</label><input id="fn"><label>Access code</label><input id="ic" autocapitalize="characters"><p class="meta">Leave the code empty only if you are the very first account (the owner). Team leaders use the code from the owner; recruiters use the code from their team leader.</p><div class="msg" id="er">${esc(profErr)}</div><button class="p" id="go">Finish setup</button></div>`;
-    $('#go').onclick=async()=>{const n=$('#fn').value.trim(),b=$('#go');if(!n)return $('#er').textContent='Name required';
-      b.disabled=true;b.textContent='Uploading…'.replace('Uploading…','Saving…');profErr='';
-      const{error}=await sb.rpc('finish_setup',{p_name:n,p_code:$('#ic').value.trim().toUpperCase()});
-      if(error){b.disabled=false;b.textContent='Finish setup';return $('#er').textContent=error.message}
-      await boot();if(!me){profErr=profErr||'Setup ran but no profile was found. Make sure adventures_supabase.sql was fully run on this Supabase project.';render()}};return}
-  const pend=D.t.filter(x=>x.removal_requested).length;
-  const tabs=[['c',`Candidates (${D.c.length})`]];if(mgr())tabs.push(['t',`Team${isO()&&pend?` (${pend}!)`:''}`],['i','Codes']);if(isO())tabs.push(['o','Offers']);
-  app.innerHTML=`<div class="meta">${esc(me.full_name)} · <b>${{owner:'Owner',leader:'Team leader',recruiter:'Recruiter'}[me.role]}</b></div><div class="tabs">${tabs.map(x=>`<button data-t="${x[0]}" class="${tab===x[0]?'on':''}">${x[1]}</button>`).join('')}</div><div id="pane"></div>`;
-  app.querySelectorAll('[data-t]').forEach(b=>b.onclick=()=>{tab=b.dataset.t;showForm=false;render()});
-  ({c:paneC,t:paneT,i:paneI,o:paneO})[tab]();
+      if(r.error){b.disabled=false;er(r.error.message)}};
+    return}
+  $('#lo2').onclick=()=>sb.auth.signOut();
+  $('#go').onclick=async()=>{const n=$('#fn').value.trim(),b=$('#go');if(!n)return er('Name required');
+    b.disabled=true;b.textContent=T('Saving…');profErr='';
+    const{error}=await sb.rpc('finish_setup',{p_name:n,p_code:$('#ic').value.trim().toUpperCase()});
+    if(error){b.disabled=false;b.textContent=T('Finish setup');return er(error.message)}
+    await boot();if(!me){profErr=profErr||'Setup ran but no profile was found. Make sure adventures_supabase.sql was fully run on this Supabase project.';show('')}};
 }
-/* ---------- Candidates ---------- */
-const visible=()=>{const k=q.trim().toLowerCase();return D.c.filter(c=>(flt==='All'||c.status===flt)&&(!k||[c.full_name,c.phone,c.email,c.language,c.recruiter_name].some(v=>(v||'').toLowerCase().includes(k))))};
-function paneC(){
-  const cnt=s=>s==='All'?D.c.length:D.c.filter(x=>x.status===s).length;
-  $('#pane').innerHTML=`<div class="card">${showForm?formHTML():'<button class="p" id="ad">+ Add candidate</button>'}</div>
-  <input id="sr" placeholder="Search name, phone, language, recruiter" value="${esc(q)}" style="margin-bottom:10px">
-  <div class="chips">${['All',...ST].map(s=>`<button data-f="${s}" class="${flt===s?'on':''}">${s} ${cnt(s)}</button>`).join('')}</div>
-  ${mgr()?'<div class="chips"><button id="xl">Export to Excel</button></div>':''}<div id="list"></div>`;
-  if(showForm)bindForm();else $('#ad').onclick=()=>{showForm=true;paneC()};
-  $('#sr').oninput=e=>{q=e.target.value;list()};
-  document.querySelectorAll('[data-f]').forEach(b=>b.onclick=()=>{flt=b.dataset.f;paneC()});
-  if($('#xl'))$('#xl').onclick=exportXlsx;
-  list();
+async function boot(){
+  const{data}=await sb.auth.getSession();sess=data.session;me=null;
+  if(sess){const{data:p,error:pe}=await sb.from('profiles').select('*').eq('id',sess.user.id).maybeSingle();me=p;if(pe)profErr=pe.message;if(me){await load();live()}}
+  else if(ch){sb.removeChannel(ch);ch=null}
+  stack=[{k:'c'}];history.replaceState({d:1},'');show('');bell()}
+sb.auth.onAuthStateChange((e,s)=>{if(e==='SIGNED_OUT'||(e==='SIGNED_IN'&&(!sess||!s||s.user.id!==sess.user.id)))boot()});
+/* ---------- screens ---------- */
+const S={};
+const kv=(l,v)=>`<div class="kv"><span>${l}</span><span>${esc(v||'—')}</span></div>`;
+const rowC=c=>`<div class="li" data-id="${c.id}"><i class="av">${esc(ini(c.full_name))}</i><div class="tx"><b>${esc(c.full_name)}</b><small>${esc(c.site)} · ${esc(c.language)} · ${esc(c.recruiter_name||'')} · ${fdate(c.created_at)}</small></div>${c.deletion_requested?'<span class="st warn">Deletion requested</span>':`<span class="st s-${slug(c.status)}">${c.status}</span>`}${ic('chev',18,'flip')}</div>`;
+const base=e=>D.c.filter(c=>(!e.rid||c.recruiter_id===e.rid)&&(!e.lid||c.leader_id===e.lid));
+const match=(c,e)=>{const k=(e.q||'').trim().toLowerCase();return(!e.flt||e.flt==='All'||c.status===e.flt)&&(!k||[c.full_name,c.phone,c.email,c.language,c.recruiter_name].some(v=>(v||'').toLowerCase().includes(k)))};
+function listHTML(e){const rows=base(e),cnt=s=>s==='All'?rows.length:rows.filter(x=>x.status===s).length;
+  return`<div class="f" style="margin:10px 0 0"><input id="sr" type="search" placeholder="Search name, phone, language, recruiter" value="${esc(e.q||'')}"></div>
+  <div class="cr" id="cr">${['All',...ST].map(s=>`<button class="ch ${(e.flt||'All')===s?'on':''}" data-f="${s}">${s} ${cnt(s)}</button>`).join('')}</div>
+  <div class="tb"><span class="mu" id="cn"></span>${mgr()?'<button class="gh" id="xl">Export to Excel</button>':''}</div><div id="ls"></div>`}
+function bindList(e){
+  const fill=()=>{const r=base(e).filter(c=>match(c,e));put($('#ls'),r.length?r.map(rowC).join(''):'<div class="empty">No candidates yet<br><small>Tap + to add the first one.</small></div>');$('#cn').textContent=T(r.length+' candidates')};
+  fill();
+  $('#sr').oninput=ev=>{e.q=ev.target.value;fill()};
+  $('#cr').onclick=ev=>{const b=ev.target.closest('[data-f]');if(!b)return;e.flt=b.dataset.f;$$('#cr .ch').forEach(x=>x.classList.toggle('on',x===b));fill()};  /* in place: scroll position of the chips never jumps */
+  $('#ls').onclick=ev=>{const r=ev.target.closest('.li');if(r)push({k:'cand',id:r.dataset.id})};
+  const x=$('#xl');if(x)x.onclick=()=>exportX(base(e).filter(c=>match(c,e)));
 }
-function formHTML(){return`<h2>New candidate</h2>
-<label>Triple name</label><input id="f_n"><label>Phone number</label><input id="f_p" type="tel"><label>Gmail</label><input id="f_e" type="email" placeholder="name@gmail.com">
-<label>Nationality</label><input id="f_nat"><label>Cairo or Alex site</label><select id="f_s"><option value="">Choose…</option><option>Cairo</option><option>Alex</option></select>
-<label>Language you applied for</label><input id="f_l"><label>Age</label><input id="f_a" type="number" min="16" max="70">
-<label>College</label><input id="f_c"><label>Grad or Undergrad</label><select id="f_g"><option value="">Choose…</option><option>Grad</option><option>Undergrad</option></select>
-<label>Military status</label><select id="f_m"><option value="">Choose…</option><option>Completed</option><option>Exempted</option><option>Postponed</option><option>Not applicable</option></select>
-<label>Experience in call center / telesales / cold calling (if any)</label><textarea id="f_x" rows="2"></textarea>
-${D.o.some(o=>o.active)?`<label>Offer (optional)</label><select id="f_o"><option value="">—</option>${D.o.filter(o=>o.active).map(o=>`<option>${esc(o.name)}</option>`).join('')}</select>`:''}
-<label>Voice note — record, upload, or paste a Vocaroo link</label>
-<div class="chips"><button id="rc">Record</button></div><input id="f_v" type="file" accept=".ogg,.oga,.opus,.mp3,.m4a,.wav,.aac,.webm,.3gp,.amr,audio/*"><audio id="pv" controls hidden></audio>
-<div class="or">or</div><input id="f_k" type="url" placeholder="https://vocaroo.com/..." style="margin-top:6px">
-<div class="msg" id="er"></div><button class="p" id="sv">Submit candidate</button> <button id="cx">Cancel</button>`}
-function validate(v,hasVoice){
-  if(v.name.trim().split(/\s+/).length<3)return'Enter the triple name (three names)';
-  if(!/^\+?\d{10,15}$/.test(v.phone.replace(/[\s-]/g,'')))return'Enter a valid phone number (10–15 digits)';
-  if(!/^[^\s@]+@gmail\.com$/i.test(v.email))return'Enter a valid Gmail address';
-  if(!v.nat)return'Nationality is required';if(!v.site)return'Choose Cairo or Alex';if(!v.lang)return'Language is required';
-  if(!(v.age>=16&&v.age<=70))return'Age must be between 16 and 70';if(!v.college)return'College is required';
-  if(!v.edu)return'Choose Grad or Undergrad';if(!v.mil)return'Choose military status';if(!hasVoice)return'Add a voice note: record, upload or Vocaroo link';return''}
-function bindForm(){
-  const er=m=>$('#er').textContent=m||'';recBlob=null;
-  $('#cx').onclick=()=>{showForm=false;paneC()};
-  $('#rc').onclick=async()=>{
-    if(rec&&rec.state==='recording'){rec.stop();return}
-    try{const s=await navigator.mediaDevices.getUserMedia({audio:true}),mt=['audio/webm','audio/mp4','audio/ogg'].find(x=>window.MediaRecorder&&MediaRecorder.isTypeSupported(x))||'',ch=[];
-      rec=new MediaRecorder(s,mt?{mimeType:mt}:{});rec.ondataavailable=e=>ch.push(e.data);
-      rec.onstop=()=>{s.getTracks().forEach(t=>t.stop());recBlob=new Blob(ch,{type:rec.mimeType});$('#pv').src=URL.createObjectURL(recBlob);$('#pv').hidden=false;$('#rc').textContent='Re-record';$('#f_v').value='';$('#f_k').value=''};
-      rec.start();$('#rc').textContent='Stop recording'}catch{er('Microphone access was blocked')}};
-  $('#f_v').onchange=e=>{const f=e.target.files[0];if(f){recBlob=null;$('#pv').src=URL.createObjectURL(f);$('#pv').hidden=false;$('#f_k').value=''}};
-  $('#sv').onclick=async()=>{
-    er('');const g=id=>($('#'+id)?.value||'').trim();
-    const v={name:g('f_n'),phone:g('f_p'),email:g('f_e'),nat:g('f_nat'),site:g('f_s'),lang:g('f_l'),age:+g('f_a'),college:g('f_c'),edu:g('f_g'),mil:g('f_m')};
-    const file=recBlob||$('#f_v').files[0],link=g('f_k'),vc=link?parseVocaroo(link):null;
-    const bad=validate(v,file||link);if(bad)return er(bad);
-    if(!file&&!vc)return er('That is not a valid Vocaroo link');
-    if(file&&file.size>MAXV)return er('Voice file is too large (max 10 MB)');
-    if(file&&file.name&&!(file.type||'').startsWith('audio/')&&!VEXT.includes(file.name.split('.').pop().toLowerCase()))return er('Unsupported voice file type');
-    const b=$('#sv');b.disabled=true;b.textContent='Uploading…';let path=null,url=null;
-    if(file){const ty=(file.type||'audio/webm').split(';')[0],ext=file.name?file.name.split('.').pop():ty.includes('mp4')?'m4a':ty.includes('ogg')?'ogg':'webm';
-      path=`voice/${sess.user.id}/${Date.now()}.${ext.replace(/\W/g,'')}`;
-      const u=await sb.storage.from(BUCKET).upload(path,file,{contentType:ty});if(u.error){b.disabled=false;b.textContent='Submit candidate';return er(u.error.message)}
-      url=sb.storage.from(BUCKET).getPublicUrl(path).data.publicUrl}
-    const{error}=await sb.from('candidates').insert({full_name:v.name,phone:v.phone,email:v.email.toLowerCase(),nationality:v.nat,site:v.site,language:v.lang,age:v.age,college:v.college,edu_level:v.edu,military:v.mil,experience:g('f_x')||null,offer:g('f_o')||null,voice_path:path,voice_url:url,voice_link:vc?vc.url:null});
-    if(error){if(path)sb.storage.from(BUCKET).remove([path]);b.disabled=false;b.textContent='Submit candidate';return er(error.message)}
-    showForm=false;await load();render();toast('Candidate submitted')};
-}
-function list(){
-  const r=visible(),L=$('#list');
-  L.innerHTML=r.length?r.map(c=>{const open=openId===c.id;
-    return`<div class="card cc" data-id="${c.id}"><div class="row"><b style="font-size:17px">${esc(c.full_name)}</b><span class="badge ${c.status}">${c.status}</span></div>
-<div class="meta">${esc(c.site)} · ${esc(c.language)} · ${esc(c.recruiter_name||'')} · ${new Date(c.created_at).toLocaleDateString()}</div>
-${open?`<div class="det" onclick="event.stopPropagation()">${[['Triple name',c.full_name],['Phone',c.phone],['Gmail',c.email],['Nationality',c.nationality],['Site',c.site],['Language',c.language],['Age',c.age],['College',c.college],['Grad / Undergrad',c.edu_level],['Military status',c.military],['Experience',c.experience||'—'],['Offer',c.offer||'—'],['Recruiter',c.recruiter_name]].map(x=>`<div><b>${x[0]}</b><span>${esc(x[1])}</span></div>`).join('')}</div>${voiceHTML(c)}
-${mgr()?`<div onclick="event.stopPropagation()"><div class="meta">Move to:</div><div class="chips">${ST.map(s=>`<button data-s="${s}" class="${c.status===s?'on':''}">${s}</button>`).join('')}</div></div>`:''}
-${isO()?`<button class="d dl" onclick="event.stopPropagation()">Delete</button>`:''}`:''}</div>`}).join(''):'<div class="empty">—</div>';
-  L.querySelectorAll('.cc').forEach(el=>{const c=D.c.find(x=>x.id===el.dataset.id);
-    el.onclick=()=>{openId=openId===c.id?null:c.id;list()};
-    el.querySelectorAll('[data-s]').forEach(b=>b.onclick=async()=>{const{error}=await sb.from('candidates').update({status:b.dataset.s}).eq('id',c.id);if(error)return toast(error.message);await load();paneC();toast('Moved to '+b.dataset.s)});
-    const dl=el.querySelector('.dl');if(dl)dl.onclick=async()=>{if(!confirm('Delete this candidate?'))return;const{error}=await sb.from('candidates').delete().eq('id',c.id);if(error)return toast(error.message);if(c.voice_path)sb.storage.from(BUCKET).remove([c.voice_path]);openId=null;await load();paneC()}});
-}
-function exportXlsx(){
-  const rows=visible().map(c=>({'Triple Name':c.full_name,'Phone number':c.phone,'Gmail':c.email,'Nationality':c.nationality,'Cairo or Alex site':c.site,'Language applied for':c.language,'Age':c.age,'College':c.college,'Grad or Undergrad':c.edu_level,'Military Status':c.military,'Experience':c.experience||'','Offer':c.offer||'','Status':c.status,'Recruiter':c.recruiter_name,'Voice note':c.voice_url||c.voice_link||'','Date':new Date(c.created_at).toLocaleString()}));
-  if(!rows.length)return toast('Nothing to export');
-  const ws=XLSX.utils.json_to_sheet(rows),wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,'Candidates');
-  XLSX.writeFile(wb,`ADVENTURES-candidates-${new Date().toISOString().slice(0,10)}.xlsx`);
-}
-/* ---------- Team tree ---------- */
-function recCard(m){
-  const cs=D.c.filter(c=>c.recruiter_id===m.id),last=cs.length?new Date(Math.max(...cs.map(c=>+new Date(c.created_at)))):null,idle=!last||(Date.now()-last)>14*864e5;
-  let btn='';
-  if(m.removal_requested)btn=isO()?`<button class="d" data-rm="${m.id}">Confirm removal</button> <button data-keep="${m.id}">Keep</button>`:'<span class="badge warn">Awaiting owner confirmation</span>';
-  else if(isL())btn=`<button class="d" data-ask="${m.id}">Request removal</button>`;
-  else if(isO())btn=`<button class="d" data-rm="${m.id}">Remove</button>`;
-  return`<div class="card"><div class="row"><b>${esc(m.full_name)}</b><span class="badge">${m.role==='leader'?'Team leader':'Recruiter'}</span></div><div class="meta">Candidates: ${cs.length} · Last upload: ${last?last.toLocaleDateString():'never'} ${idle?'<span class="badge warn">inactive 14+ days</span>':''}</div>${btn}</div>`}
-function paneT(){
-  const kids=id=>D.t.filter(x=>x.parent_id===id);
-  const body=isO()?(D.t.filter(x=>x.role==='leader').map(l=>`${recCard(l)}<div class="kid">${kids(l.id).map(recCard).join('')||'<div class="meta">No recruiters yet</div>'}</div>`).join('')||'<div class="empty">No team leaders yet — create a code in “Codes”.</div>'):(kids(me.id).map(recCard).join('')||'<div class="empty">No recruiters yet — create a code in “Codes”.</div>');
-  $('#pane').innerHTML=body;
-  document.querySelectorAll('[data-ask]').forEach(b=>b.onclick=async()=>{if(!confirm('Ask the owner to remove this recruiter?'))return;const{error}=await sb.rpc('request_removal',{p_id:b.dataset.ask});if(error)return toast(error.message);await load();render();toast('Request sent to the owner')});
-  document.querySelectorAll('[data-rm]').forEach(b=>b.onclick=async()=>{if(!confirm('Remove this member?'))return;const{error}=await sb.from('profiles').delete().eq('id',b.dataset.rm);if(error)return toast(error.message);await load();render()});
-  document.querySelectorAll('[data-keep]').forEach(b=>b.onclick=async()=>{const{error}=await sb.from('profiles').update({removal_requested:false}).eq('id',b.dataset.keep);if(error)return toast(error.message);await load();render()});
-}
-/* ---------- Codes ---------- */
-function paneI(){
-  const what=isO()?'team leader':'recruiter';
-  $('#pane').innerHTML=`<div class="card"><button class="p" id="gi">Generate ${what} code</button></div>`+D.i.map(i=>`<div class="card"><div class="row"><b style="letter-spacing:2px;font-size:19px">${esc(i.code)}</b><span class="badge">${i.role==='leader'?'Leader':'Recruiter'} · ${i.used_by?'Used':'Unused'}</span></div>${i.used_by?'':`<button data-c="${esc(i.code)}" style="margin-top:8px">Copy</button>`}</div>`).join('');
-  $('#gi').onclick=async()=>{const code=Array.from(crypto.getRandomValues(new Uint8Array(8)),b=>'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'[b%32]).join('');const{error}=await sb.from('invites').insert({code,role:isO()?'leader':'recruiter',created_by:me.id});if(error)return toast(error.message);await load();render()};
-  document.querySelectorAll('[data-c]').forEach(b=>b.onclick=()=>{navigator.clipboard.writeText(b.dataset.c);toast('Copied')});
-}
-/* ---------- Offers (owner) ---------- */
-function paneO(){
-  $('#pane').innerHTML=`<div class="card"><h2>Offers</h2><div class="row" style="flex-wrap:nowrap"><input id="on" placeholder="Offer name"><button class="p" id="oa">Add</button></div>${D.o.map(o=>`<div class="row" style="margin-top:8px"><span style="opacity:${o.active?1:.45}">${esc(o.name)}</span><span><button data-ot="${o.id}">${o.active?'On':'Off'}</button> <button class="d" data-od="${o.id}">×</button></span></div>`).join('')||'<div class="meta">No offers yet.</div>'}</div>`;
-  $('#oa').onclick=async()=>{const n=$('#on').value.trim();if(!n)return;const{error}=await sb.from('offers').insert({name:n});if(error)return toast(error.message);await load();render()};
-  document.querySelectorAll('[data-ot]').forEach(b=>b.onclick=async()=>{const o=D.o.find(x=>x.id==b.dataset.ot);const{error}=await sb.from('offers').update({active:!o.active}).eq('id',o.id);if(error)return toast(error.message);await load();render()});
-  document.querySelectorAll('[data-od]').forEach(b=>b.onclick=async()=>{if(!confirm('Delete this offer?'))return;const{error}=await sb.from('offers').delete().eq('id',b.dataset.od);if(error)return toast(error.message);await load();render()});
-}
+S.c=e=>({t:e.title||'Candidates',fab:!e.lid&&!e.rid,h:listHTML(e),b:()=>bindList(e)});
+/* candidate detail */
+async function upd(c,p){const{data,error}=await sb.from('candidates').update(p).eq('id',c.id).select().single();if(error){toast(error.message);return false}Object.assign(c,data);return true}
+async function delC(c){const{data,error}=await sb.from('candidates').delete().eq('id',c.id).select();if(error)return toast(error.message);if(!data||!data.length)return toast('You do not have permission to delete this candidate');if(c.voice_path)sb.storage.from(BUCKET).remove([c.voice_path]);D.c=D.c.filter(x=>x.id!==c.id);toast('Deleted');history.back()}
+S.cand=e=>{
+  const c=D.c.find(x=>x.id===e.id);if(!c)return{pop:1};
+  const own=c.recruiter_id===me.id,tl=isL()&&c.leader_id===me.id,canEdit=isO()||tl||own,canDel=isO()||tl,req=c.deletion_requested;
+  const chips=l=>`<div class="cr wrap">${l.map(s=>`<button class="ch ${c.status===s?'on':''}" data-s="${s}">${s}</button>`).join('')}</div>`;
+  let stt='';
+  if(isO())stt=`<div class="sh">Validation</div>${chips(ST)}`;
+  else if(tl)stt=`<div class="sh">Move to</div>`+(VAL.includes(c.status)?chips(POST):'<div class="mu">Waiting for owner validation</div>');
+  const dr=req?(canDel?`<div class="note">Deletion requested<br><button class="btn sm" data-a="ok">Approve</button><button class="btn ghost sm" data-a="no">Decline</button></div>`:'<div class="note">Deletion requested — waiting for your team leader</div>'):'';
+  return{t:'Candidate',h:`<div class="hero"><i class="av lg">${esc(ini(c.full_name))}</i><div><h2>${esc(c.full_name)}</h2><span class="st s-${slug(c.status)}">${c.status}</span></div></div>${dr}${stt}
+  <div class="sh">Voice note</div>${voiceHTML(c)}
+  <div class="sh">Details</div>${kv('Phone',c.phone)}${kv('Gmail',c.email)}${kv('Nationality',c.nationality)}${kv('Site',c.site)}${kv('Language',c.language)}${kv('Age',c.age)}${kv('College',c.college)}${kv('Grad or Undergrad',c.edu_level)}${kv('Military status',c.military)}${kv('Experience',c.experience)}${kv('Offer',c.offer)}${kv('Recruiter',c.recruiter_name)}
+  <div class="acts3">${canEdit?'<button class="btn ghost" data-a="edit">Edit</button>':''}${canDel?'<button class="btn dng" data-a="del">Delete candidate</button>':(own&&!req?'<button class="btn dng" data-a="rq">Request deletion</button>':'')}</div>`,
+  b:()=>{$('#app').onclick=async ev=>{
+    const s=ev.target.closest('[data-s]');if(s){if(await upd(c,{status:s.dataset.s})){toast('Saved');show('')}return}
+    const a=ev.target.closest('[data-a]');if(!a)return;const k=a.dataset.a;
+    if(k==='edit')openForm(c.id);
+    else if(k==='del'){if(confirm('Delete this candidate?'))delC(c)}
+    else if(k==='ok')delC(c);
+    else if(k==='no'){if(await upd(c,{deletion_requested:false})){toast('Request declined');show('')}}
+    else if(k==='rq'){if(confirm('Request deletion of this candidate?')&&await upd(c,{deletion_requested:true})){toast('Deletion request sent');show('')}}}}}};
+/* add / edit wizard */
+function openForm(id){const c=id&&D.c.find(x=>x.id===id);W={id:id||null,step:1,blob:null,file:null,link:'',url:'',v:c?{name:c.full_name,phone:c.phone,email:c.email,nat:c.nationality,site:c.site,lang:c.language,age:c.age,college:c.college,edu:c.edu_level,mil:c.military,exp:c.experience||'',offer:c.offer||''}:{}};push({k:'form'})}
+function vStep(n){const v=W.v,s=k=>(v[k]||'').toString().trim();
+  if(n===1){if(s('name').split(/\s+/).filter(Boolean).length<3)return'Enter the triple name (three names)';if(!/^\+?\d{10,15}$/.test(s('phone').replace(/[\s-]/g,'')))return'Enter a valid phone number (10–15 digits)';if(!/^[^\s@]+@gmail\.com$/i.test(s('email')))return'Enter a valid Gmail address';if(!s('nat'))return'Nationality is required'}
+  if(n===2){if(!v.site)return'Choose Cairo or Alex';if(!s('lang'))return'Language is required';if(!(+v.age>=16&&+v.age<=70))return'Age must be between 16 and 70';if(!s('college'))return'College is required';if(!v.edu)return'Choose Grad or Undergrad';if(!v.mil)return'Choose military status'}
+  if(n===3){const link=(W.link||'').trim();if(!W.blob&&!W.file&&!link)return'Add a voice note: record, upload or Vocaroo link';if(!W.blob&&!W.file&&!parseVocaroo(link))return'That is not a valid Vocaroo link'}
+  return''}
+const fld=(k,l,type='text',ph='')=>`<div class="f"><label>${l}</label><input data-k="${k}" type="${type}" ${type==='tel'?'inputmode="tel"':''} ${type==='email'?'autocapitalize="off"':''} value="${esc(W.v[k]??'')}" placeholder="${ph}"></div>`;
+const seg=(k,l,o)=>`<div class="f"><label>${l}</label><div class="cr wrap">${o.map(x=>`<button type="button" class="ch ${W.v[k]===x?'on':''}" data-sg="${k}" data-v="${x}">${x}</button>`).join('')}</div></div>`;
+S.form=e=>{
+  const n=W.id?2:3,s=W.step;let h='';
+  if(s===1)h=fld('name','Triple name')+fld('phone','Phone number','tel')+fld('email','Gmail','email','name@gmail.com')+fld('nat','Nationality');
+  if(s===2)h=seg('site','Cairo or Alex site',['Cairo','Alex'])+fld('lang','Language you applied for')+fld('age','Age','number')+fld('college','College')+seg('edu','Grad or Undergrad',['Grad','Undergrad'])+seg('mil','Military status',['Completed','Exempted','Postponed','Not applicable'])+`<div class="f"><label>Experience in call center / telesales / cold calling (if any)</label><textarea data-k="exp">${esc(W.v.exp||'')}</textarea></div>`+(D.o.some(o=>o.active)?`<div class="f"><label>Offer (optional)</label><select data-k="offer"><option value="">—</option>${D.o.filter(o=>o.active).map(o=>`<option ${W.v.offer===o.name?'selected':''}>${esc(o.name)}</option>`).join('')}</select></div>`:'');
+  if(s===3)h=`<div class="vc"><button class="mic" id="rc" type="button">${ic('mic',34)}</button><div class="mu" id="rt">${W.blob?'Recorded':'Tap to record'}</div></div><audio id="pv" controls ${W.url?`src="${W.url}"`:'hidden'}></audio>
+  <div class="f"><label>Upload file</label><input id="vf" type="file" accept=".ogg,.oga,.opus,.mp3,.m4a,.wav,.aac,.webm,.3gp,.amr,audio/*">${W.file?`<div class="mu" style="font-size:13px">Selected file: ${esc(W.file.name)}</div>`:''}</div>
+  <div class="f"><label>Or paste a Vocaroo link</label><input data-k="link" id="vk" type="url" autocapitalize="off" placeholder="https://vocaroo.com/..." value="${esc(W.link||'')}"></div>`;
+  return{t:W.id?'Edit candidate':'New candidate',h,
+   bar2:`<div class="dots">${Array.from({length:n},(_,i)=>`<i class="${i+1===s?'on':''}"></i>`).join('')}</div><div class="row">${s>1?'<button class="btn ghost" id="pb">Back</button>':''}<button class="btn" id="nx">${s<n?'Next':W.id?'Save changes':'Submit candidate'}</button></div>`,
+   b:()=>{const a=$('#app');
+    a.oninput=ev=>{const k=ev.target.dataset&&ev.target.dataset.k;if(!k)return;if(k==='link')W.link=ev.target.value;else W.v[k]=ev.target.value};
+    a.onclick=ev=>{const b=ev.target.closest('[data-sg]');if(b){W.v[b.dataset.sg]=b.dataset.v;$$(`[data-sg="${b.dataset.sg}"]`).forEach(x=>x.classList.toggle('on',x===b))}};
+    if(s===3){$('#rc').onclick=recToggle;$('#vf').onchange=ev=>{const f=ev.target.files[0];if(f){W.file=f;W.blob=null;W.url=URL.createObjectURL(f);W.link='';$('#vk').value='';$('#pv').src=W.url;$('#pv').hidden=false}}}
+    $('#nx').onclick=()=>{const er=vStep(s);if(er)return toast(er);if(s<n){W.step++;show('');scrollTo(0,0)}else submitForm()};
+    const pb=$('#pb');if(pb)pb.onclick=()=>{W.step--;show('');scrollTo(0,0)}}}};
+let rec=null;
+async function recToggle(){
+  if(rec&&rec.state==='recording'){rec.stop();return}
+  try{const st=await navigator.mediaDevices.getUserMedia({audio:true}),mt=['audio/webm','audio/mp4','audio/ogg'].find(x=>window.MediaRecorder&&MediaRecorder.isTypeSupported(x))||'',chunks=[];
+    rec=new MediaRecorder(st,mt?{mimeType:mt}:{});rec.ondataavailable=ev=>chunks.push(ev.data);
+    rec.onstop=()=>{st.getTracks().forEach(t=>t.stop());W.blob=new Blob(chunks,{type:rec.mimeType});W.file=null;W.link='';W.url=URL.createObjectURL(W.blob);$('#rc').classList.remove('rec');$('#rt').textContent=T('Recorded');$('#pv').src=W.url;$('#pv').hidden=false;$('#vk').value=''};
+    rec.start();$('#rc').classList.add('rec');$('#rt').textContent=T('Tap to stop')}catch{toast('Microphone access was blocked')}}
+async function submitForm(){
+  const b=$('#nx'),v=W.v;b.disabled=true;
+  const f={full_name:v.name.trim(),phone:v.phone.trim(),email:v.email.trim().toLowerCase(),nationality:v.nat.trim(),site:v.site,language:v.lang.trim(),age:+v.age,college:v.college.trim(),edu_level:v.edu,military:v.mil,experience:(v.exp||'').trim()||null,offer:v.offer||null};
+  if(W.id){const c=D.c.find(x=>x.id===W.id);if(await upd(c,f)){toast('Saved');history.back()}else b.disabled=false;return}
+  const file=W.blob||W.file,vc=W.link?parseVocaroo(W.link):null;
+  if(file&&file.size>MAXV){b.disabled=false;return toast('Voice file is too large (max 10 MB)')}
+  if(file&&file.name&&!(file.type||'').startsWith('audio/')&&!VEXT.includes(file.name.split('.').pop().toLowerCase())){b.disabled=false;return toast('Unsupported voice file type')}
+  b.textContent=T('Uploading…');let path=null,url=null;
+  if(file){const ty=(file.type||'audio/webm').split(';')[0],ext=file.name?file.name.split('.').pop():ty.includes('mp4')?'m4a':ty.includes('ogg')?'ogg':'webm';
+    path=`voice/${sess.user.id}/${Date.now()}.${ext.replace(/\W/g,'')}`;
+    const u=await sb.storage.from(BUCKET).upload(path,file,{contentType:ty});if(u.error){b.disabled=false;b.textContent=T('Submit candidate');return toast(u.error.message)}
+    url=sb.storage.from(BUCKET).getPublicUrl(path).data.publicUrl}
+  const{data,error}=await sb.from('candidates').insert({...f,voice_path:path,voice_url:url,voice_link:file?null:vc.url}).select().single();
+  if(error){if(path)sb.storage.from(BUCKET).remove([path]);b.disabled=false;b.textContent=T('Submit candidate');return toast(error.message)}
+  D.c.unshift(data);toast('Saved');history.back()}
+/* export (Excel library is loaded only when needed) */
+const loadX=()=>window.XLSX?Promise.resolve():new Promise((ok,no)=>{const s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js';s.onload=ok;s.onerror=no;document.head.appendChild(s)});
+async function exportX(list){if(!list.length)return toast('Nothing to export');toast('Preparing Excel…');
+  try{await loadX()}catch{return toast('Could not load the Excel library')}
+  const rows=list.map(c=>({'Triple Name':c.full_name,'Phone number':c.phone,'Gmail':c.email,'Nationality':c.nationality,'Cairo or Alex site':c.site,'Language applied for':c.language,'Age':c.age,'College':c.college,'Grad or Undergrad':c.edu_level,'Military Status':c.military,'Experience':c.experience||'','Offer':c.offer||'','Status':c.status,'Recruiter':c.recruiter_name,'Voice note':c.voice_url||c.voice_link||'','Date':new Date(c.created_at).toLocaleString()}));
+  const ws=XLSX.utils.json_to_sheet(rows),wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,'Candidates');XLSX.writeFile(wb,`ADVENTURES-candidates-${new Date().toISOString().slice(0,10)}.xlsx`)}
+/* team: owner -> team leader -> recruiter -> candidates */
+const kids=id=>D.t.filter(x=>x.parent_id===id);
+const stats=m=>{const cs=D.c.filter(c=>c.recruiter_id===m.id),last=cs.length?new Date(Math.max(...cs.map(c=>+new Date(c.created_at)))):null;return{n:cs.length,last,idle:!last||(Date.now()-last)>14*864e5}};
+const rowM=(m,k)=>{const s=stats(m);return`<div class="li" data-id="${m.id}" data-k="${k}"><i class="av">${esc(ini(m.full_name))}</i><div class="tx"><b>${esc(m.full_name)}</b><small>${k==='leader'?`${kids(m.id).length} recruiters · ${D.c.filter(c=>c.leader_id===m.id).length} candidates`:`${s.n} candidates · Last upload: ${s.last?fdate(s.last):'never'}`}</small></div>${m.removal_requested?'<span class="st warn">removal pending</span>':(k==='rec'&&s.idle?'<span class="st warn">inactive 14+ days</span>':'')}${ic('chev',18,'flip')}</div>`};
+const bindM=()=>{$('#app').onclick=ev=>{const r=ev.target.closest('.li');if(r)push(r.dataset.k==='leader'?{k:'leader',id:r.dataset.id}:{k:'rec',id:r.dataset.id,rid:r.dataset.id})}};
+S.t=e=>{if(isL())return S.leader({id:me.id,root:1});const ls=D.t.filter(x=>x.role==='leader');return{t:'Team',h:ls.length?ls.map(m=>rowM(m,'leader')).join(''):'<div class="empty">No team leaders yet — create a code in “Codes”.</div>',b:bindM}};
+S.leader=e=>{const id=e.id||me.id,m=D.t.find(x=>x.id===id);if(!m)return{pop:1};const rs=kids(id).filter(x=>x.role==='recruiter'),mine=id===me.id;
+  return{t:mine?'Your team':m.full_name,h:`${mine?'':`<div class="hero"><i class="av lg">${esc(ini(m.full_name))}</i><div><h2>${esc(m.full_name)}</h2><span class="st">Team leader</span></div></div>`}
+  <div class="li" data-tc="1" style="margin-top:8px"><div class="tx"><b>Team candidates</b><small>${D.c.filter(c=>c.leader_id===id).length} candidates</small></div>${ic('chev',18,'flip')}</div>
+  <div class="sh">Recruiters</div>${rs.length?rs.map(x=>rowM(x,'rec')).join(''):'<div class="empty">No recruiters yet — create a code in “Codes”.</div>'}
+  ${isO()&&!mine?'<div class="acts3"><button class="btn dng" id="rl">Remove team leader</button></div>':''}`,
+  b:()=>{$('#app').onclick=async ev=>{if(ev.target.closest('#rl')){if(!confirm('Remove this member?'))return;const{data,error}=await sb.from('profiles').delete().eq('id',id).select();if(error)return toast(error.message);if(!data.length)return toast('Could not remove');D.t=D.t.filter(x=>x.id!==id);toast('Removed');history.back();return}
+    if(ev.target.closest('[data-tc]'))return push({k:'c',lid:id,title:m.full_name});
+    const r=ev.target.closest('.li[data-k]');if(r)push({k:'rec',id:r.dataset.id,rid:r.dataset.id})}}}};
+S.rec=e=>{const m=D.t.find(x=>x.id===e.id);if(!m)return{pop:1};const s=stats(m),mineL=isL()&&m.parent_id===me.id;let act='';
+  if(m.removal_requested)act=isO()?'<div class="note">Awaiting owner confirmation<br><button class="btn dng sm" data-a="rm">Confirm removal</button><button class="btn ghost sm" data-a="keep">Keep</button></div>':'<div class="note">Awaiting owner confirmation</div>';
+  else if(mineL)act='<div class="acts3" style="margin:14px 0"><button class="btn dng" data-a="ask">Request removal</button></div>';
+  else if(isO())act='<div class="acts3" style="margin:14px 0"><button class="btn dng" data-a="rm">Remove</button></div>';
+  return{t:m.full_name,h:`<div class="hero"><i class="av lg">${esc(ini(m.full_name))}</i><div><h2>${esc(m.full_name)}</h2><span class="mu">${s.n} candidates · Last upload: ${s.last?fdate(s.last):'never'}</span></div></div>${act}${listHTML(e)}`,
+  b:()=>{bindList(e);const l=$('#ls').onclick;$('#app').onclick=async ev=>{const a=ev.target.closest('[data-a]');if(!a)return;const k=a.dataset.a;
+    if(k==='ask'){if(!confirm('Ask the owner to remove this recruiter?'))return;const{error}=await sb.rpc('request_removal',{p_id:m.id});if(error)return toast(error.message);m.removal_requested=true;toast('Request sent to the owner');show('')}
+    else if(k==='keep'){const{error}=await sb.from('profiles').update({removal_requested:false}).eq('id',m.id);if(error)return toast(error.message);m.removal_requested=false;show('')}
+    else if(k==='rm'){if(!confirm('Remove this member?'))return;const{data,error}=await sb.from('profiles').delete().eq('id',m.id).select();if(error)return toast(error.message);if(!data.length)return toast('Could not remove');D.t=D.t.filter(x=>x.id!==m.id);toast('Removed');history.back()}}}}};
+/* news */
+const cmOf=id=>D.m.filter(x=>x.news_id===id);
+S.n=e=>({t:'News',h:(isO()?`<div class="f"><textarea id="nb" placeholder="Share an update…"></textarea></div><button class="btn" id="np">Post</button>`:'')+(D.nerr?'<div class="empty">News is not set up yet. Run adventures_update.sql in Supabase.</div>':D.n.length?D.n.map(p=>`<div class="post" data-id="${p.id}"><div class="hd"><i class="av">${esc(ini(p.author))}</i><div><b>${esc(p.author||'')}</b><small>${ago(p.created_at)}</small></div></div><p class="cl">${esc(p.body)}</p><div class="ft">${cmOf(p.id).length} ${cmOf(p.id).length===1?'comment':'comments'}</div></div>`).join(''):'<div class="empty">No posts yet</div>'),
+  b:()=>{$('#app').onclick=async ev=>{if(ev.target.closest('#np')){const body=$('#nb').value.trim();if(!body)return;const{data,error}=await sb.from('news').insert({body,author:me.full_name}).select().single();if(error)return toast(error.message);D.n.unshift(data);show('');return}
+    const p=ev.target.closest('.post');if(p)push({k:'post',id:+p.dataset.id})}}});
+S.post=e=>{const p=D.n.find(x=>x.id===e.id);if(!p)return{pop:1};const cs=cmOf(p.id);
+  return{t:'News',h:`<div class="post" style="cursor:default"><div class="hd"><i class="av">${esc(ini(p.author))}</i><div><b>${esc(p.author||'')}</b><small>${ago(p.created_at)}</small></div></div><p>${esc(p.body)}</p></div>
+  <div class="sh">Comments</div>${cs.length?cs.map(c=>`<div class="cm">${isO()||c.user_id===me.id?`<button class="x" data-x="${c.id}">×</button>`:''}<b>${esc(c.author||'')}</b><small>${ago(c.created_at)}</small><p>${esc(c.body)}</p></div>`).join(''):'<div class="empty">No comments yet</div>'}
+  ${isO()?'<div class="acts3"><button class="btn dng" id="dp">Delete post</button></div>':''}`,
+  bar2:`<div class="row"><input class="cbox" id="ci" placeholder="Write a comment…"><button class="send" id="cs" aria-label="Send">${ic('send',20,'flip')}</button></div>`,
+  b:()=>{const send=async()=>{const body=$('#ci').value.trim();if(!body)return;const{data,error}=await sb.from('news_comments').insert({news_id:p.id,user_id:me.id,author:me.full_name,body}).select().single();if(error)return toast(error.message);D.m.push(data);show('');scrollTo(0,document.body.scrollHeight)};
+    $('#cs').onclick=send;$('#ci').onkeydown=ev=>{if(ev.key==='Enter')send()};
+    $('#app').onclick=async ev=>{const x=ev.target.closest('[data-x]');if(x){if(!confirm('Delete this comment?'))return;const{error}=await sb.from('news_comments').delete().eq('id',x.dataset.x);if(error)return toast(error.message);D.m=D.m.filter(c=>c.id!=x.dataset.x);show('');return}
+      if(ev.target.closest('#dp')){if(!confirm('Delete this post?'))return;const{error}=await sb.from('news').delete().eq('id',p.id);if(error)return toast(error.message);D.n=D.n.filter(x=>x.id!==p.id);history.back()}}}}};
+/* notifications */
+function openNotifs(){if(stack[stack.length-1].k==='notifs')return;D.nt.forEach(n=>{n.fresh=!n.read});push({k:'notifs'});if(unread()){D.nt.forEach(n=>n.read=true);bell();sb.from('notifications').update({read:true}).eq('user_id',me.id).eq('read',false).then(()=>{})}}
+S.notifs=e=>({t:'Notifications',h:D.nt.length?D.nt.map(n=>`<div class="li" data-n="${n.id}"><i class="dot ${n.fresh?'':'off'}"></i><div class="tx"><b class="nb">${esc(n.body)}</b><small>${ago(n.created_at)}</small></div>${ic('chev',18,'flip')}</div>`).join(''):'<div class="empty">No notifications yet</div>',
+  b:()=>{$('#app').onclick=ev=>{const r=ev.target.closest('[data-n]');if(!r)return;const n=D.nt.find(x=>x.id==r.dataset.n);if(!n)return;
+    if(n.kind==='cand'&&D.c.some(c=>c.id===n.ref))push({k:'cand',id:n.ref});else if(n.kind==='news'&&D.n.some(p=>String(p.id)===n.ref))push({k:'post',id:+n.ref});else if(n.kind==='team'&&mgr()){stack=[{k:'t'}];history.replaceState({d:1},'');show('r')}}}});
+/* account */
+S.acct=e=>({t:'Account',h:`<div class="hero"><i class="av lg">${esc(ini(me.full_name))}</i><div><h2>${esc(me.full_name)}</h2><span class="st">${{owner:'Owner',leader:'Team leader',recruiter:'Recruiter'}[me.role]}</span></div></div>
+  <div class="sh">Email</div><div class="kv"><span>${esc(sess.user.email)}</span></div>
+  <div class="sh">Language</div><div class="cr wrap"><button class="ch ${lang==='en'?'on':''}" data-l="en">English</button><button class="ch ${lang==='ar'?'on':''}" data-l="ar">العربية</button></div>
+  <div class="acts3"><button class="btn ghost" id="lo">Log out</button></div>`,
+  b:()=>{$('#app').onclick=ev=>{const l=ev.target.closest('[data-l]');if(l)return setLang(l.dataset.l);if(ev.target.closest('#lo'))sb.auth.signOut()}}});
+/* codes + offers */
+S.i=e=>({t:'Codes',h:`<div style="margin-top:12px"><button class="btn" id="gi">${isO()?'Generate team leader code':'Generate recruiter code'}</button></div><p class="mu" style="font-size:13px">Tap a code to copy it</p>`+D.i.map(i=>`<div class="li" data-c="${esc(i.code)}"><div class="tx"><b style="letter-spacing:.14em;font-size:17px">${esc(i.code)}</b><small>${i.role==='leader'?'Leader':'Recruiter'} · ${i.used_by?'Used':'Unused'}</small></div></div>`).join(''),
+  b:()=>{$('#app').onclick=async ev=>{if(ev.target.closest('#gi')){const code=Array.from(crypto.getRandomValues(new Uint8Array(8)),b=>'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'[b%32]).join('');const{data,error}=await sb.from('invites').insert({code,role:isO()?'leader':'recruiter',created_by:me.id}).select().single();if(error)return toast(error.message);D.i.unshift(data);show('');return}
+    const r=ev.target.closest('[data-c]');if(r){try{await navigator.clipboard.writeText(r.dataset.c);toast('Copied')}catch{}}}}});
+S.o=e=>({t:'Offers',h:`<div class="f" style="display:flex;gap:10px;align-items:end"><div style="flex:1"><label>Offer name</label><input id="on"></div><button class="btn sm" id="oa" style="margin-bottom:6px">Add</button></div>`+(D.o.map(o=>`<div class="li" style="cursor:default"><div class="tx" style="opacity:${o.active?1:.45}"><b>${esc(o.name)}</b></div><button class="ch" data-ot="${o.id}">${o.active?'On':'Off'}</button><button class="ch" style="color:var(--no)" data-od="${o.id}">×</button></div>`).join('')||'<div class="empty">No offers yet.</div>'),
+  b:()=>{$('#app').onclick=async ev=>{if(ev.target.closest('#oa')){const n=$('#on').value.trim();if(!n)return;const{data,error}=await sb.from('offers').insert({name:n}).select().single();if(error)return toast(error.message);D.o.push(data);show('');return}
+    const t=ev.target.closest('[data-ot]');if(t){const o=D.o.find(x=>x.id==t.dataset.ot);const{error}=await sb.from('offers').update({active:!o.active}).eq('id',o.id);if(error)return toast(error.message);o.active=!o.active;show('');return}
+    const d=ev.target.closest('[data-od]');if(d){if(!confirm('Delete this offer?'))return;const{error}=await sb.from('offers').delete().eq('id',d.dataset.od);if(error)return toast(error.message);D.o=D.o.filter(x=>x.id!=d.dataset.od);show('')}}}});
 boot();
 </script></body></html>
