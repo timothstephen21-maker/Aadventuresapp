@@ -80,8 +80,12 @@ audio{width:100%;margin:6px 0}
 .post .hd{display:flex;gap:10px;align-items:center;margin-bottom:8px}.post .hd b{display:block;line-height:1.1}.post .hd small{color:var(--mu)}
 .post p{margin:0;white-space:pre-wrap;overflow-wrap:anywhere}.post .cl{display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
 .post .ft{margin-top:8px;color:var(--ac);font-size:13px;font-weight:600}
-.cm{padding:12px 0;border-bottom:1px solid var(--line)}.cm b{font-size:14px}.cm small{color:var(--mu);margin-inline-start:6px}.cm p{margin:3px 0 0;white-space:pre-wrap;overflow-wrap:anywhere}
-.cm .x{float:inline-end;color:var(--mu);padding:0 6px}
+
+.cm{display:flex;gap:10px;margin-top:14px}.av.sm{flex:0 0 32px;height:32px;font-size:14px}.cb{flex:1;min-width:0}
+.bub{display:inline-block;max-width:100%;background:var(--soft);border-radius:16px;padding:8px 12px}.bub b{display:block;font-size:13px}.bub p{margin:1px 0 0;white-space:pre-wrap;overflow-wrap:anywhere}
+.ca{display:flex;gap:16px;align-items:center;font-size:12px;color:var(--mu);margin:3px 8px 0}.ca button{font-size:12px;font-weight:700;color:var(--mu);padding:2px 0}.ca button.on{color:var(--ac)}
+.vr{font-size:13px;font-weight:600;color:var(--mu);margin:6px 8px 0}.rp{margin-inline-start:42px}
+.rto{display:flex;justify-content:space-between;align-items:center;font-size:13px;color:var(--mu);padding:0 4px 8px}
 /* bottom nav + fab + sticky bars */
 #nav{position:fixed;left:0;right:0;bottom:0;z-index:20;display:flex;background:var(--bg);border-top:1px solid var(--line);padding:6px 4px calc(6px + env(safe-area-inset-bottom))}
 #nav button{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 2px;font-size:11px;font-weight:600;color:var(--mu);border-radius:10px}
@@ -152,13 +156,14 @@ const AR={'Log out':'تسجيل الخروج','Recruitment Agency':'وكالة �
 'Team candidates':'مرشحو الفريق','Recruiters':'المجندون','Remove team leader':'إزالة قائد الفريق','Remove':'إزالة','Confirm removal':'تأكيد الإزالة','Keep':'إبقاء','Request removal':'طلب إزالة','Awaiting owner confirmation':'بانتظار تأكيد المالك','Last upload':'آخر رفع','never':'أبدًا','inactive 14+ days':'غير نشط منذ 14 يومًا أو أكثر','removal pending':'إزالة قيد الانتظار',
 'No team leaders yet — create a code in “Codes”.':'لا يوجد قادة فرق بعد، أنشئ رمزًا من «الرموز».','No recruiters yet — create a code in “Codes”.':'لا يوجد مجندون بعد، أنشئ رمزًا من «الرموز».','Ask the owner to remove this recruiter?':'هل تريد أن تطلب من المالك إزالة هذا المجند؟','Request sent to the owner':'تم إرسال الطلب إلى المالك','Remove this member?':'إزالة هذا العضو؟','Removed':'تمت الإزالة',
 'Share an update…':'شارك تحديثًا…','Write a comment…':'اكتب تعليقًا…','No posts yet':'لا توجد منشورات بعد','No comments yet':'لا توجد تعليقات بعد','Delete this post?':'حذف هذا المنشور؟','Delete post':'حذف المنشور','Delete this comment?':'حذف هذا التعليق؟','News is not set up yet. Run adventures_update.sql in Supabase.':'لم يتم إعداد الأخبار بعد. شغّل ملف adventures_update.sql في Supabase.','No notifications yet':'لا توجد إشعارات بعد',
-'Generate team leader code':'إنشاء رمز قائد فريق','Generate recruiter code':'إنشاء رمز مجند','Leader':'قائد','Used':'مستخدم','Unused':'غير مستخدم','Copied':'تم النسخ','Tap a code to copy it':'اضغط على الرمز لنسخه','Offer name':'اسم العرض','Add':'إضافة','On':'مفعّل','Off':'متوقف','No offers yet.':'لا توجد عروض بعد.','Delete this offer?':'حذف هذا العرض؟','Delete':'حذف','Email address':'البريد الإلكتروني'};
-const NT=[[/^New candidate: (.+) by (.*)$/,(a,b)=>`مرشح جديد: ${a} بواسطة ${b}`],[/^(.+) is now (.+)$/,(a,b)=>`${a} أصبح: ${AR[b]||b}`],[/^Deletion requested: (.+)$/,a=>`طلب حذف: ${a}`],[/^New post: (.+)$/,a=>`منشور جديد: ${a}`],[/^(.+) commented: (.+)$/,(a,b)=>`${a} علّق: ${b}`],[/^Removal requested: (.+)$/,a=>`طلب إزالة: ${a}`],[/^(.+) joined the team$/,a=>`${a} انضم إلى الفريق`]];
+'Generate team leader code':'إنشاء رمز قائد فريق','Generate recruiter code':'إنشاء رمز مجند','Leader':'قائد','Used':'مستخدم','Unused':'غير مستخدم','Copied':'تم النسخ','Tap a code to copy it':'اضغط على الرمز لنسخه','Offer name':'اسم العرض','Add':'إضافة','On':'مفعّل','Off':'متوقف','No offers yet.':'لا توجد عروض بعد.','Delete this offer?':'حذف هذا العرض؟','Delete':'حذف','Email address':'البريد الإلكتروني','Like':'إعجاب','Reply':'رد','Replying to':'الرد على','Hide replies':'إخفاء الردود','Education':'التعليم','High school':'ثانوية عامة','Dropped out':'منسحب من الدراسة','College (if any)':'الكلية (إن وجدت)','Choose your education':'اختر مستواك التعليمي'};
+const NT=[[/^New candidate: (.+) by (.*)$/,(a,b)=>`مرشح جديد: ${a} بواسطة ${b}`],[/^(.+) is now (.+)$/,(a,b)=>`${a} أصبح: ${AR[b]||b}`],[/^Deletion requested: (.+)$/,a=>`طلب حذف: ${a}`],[/^New post: (.+)$/,a=>`منشور جديد: ${a}`],[/^(.+) replied: (.+)$/,(a,b)=>`${a} ردّ: ${b}`],[/^(.+) commented: (.+)$/,(a,b)=>`${a} علّق: ${b}`],[/^Removal requested: (.+)$/,a=>`طلب إزالة: ${a}`],[/^(.+) joined the team$/,a=>`${a} انضم إلى الفريق`]];
 function conv(t){
   if(AR[t])return AR[t];
   for(const[r,f]of NT){const m=t.match(r);if(m)return f(m[1],m[2])}
   if(t.includes(' · ')){const p=t.split(' · '),q=p.map(conv);if(q.some((x,i)=>x!==p[i]))return q.join(' · ')}
-  let m=t.match(/^(.+?)\s*\(([^)]*)\)$/);if(m&&AR[m[1]])return AR[m[1]]+' ('+m[2]+')';
+  let m=t.match(/^View (\d+) repl(?:y|ies)$/);if(m)return'عرض '+m[1]+(m[1]==1?' رد':' ردود');
+  m=t.match(/^(.+?)\s*\(([^)]*)\)$/);if(m&&AR[m[1]])return AR[m[1]]+' ('+m[2]+')';
   m=t.match(/^(.+?):\s*(.*)$/);if(m&&AR[m[1]])return AR[m[1]]+': '+(AR[m[2]]||m[2]);
   m=t.match(/^(\d+)\s+(.+)$/);if(m&&AR[m[2]])return m[1]+' '+AR[m[2]];
   m=t.match(/^(.+?)\s+(\d+)$/);if(m&&AR[m[1]])return AR[m[1]]+' '+m[2];
@@ -173,7 +178,7 @@ const ago=d=>{const s=(Date.now()-new Date(d))/1000,a=lang==='ar';if(s<60)return
 function setLang(l){lang=l;try{localStorage.setItem('adv-lang',l)}catch{}document.documentElement.lang=l;document.documentElement.dir=l==='ar'?'rtl':'ltr';show('')}
 document.documentElement.lang=lang;document.documentElement.dir=lang==='ar'?'rtl':'ltr';
 /* ---------- state ---------- */
-let me=null,sess=null,profErr='',authMode='in',ch=null,stack=[{k:'c'}],W={},D={c:[],t:[],i:[],o:[],n:[],m:[],nt:[]};
+let me=null,sess=null,profErr='',authMode='in',ch=null,stack=[{k:'c'}],W={},D={c:[],t:[],i:[],o:[],n:[],m:[],cl:[],nt:[]};
 const isO=()=>me?.role==='owner',isL=()=>me?.role==='leader',mgr=()=>isO()||isL();
 const MAXV=10*1024*1024,VEXT=['ogg','oga','opus','mp3','m4a','mp4','wav','webm','aac','3gp','amr'];
 const parseVocaroo=raw=>{let s=String(raw||'').trim();if(!s)return null;if(!/^https?:\/\//i.test(s))s='https://'+s;let u;try{u=new URL(s)}catch{return null}const h=u.hostname.toLowerCase().replace(/^www\./,'');if(h!=='vocaroo.com'&&h!=='voca.ro')return null;const m=u.pathname.match(/^\/(?:embed\/|i\/)?([a-z0-9]+)\/?$/i);return m&&m[1].length>=6?{id:m[1],url:'https://vocaroo.com/'+m[1]}:null};
@@ -182,8 +187,8 @@ const voiceHTML=c=>c.voice_url?`<audio controls preload="none" src="${esc(c.voic
 function toast(m,fn){const e=$('#toast');e.innerHTML=(fn?ic('bell',18):'')+'<span></span>';e.lastChild.textContent=T(m);e.onclick=fn?()=>{e.classList.remove('on');fn()}:null;e.classList.add('on');clearTimeout(toast.h);toast.h=setTimeout(()=>e.classList.remove('on'),fn?4500:2400)}
 /* ---------- data ---------- */
 async function load(){
-  const[c,t,o,n,m,nt]=await Promise.all([sb.from('candidates').select('*').order('created_at',{ascending:false}).limit(1000),sb.from('profiles').select('*').order('created_at'),sb.from('offers').select('*').order('id'),sb.from('news').select('*').order('created_at',{ascending:false}).limit(50),sb.from('news_comments').select('*').order('created_at').limit(600),sb.from('notifications').select('*').eq('user_id',sess.user.id).order('id',{ascending:false}).limit(60)]);
-  D.c=c.data||[];D.t=t.data||[];D.o=o.data||[];D.n=n.data||[];D.m=m.data||[];D.nerr=!!n.error;
+  const[c,t,o,n,m,nt,cl]=await Promise.all([sb.from('candidates').select('*').order('created_at',{ascending:false}).limit(1000),sb.from('profiles').select('*').order('created_at'),sb.from('offers').select('*').order('id'),sb.from('news').select('*').order('created_at',{ascending:false}).limit(50),sb.from('news_comments').select('*').order('created_at').limit(600),sb.from('notifications').select('*').eq('user_id',sess.user.id).order('id',{ascending:false}).limit(60),sb.from('comment_likes').select('*').limit(3000)]);
+  D.c=c.data||[];D.t=t.data||[];D.o=o.data||[];D.n=n.data||[];D.m=m.data||[];D.cl=cl.data||[];D.nerr=!!n.error;
   const keep=new Set(D.nt.filter(x=>x.fresh).map(x=>x.id));D.nt=(nt.data||[]).map(x=>({...x,fresh:keep.has(x.id)}));
   if(mgr()){const i=await sb.from('invites').select('*').order('created_at',{ascending:false});D.i=i.data||[]}
 }
@@ -287,7 +292,7 @@ S.cand=e=>{
   const dr=req?(canDel?`<div class="note">Deletion requested<br><button class="btn sm" data-a="ok">Approve</button><button class="btn ghost sm" data-a="no">Decline</button></div>`:'<div class="note">Deletion requested — waiting for your team leader</div>'):'';
   return{t:'Candidate',h:`<div class="hero"><i class="av lg">${esc(ini(c.full_name))}</i><div><h2>${esc(c.full_name)}</h2><span class="st s-${slug(c.status)}">${c.status}</span></div></div>${dr}${stt}
   <div class="sh">Voice note</div>${voiceHTML(c)}
-  <div class="sh">Details</div>${kv('Phone',c.phone)}${kv('Gmail',c.email)}${kv('Nationality',c.nationality)}${kv('Site',c.site)}${kv('Language',c.language)}${kv('Age',c.age)}${kv('College',c.college)}${kv('Grad or Undergrad',c.edu_level)}${kv('Military status',c.military)}${kv('Experience',c.experience)}${kv('Offer',c.offer)}${kv('Recruiter',c.recruiter_name)}
+  <div class="sh">Details</div>${kv('Phone',c.phone)}${kv('Gmail',c.email)}${kv('Nationality',c.nationality)}${kv('Site',c.site)}${kv('Language',c.language)}${kv('Age',c.age)}${kv('Education',c.edu_level)}${kv('College',c.college)}${kv('Military status',c.military)}${kv('Experience',c.experience)}${kv('Offer',c.offer)}${kv('Recruiter',c.recruiter_name)}
   <div class="acts3">${canEdit?'<button class="btn ghost" data-a="edit">Edit</button>':''}${canDel?'<button class="btn dng" data-a="del">Delete candidate</button>':(own&&!req?'<button class="btn dng" data-a="rq">Request deletion</button>':'')}</div>`,
   b:()=>{$('#app').onclick=async ev=>{
     const s=ev.target.closest('[data-s]');if(s){if(await upd(c,{status:s.dataset.s})){toast('Saved');show('')}return}
@@ -298,18 +303,19 @@ S.cand=e=>{
     else if(k==='no'){if(await upd(c,{deletion_requested:false})){toast('Request declined');show('')}}
     else if(k==='rq'){if(confirm('Request deletion of this candidate?')&&await upd(c,{deletion_requested:true})){toast('Deletion request sent');show('')}}}}}};
 /* add / edit wizard */
-function openForm(id){const c=id&&D.c.find(x=>x.id===id);W={id:id||null,step:1,blob:null,file:null,link:'',url:'',v:c?{name:c.full_name,phone:c.phone,email:c.email,nat:c.nationality,site:c.site,lang:c.language,age:c.age,college:c.college,edu:c.edu_level,mil:c.military,exp:c.experience||'',offer:c.offer||''}:{}};push({k:'form'})}
+function openForm(id){const c=id&&D.c.find(x=>x.id===id);W={id:id||null,step:1,blob:null,file:null,link:'',url:'',v:c?{name:c.full_name,phone:c.phone,email:c.email,nat:c.nationality,site:c.site,lang:c.language,age:c.age,college:c.college||'',edu:c.edu_level,mil:c.military,exp:c.experience||'',offer:c.offer||''}:{}};push({k:'form'})}
 function vStep(n){const v=W.v,s=k=>(v[k]||'').toString().trim();
   if(n===1){if(s('name').split(/\s+/).filter(Boolean).length<3)return'Enter the triple name (three names)';if(!/^\+?\d{10,15}$/.test(s('phone').replace(/[\s-]/g,'')))return'Enter a valid phone number (10–15 digits)';if(!/^[^\s@]+@gmail\.com$/i.test(s('email')))return'Enter a valid Gmail address';if(!s('nat'))return'Nationality is required'}
-  if(n===2){if(!v.site)return'Choose Cairo or Alex';if(!s('lang'))return'Language is required';if(!(+v.age>=16&&+v.age<=70))return'Age must be between 16 and 70';if(!s('college'))return'College is required';if(!v.edu)return'Choose Grad or Undergrad';if(!v.mil)return'Choose military status'}
+  if(n===2){if(!v.site)return'Choose Cairo or Alex';if(!s('lang'))return'Language is required';if(!(+v.age>=16&&+v.age<=70))return'Age must be between 16 and 70';if(!v.edu)return'Choose your education';if((v.edu==='Grad'||v.edu==='Undergrad')&&!s('college'))return'College is required';if(!v.mil)return'Choose military status'}
   if(n===3){const link=(W.link||'').trim();if(!W.blob&&!W.file&&!link)return'Add a voice note: record, upload or Vocaroo link';if(!W.blob&&!W.file&&!parseVocaroo(link))return'That is not a valid Vocaroo link'}
   return''}
 const fld=(k,l,type='text',ph='')=>`<div class="f"><label>${l}</label><input data-k="${k}" type="${type}" ${type==='tel'?'inputmode="tel"':''} ${type==='email'?'autocapitalize="off"':''} value="${esc(W.v[k]??'')}" placeholder="${ph}"></div>`;
+const collegeFld=()=>{const ed=W.v.edu;return`<div class="f" id="cw" ${ed==='High school'?'hidden':''}><label id="cl">${ed==='Dropped out'?'College (if any)':'College'}</label><input data-k="college" value="${esc(W.v.college||'')}"></div>`};
 const seg=(k,l,o)=>`<div class="f"><label>${l}</label><div class="cr wrap">${o.map(x=>`<button type="button" class="ch ${W.v[k]===x?'on':''}" data-sg="${k}" data-v="${x}">${x}</button>`).join('')}</div></div>`;
 S.form=e=>{
   const n=W.id?2:3,s=W.step;let h='';
   if(s===1)h=fld('name','Triple name')+fld('phone','Phone number','tel')+fld('email','Gmail','email','name@gmail.com')+fld('nat','Nationality');
-  if(s===2)h=seg('site','Cairo or Alex site',['Cairo','Alex'])+fld('lang','Language you applied for')+fld('age','Age','number')+fld('college','College')+seg('edu','Grad or Undergrad',['Grad','Undergrad'])+seg('mil','Military status',['Completed','Exempted','Postponed','Not applicable'])+`<div class="f"><label>Experience in call center / telesales / cold calling (if any)</label><textarea data-k="exp">${esc(W.v.exp||'')}</textarea></div>`+(D.o.some(o=>o.active)?`<div class="f"><label>Offer (optional)</label><select data-k="offer"><option value="">—</option>${D.o.filter(o=>o.active).map(o=>`<option ${W.v.offer===o.name?'selected':''}>${esc(o.name)}</option>`).join('')}</select></div>`:'');
+  if(s===2)h=seg('site','Cairo or Alex site',['Cairo','Alex'])+fld('lang','Language you applied for')+fld('age','Age','number')+seg('edu','Education',['Grad','Undergrad','Dropped out','High school'])+collegeFld()+seg('mil','Military status',['Completed','Exempted','Postponed','Not applicable'])+`<div class="f"><label>Experience in call center / telesales / cold calling (if any)</label><textarea data-k="exp">${esc(W.v.exp||'')}</textarea></div>`+(D.o.some(o=>o.active)?`<div class="f"><label>Offer (optional)</label><select data-k="offer"><option value="">—</option>${D.o.filter(o=>o.active).map(o=>`<option ${W.v.offer===o.name?'selected':''}>${esc(o.name)}</option>`).join('')}</select></div>`:'');
   if(s===3)h=`<div class="vc"><button class="mic" id="rc" type="button">${ic('mic',34)}</button><div class="mu" id="rt">${W.blob?'Recorded':'Tap to record'}</div></div><audio id="pv" controls ${W.url?`src="${W.url}"`:'hidden'}></audio>
   <div class="f"><label>Upload file</label><input id="vf" type="file" accept=".ogg,.oga,.opus,.mp3,.m4a,.wav,.aac,.webm,.3gp,.amr,audio/*">${W.file?`<div class="mu" style="font-size:13px">Selected file: ${esc(W.file.name)}</div>`:''}</div>
   <div class="f"><label>Or paste a Vocaroo link</label><input data-k="link" id="vk" type="url" autocapitalize="off" placeholder="https://vocaroo.com/..." value="${esc(W.link||'')}"></div>`;
@@ -317,7 +323,7 @@ S.form=e=>{
    bar2:`<div class="dots">${Array.from({length:n},(_,i)=>`<i class="${i+1===s?'on':''}"></i>`).join('')}</div><div class="row">${s>1?'<button class="btn ghost" id="pb">Back</button>':''}<button class="btn" id="nx">${s<n?'Next':W.id?'Save changes':'Submit candidate'}</button></div>`,
    b:()=>{const a=$('#app');
     a.oninput=ev=>{const k=ev.target.dataset&&ev.target.dataset.k;if(!k)return;if(k==='link')W.link=ev.target.value;else W.v[k]=ev.target.value};
-    a.onclick=ev=>{const b=ev.target.closest('[data-sg]');if(b){W.v[b.dataset.sg]=b.dataset.v;$$(`[data-sg="${b.dataset.sg}"]`).forEach(x=>x.classList.toggle('on',x===b))}};
+    a.onclick=ev=>{const b=ev.target.closest('[data-sg]');if(b){W.v[b.dataset.sg]=b.dataset.v;$$(`[data-sg="${b.dataset.sg}"]`).forEach(x=>x.classList.toggle('on',x===b));if(b.dataset.sg==='edu'){const cw=$('#cw');cw.hidden=b.dataset.v==='High school';$('#cl').textContent=T(b.dataset.v==='Dropped out'?'College (if any)':'College')}}};
     if(s===3){$('#rc').onclick=recToggle;$('#vf').onchange=ev=>{const f=ev.target.files[0];if(f){W.file=f;W.blob=null;W.url=URL.createObjectURL(f);W.link='';$('#vk').value='';$('#pv').src=W.url;$('#pv').hidden=false}}}
     $('#nx').onclick=()=>{const er=vStep(s);if(er)return toast(er);if(s<n){W.step++;show('');scrollTo(0,0)}else submitForm()};
     const pb=$('#pb');if(pb)pb.onclick=()=>{W.step--;show('');scrollTo(0,0)}}}};
@@ -330,7 +336,7 @@ async function recToggle(){
     rec.start();$('#rc').classList.add('rec');$('#rt').textContent=T('Tap to stop')}catch{toast('Microphone access was blocked')}}
 async function submitForm(){
   const b=$('#nx'),v=W.v;b.disabled=true;
-  const f={full_name:v.name.trim(),phone:v.phone.trim(),email:v.email.trim().toLowerCase(),nationality:v.nat.trim(),site:v.site,language:v.lang.trim(),age:+v.age,college:v.college.trim(),edu_level:v.edu,military:v.mil,experience:(v.exp||'').trim()||null,offer:v.offer||null};
+  const f={full_name:v.name.trim(),phone:v.phone.trim(),email:v.email.trim().toLowerCase(),nationality:v.nat.trim(),site:v.site,language:v.lang.trim(),age:+v.age,college:v.edu==='High school'?null:((v.college||'').trim()||null),edu_level:v.edu,military:v.mil,experience:(v.exp||'').trim()||null,offer:v.offer||null};
   if(W.id){const c=D.c.find(x=>x.id===W.id);if(await upd(c,f)){toast('Saved');history.back()}else b.disabled=false;return}
   const file=W.blob||W.file,vc=W.link?parseVocaroo(W.link):null;
   if(file&&file.size>MAXV){b.disabled=false;return toast('Voice file is too large (max 10 MB)')}
@@ -347,7 +353,7 @@ async function submitForm(){
 const loadX=()=>window.XLSX?Promise.resolve():new Promise((ok,no)=>{const s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js';s.onload=ok;s.onerror=no;document.head.appendChild(s)});
 async function exportX(list){if(!list.length)return toast('Nothing to export');toast('Preparing Excel…');
   try{await loadX()}catch{return toast('Could not load the Excel library')}
-  const rows=list.map(c=>({'Triple Name':c.full_name,'Phone number':c.phone,'Gmail':c.email,'Nationality':c.nationality,'Cairo or Alex site':c.site,'Language applied for':c.language,'Age':c.age,'College':c.college,'Grad or Undergrad':c.edu_level,'Military Status':c.military,'Experience':c.experience||'','Offer':c.offer||'','Status':c.status,'Recruiter':c.recruiter_name,'Voice note':c.voice_url||c.voice_link||'','Date':new Date(c.created_at).toLocaleString()}));
+  const rows=list.map(c=>({'Triple Name':c.full_name,'Phone number':c.phone,'Gmail':c.email,'Nationality':c.nationality,'Cairo or Alex site':c.site,'Language applied for':c.language,'Age':c.age,'Education':c.edu_level,'College':c.college||'','Military Status':c.military,'Experience':c.experience||'','Offer':c.offer||'','Status':c.status,'Recruiter':c.recruiter_name,'Voice note':c.voice_url||c.voice_link||'','Date':new Date(c.created_at).toLocaleString()}));
   const ws=XLSX.utils.json_to_sheet(rows),wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,'Candidates');XLSX.writeFile(wb,`ADVENTURES-candidates-${new Date().toISOString().slice(0,10)}.xlsx`)}
 /* team: owner -> team leader -> recruiter -> candidates */
 const kids=id=>D.t.filter(x=>x.parent_id===id);
@@ -377,14 +383,32 @@ const cmOf=id=>D.m.filter(x=>x.news_id===id);
 S.n=e=>({t:'News',h:(isO()?`<div class="f"><textarea id="nb" placeholder="Share an update…"></textarea></div><button class="btn" id="np">Post</button>`:'')+(D.nerr?'<div class="empty">News is not set up yet. Run adventures_update.sql in Supabase.</div>':D.n.length?D.n.map(p=>`<div class="post" data-id="${p.id}"><div class="hd"><i class="av">${esc(ini(p.author))}</i><div><b>${esc(p.author||'')}</b><small>${ago(p.created_at)}</small></div></div><p class="cl">${esc(p.body)}</p><div class="ft">${cmOf(p.id).length} ${cmOf(p.id).length===1?'comment':'comments'}</div></div>`).join(''):'<div class="empty">No posts yet</div>'),
   b:()=>{$('#app').onclick=async ev=>{if(ev.target.closest('#np')){const body=$('#nb').value.trim();if(!body)return;const{data,error}=await sb.from('news').insert({body,author:me.full_name}).select().single();if(error)return toast(error.message);D.n.unshift(data);show('');return}
     const p=ev.target.closest('.post');if(p)push({k:'post',id:+p.dataset.id})}}});
-S.post=e=>{const p=D.n.find(x=>x.id===e.id);if(!p)return{pop:1};const cs=cmOf(p.id);
+const desc=id=>{const o=[id];D.m.filter(x=>x.parent_id===id).forEach(x=>o.push(...desc(x.id)));return o};
+S.post=e=>{const p=D.n.find(x=>x.id===e.id);if(!p)return{pop:1};e.open=e.open||new Set();
+  const all=D.m.filter(x=>x.news_id===p.id),kidsOf=id=>all.filter(x=>(x.parent_id||null)===id),byId=id=>all.find(x=>x.id===id)||{};
+  const depthOf=c=>c.parent_id?1+depthOf(byId(c.parent_id)):0;
+  const cmHTML=(c,d)=>{const ls=D.cl.filter(x=>x.comment_id===c.id),liked=ls.some(x=>x.user_id===me.id),rs=kidsOf(c.id),open=e.open.has(c.id);
+    const row=`<div class="cm"><i class="av sm">${esc(ini(c.author))}</i><div class="cb"><div class="bub"><b>${esc(c.author||'')}</b><p>${esc(c.body)}</p></div><div class="ca"><small>${ago(c.created_at)}</small><button class="${liked?'on':''}" data-lk="${c.id}">Like${ls.length?' '+ls.length:''}</button><button data-rp="${c.id}">Reply</button>${isO()||c.user_id===me.id?`<button data-x="${c.id}">Delete</button>`:''}</div>${rs.length?`<button class="vr" data-vr="${c.id}">${open?'Hide replies':`View ${rs.length} ${rs.length===1?'reply':'replies'}`}</button>`:''}</div></div>`;
+    const rep=open?rs.map(x=>cmHTML(x,d+1)).join(''):'';
+    return d===0?row+(rep?`<div class="rp">${rep}</div>`:''):row+rep};
+  const top=kidsOf(null);
   return{t:'News',h:`<div class="post" style="cursor:default"><div class="hd"><i class="av">${esc(ini(p.author))}</i><div><b>${esc(p.author||'')}</b><small>${ago(p.created_at)}</small></div></div><p>${esc(p.body)}</p></div>
-  <div class="sh">Comments</div>${cs.length?cs.map(c=>`<div class="cm">${isO()||c.user_id===me.id?`<button class="x" data-x="${c.id}">×</button>`:''}<b>${esc(c.author||'')}</b><small>${ago(c.created_at)}</small><p>${esc(c.body)}</p></div>`).join(''):'<div class="empty">No comments yet</div>'}
+  <div class="sh">Comments</div>${top.length?top.map(c=>cmHTML(c,0)).join(''):'<div class="empty">No comments yet</div>'}
   ${isO()?'<div class="acts3"><button class="btn dng" id="dp">Delete post</button></div>':''}`,
-  bar2:`<div class="row"><input class="cbox" id="ci" placeholder="Write a comment…"><button class="send" id="cs" aria-label="Send">${ic('send',20,'flip')}</button></div>`,
-  b:()=>{const send=async()=>{const body=$('#ci').value.trim();if(!body)return;const{data,error}=await sb.from('news_comments').insert({news_id:p.id,user_id:me.id,author:me.full_name,body}).select().single();if(error)return toast(error.message);D.m.push(data);show('');scrollTo(0,document.body.scrollHeight)};
-    $('#cs').onclick=send;$('#ci').onkeydown=ev=>{if(ev.key==='Enter')send()};
-    $('#app').onclick=async ev=>{const x=ev.target.closest('[data-x]');if(x){if(!confirm('Delete this comment?'))return;const{error}=await sb.from('news_comments').delete().eq('id',x.dataset.x);if(error)return toast(error.message);D.m=D.m.filter(c=>c.id!=x.dataset.x);show('');return}
+  bar2:`${e.rt?`<div class="rto"><span>Replying to <b>${esc(byId(e.rt).author||'')}</b></span><button class="gh" id="rx">×</button></div>`:''}<div class="row"><input class="cbox" id="ci" placeholder="Write a comment…" value="${esc(e.draft||'')}"><button class="send" id="cs" aria-label="Send">${ic('send',20,'flip')}</button></div>`,
+  b:()=>{
+    const send=async()=>{const body=$('#ci').value.trim();if(!body)return;const row={news_id:p.id,user_id:me.id,author:me.full_name,body};if(e.rt)row.parent_id=e.rt;
+      const{data,error}=await sb.from('news_comments').insert(row).select().single();if(error)return toast(error.message);D.m.push(data);
+      let x=data.parent_id;while(x){e.open.add(x);x=(D.m.find(y=>y.id===x)||{}).parent_id}e.rt=null;e.draft='';show('')};
+    $('#cs').onclick=send;$('#ci').oninput=ev=>{e.draft=ev.target.value};$('#ci').onkeydown=ev=>{if(ev.key==='Enter')send()};
+    const rx=$('#rx');if(rx)rx.onclick=()=>{e.rt=null;e.draft='';show('')};
+    $('#app').onclick=async ev=>{
+      const lk=ev.target.closest('[data-lk]');if(lk){const id=+lk.dataset.lk,mine=D.cl.find(x=>x.comment_id===id&&x.user_id===me.id);
+        const{error}=mine?await sb.from('comment_likes').delete().match({comment_id:id,user_id:me.id}):await sb.from('comment_likes').insert({comment_id:id,user_id:me.id});
+        if(error)return toast(error.message);D.cl=mine?D.cl.filter(x=>x!==mine):[...D.cl,{comment_id:id,user_id:me.id}];show('');return}
+      const rp=ev.target.closest('[data-rp]');if(rp){const c=byId(+rp.dataset.rp);e.rt=c.id;e.draft=depthOf(c)>=1?'@'+(c.author||'')+' ':'';show('');const i=$('#ci');i.focus();i.setSelectionRange(i.value.length,i.value.length);return}
+      const vr=ev.target.closest('[data-vr]');if(vr){const id=+vr.dataset.vr;e.open.has(id)?e.open.delete(id):e.open.add(id);show('');return}
+      const x=ev.target.closest('[data-x]');if(x){if(!confirm('Delete this comment?'))return;const id=+x.dataset.x;const{error}=await sb.from('news_comments').delete().eq('id',id);if(error)return toast(error.message);const gone=new Set(desc(id));D.m=D.m.filter(c=>!gone.has(c.id));if(gone.has(e.rt)){e.rt=null;e.draft=''}show('');return}
       if(ev.target.closest('#dp')){if(!confirm('Delete this post?'))return;const{error}=await sb.from('news').delete().eq('id',p.id);if(error)return toast(error.message);D.n=D.n.filter(x=>x.id!==p.id);history.back()}}}}};
 /* notifications */
 function openNotifs(){if(stack[stack.length-1].k==='notifs')return;D.nt.forEach(n=>{n.fresh=!n.read});push({k:'notifs'});if(unread()){D.nt.forEach(n=>n.read=true);bell();sb.from('notifications').update({read:true}).eq('user_id',me.id).eq('read',false).then(()=>{})}}
